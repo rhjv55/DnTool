@@ -1,8 +1,16 @@
 ﻿<Window x:Class="DnTool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="469.403" Width="378.732">
     <Grid>
-        
+        <TextBlock HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Width="193" Height="26">
+            <Label>当前坐标：</Label>
+            <UniformGrid Rows="1" Columns="3">
+                <Label>X：</Label>
+                <Label>Y：</Label>
+                <Label>Z：</Label>
+            </UniformGrid>
+        </TextBlock>
+
     </Grid>
 </Window>
