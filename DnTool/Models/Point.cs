@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DnTool.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace DnTool.Models
     /// <summary>
     /// 坐标类
     /// </summary>
-    public class Point
+    public class Point:ViewModelBase
     {
         public string X { get; set; }
         public string Y { get; set; }

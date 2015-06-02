@@ -115,7 +115,7 @@ namespace DnTool.Utilities
         /// <param name="baseAddress"></param>
         /// <param name="processName"></param>
         /// <returns></returns>
-        public static int ReadMemoryValue(int baseAddress,string processName)
+        public static Int64 ReadMemoryValue(Int64 baseAddress,string processName)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace DnTool.Utilities
                 IntPtr hProcess = OpenProcess(0x1F0FFF, false, GetPidByProcessName(processName));
                 ReadProcessMemory(hProcess, (IntPtr)baseAddress, byteAddress, 4, IntPtr.Zero); //将制定内存中的值读入缓冲区
                 CloseHandle(hProcess);
-                return Marshal.ReadInt32(byteAddress);
+                return Marshal.ReadInt64(byteAddress);
             }
             catch 
             {
