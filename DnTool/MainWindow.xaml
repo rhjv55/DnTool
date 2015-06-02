@@ -3,18 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="DnTool V1.0" Height="469.403" Width="378.732">
     <Grid>
-        <WrapPanel Margin="0,10,0,400">
+        <WrapPanel Margin="0,10,0,383">
             <Label>当前坐标:</Label>
             <Label>X:</Label>
-            <Label Width="55" Foreground="Red">0.0</Label>
+            <Label Width="55" Foreground="Red" Content="{Binding CurrentPoint.X}"></Label>
             <Label>Y:</Label>
-            <Label Width="55" Foreground="Red">0.0</Label>
+            <Label Width="55" Foreground="Red" Content="{Binding CurrentPoint.Y}"></Label>
             <Label>Z:</Label>
-            <Label Width="55" Foreground="Red">0.0</Label>
+            <Label Width="55" Foreground="Red" Content="{Binding CurrentPoint.Z}"></Label>
             <Button Content="保存" Margin="10,0,0,0" Width="50"/>
         </WrapPanel>
-        <Grid HorizontalAlignment="Left" Height="204" Margin="0,44,0,0" VerticalAlignment="Top" Width="371">
-           
+        <Grid HorizontalAlignment="Left" Height="187" Margin="0,61,0,0" VerticalAlignment="Top" Width="371">
+
         </Grid>
 
     </Grid>
