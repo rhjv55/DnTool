@@ -8,9 +8,9 @@
             <Label>X:</Label>
             <Label Width="55" Foreground="Red" Content="{Binding X}"></Label>
             <Label>Y:</Label>
-            <Label Width="55" Foreground="Red" Content="{Binding CurrentPoint.Y}"></Label>
+            <Label Width="55" Foreground="Red" Content="{Binding Y}"></Label>
             <Label>Z:</Label>
-            <Label Width="55" Foreground="Red" Content="{Binding CurrentPoint.Z}"></Label>
+            <Label Width="55" Foreground="Red" Content="{Binding Z}"></Label>
             <Button Content="保存" Margin="10,0,0,0" Width="50" Command="{Binding CloseTimer}"/>
         </WrapPanel>
         <Grid HorizontalAlignment="Left" Height="187" Margin="0,61,0,0" VerticalAlignment="Top" Width="371">
