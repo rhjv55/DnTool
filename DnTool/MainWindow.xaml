@@ -1,9 +1,17 @@
 ﻿<Window x:Class="DnTool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="DnTool V1.0" Height="469.403" Width="378.732" Closed="Window_Closed">
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        Title="DnTool V1.0" Height="469.403" Width="378.732">
+       <i:Interaction.Triggers>
+         <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding ClosedCommand}" />
+         </i:EventTrigger>
+      </i:Interaction.Triggers>
+
     <Grid>
-        <WrapPanel Margin="0,10,0,383">
+        <StackPanel>
+        <WrapPanel Margin="0,20,0,0">
             <Label>当前坐标:</Label>
             <Label>X:</Label>
             <Label Width="55" Foreground="Red" Content="{Binding X}"></Label>
@@ -11,11 +19,85 @@
             <Label Width="55" Foreground="Red" Content="{Binding Y}"></Label>
             <Label>Z:</Label>
             <Label Width="55" Foreground="Red" Content="{Binding Z}"></Label>
-            <Button Content="保存" Margin="10,0,0,0" Width="50" Command="{Binding CloseTimer}"/>
+            <Button Content="保存坐标" Command="{Binding SavePointCommand}"/>
         </WrapPanel>
-        <Grid HorizontalAlignment="Left" Height="187" Margin="0,61,0,0" VerticalAlignment="Top" Width="371">
+        
+         <WrapPanel Margin="0,20,0,0" Height="38">
+                <Canvas HorizontalAlignment="Left" Width="30" Height="21" Margin="10,0,0,0" VerticalAlignment="Top">
+                    <Image x:Name="image1" MouseDown="Image_MouseDown" MouseUp="Image_MouseUp"/>
+                </Canvas>
+            <ComboBox HorizontalAlignment="Left" Margin="50,0,0,0" VerticalAlignment="Top" Width="120"/>
+            <Button Content="添加坐标" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Width="75"/>
+            <CheckBox Content="置顶" Margin="10,0,0,0"/>
+         </WrapPanel>
+            <ListView Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding InfoList}" Height="233" Width="371" SelectedItem="{Binding SelectedPoint}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding MouseDoubleClickCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListView.View>
+                <GridView>
+                    <!--<GridViewColumn Header="选中">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsSelected,UpdateSourceTrigger=PropertyChanged}" Command="{Binding DataContext.SelectModuleItemCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListView}}}">
+                                </CheckBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>-->
+                    <GridViewColumn Header="热键" Width="40" x:Name="key">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment ="Center" Text="1"  MinWidth="{Binding Path=ActualWidth,ElementName=key}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="坐标名" Width="80" x:Name="name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment ="Center" Text="{Binding Path=Name}"  MinWidth="{Binding Path=ActualWidth,ElementName=name}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="X" Width="80" x:Name="x">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment ="Center" Text="{Binding Path=CurrentPoint.X}"  MinWidth="{Binding Path=ActualWidth,ElementName=x}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Y" Width="80" x:Name="y">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment ="Center" Text="{Binding Path=CurrentPoint.Y}"  MinWidth="{Binding Path=ActualWidth,ElementName=y}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Z" Width="80" x:Name="z">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment ="Center" Text="{Binding Path=CurrentPoint.Z}"  MinWidth="{Binding Path=ActualWidth,ElementName=z}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+          
+                </GridView>
+            </ListView.View>
+        </ListView>
+          
+        
+        <!--<DataGrid HorizontalAlignment="Left" Height="187" Margin="0,61,0,0" VerticalAlignment="Top" Width="371" ItemsSource="{Binding InfoList}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="选中" Width="40" Binding="{Binding IsSelected}"/>
+                <DataGridTextColumn Header="PID" Width="80" Binding="{Binding PID}"/>
+                <DataGridTextColumn Header="X" Width="80" Binding="{Binding CurrentPoint.X}"/>
+                <DataGridTextColumn Header="Y" Width="80" Binding="{Binding CurrentPoint.Y}"/>
+                <DataGridTextColumn Header="Z" Width="80" Binding="{Binding CurrentPoint.Z}"/>
+               
+            </DataGrid.Columns>
 
-        </Grid>
-
+        </DataGrid>-->
+        </StackPanel>
     </Grid>
 </Window>

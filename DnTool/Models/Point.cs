@@ -25,5 +25,10 @@ namespace DnTool.Models
             this.Y = y;
             this.Z = z;
         }
+
+        public override string ToString()
+        {
+            return string.Format("X坐标:{0},Y坐标:{1},Z坐标:{2}",X,Y,Z);
+        }
     }
 }

@@ -141,7 +141,7 @@ namespace DnTool.Utilities
                 CloseHandle(hProcess);
                 return Marshal.ReadInt64(byteAddress);
             }
-            catch (System.Exception ex)
+            catch 
             {
 
                 return 0;
@@ -162,7 +162,7 @@ namespace DnTool.Utilities
                 WriteProcessMemory(hProcess, (IntPtr)baseAddress, new int[] { value }, 4, IntPtr.Zero);
                 CloseHandle(hProcess);
             }
-            catch (System.Exception ex)
+            catch
             {
 
             }
@@ -182,7 +182,7 @@ namespace DnTool.Utilities
                 WriteProcessMemory(hProcess, (IntPtr)baseAddress, new int[] { value }, 4, IntPtr.Zero);
                 CloseHandle(hProcess);
             }
-            catch (System.Exception ex)
+            catch
             {
 
             }
