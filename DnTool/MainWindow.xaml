@@ -28,7 +28,7 @@
                 </Canvas>
             <ComboBox HorizontalAlignment="Left" Margin="50,0,0,0" VerticalAlignment="Top" Width="120"/>
             <Button Content="添加坐标" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Width="75"/>
-            <CheckBox Content="置顶" Margin="10,0,0,0"/>
+                <CheckBox Content="置顶" Margin="10,0,0,0" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"/>
          </WrapPanel>
             <ListView Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding InfoList}" Height="233" Width="371" SelectedItem="{Binding SelectedPoint}">
                 <i:Interaction.Triggers>

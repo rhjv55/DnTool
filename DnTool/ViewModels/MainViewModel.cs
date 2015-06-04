@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using Utilities.Dm;
 using Utilities.Log;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace DnTool.ViewModels
 {
@@ -20,6 +21,7 @@ namespace DnTool.ViewModels
         private string processName = "DragonNest";//游戏进程名字
         private DispatcherTimer timer = new DispatcherTimer();
         private DmPlugin dm = new DmPlugin();
+
         public MainViewModel()
         {
            
@@ -29,9 +31,12 @@ namespace DnTool.ViewModels
             });
             this.SavePointCommand = new RelayCommand(() =>
             {
-               this.InfoList.Add(
-                  new InfoViewModel() { Name = "坐标", PID = 111, CurrentPoint = new Point(X, Y, Z) }
-               );
+                if (X != null && Y != null && Z != null)
+                {
+                    this.InfoList.Add(
+                         new InfoViewModel() { Name = "坐标", CurrentPoint = new Point(X, Y, Z) }
+                     );
+                }
             });
             this.MouseDoubleClickCommand = new RelayCommand(() =>
             {
@@ -40,6 +45,19 @@ namespace DnTool.ViewModels
                 {
                     Logger.Info("未选择任何项");
                     return;
+                }
+                else
+                {
+                    if (IsAlive)
+                    {
+                        if (X == null || Y == null || Z == null)
+                            return;
+                        int a=dm.WriteFloat(CurrentHwnd, "[1221740]+a5c", float.Parse(SelectedPoint.CurrentPoint.X));
+                        int b=dm.WriteFloat(CurrentHwnd, "[1221740]+a64", float.Parse(SelectedPoint.CurrentPoint.Y));
+                        int c=dm.WriteFloat(CurrentHwnd, "[1221740]+a60", float.Parse(SelectedPoint.CurrentPoint.Z));
+                        if (a == 1 && b == 1 && c == 1)
+                            Debug.WriteLine("瞬移成功");
+                    }
                 }
                 Logger.Info( SelectedPoint.CurrentPoint.ToString());
             });
@@ -58,37 +76,17 @@ namespace DnTool.ViewModels
             
             timer.Tick += (s, e) =>
                 {
-                  
-                    //long address = m.ReadMemoryValue(roleBaseAddress, processName);
-                    //Logger.Debug(Convert.ToString(address, 16));
-                    
-                    //address = address + 0xa5c;
-                    //Logger.Debug(Convert.ToString(address, 16));
-
-                    //address = m.ReadMemoryValue(address, processName);
-                    //Logger.Debug(Convert.ToString(address, 10));
-                    //dm.Delay(2000);
-                    // = address.ToString("F2");
-                    //this.CurrentPoint.Y = address.ToString("F2");
-                    //this.CurrentPoint.Z = address.ToString("F2");
-                    int address = dm.ReadInt(201936, "[1221740]+a5c", 0);
-                    X = (BitConverter.ToSingle(BitConverter.GetBytes(address), 0)).ToString("F2");
-                    float v = dm.ReadFloat(201936, "[1221740]+a5c");
-
-                    Logger.Debug(Convert.ToString(address, 16));
-                    Logger.Debug(v.ToString());
-                    this.X = new Random().Next(100).ToString();
-                    this.Y = new Random().Next(10000).ToString();
-                    this.Z = new Random().Next(1000).ToString();
                     dm.Delay(200);
+                    if (IsAlive)
+                    {
+                        X = IntToFloatString(dm.ReadInt(CurrentHwnd, "[1221740]+a5c", 0));
+                        Y = IntToFloatString(dm.ReadInt(CurrentHwnd, "[1221740]+a64", 0));
+                        Z = IntToFloatString(dm.ReadInt(CurrentHwnd, "[1221740]+a60", 0));
+                    }
+                   
                 };
             timer.Interval = TimeSpan.FromMilliseconds(1000);
-            timer.Start();
-           
-           
-
-           // MemoryHelper.WriteMemoryValue(address,processName,0x1868F);
-           
+ 
         }
       
        
@@ -105,22 +103,19 @@ namespace DnTool.ViewModels
         }
         #region 方法
         /// <summary>
-        /// 实现瞬移
+        /// 获取 窗口是否存在
         /// </summary>
-        /// <param name="point">XYZ坐标</param>
-        /// <returns></returns>
-        private bool Shunyi(Point point)
-        {
-            int address = dm.ReadInt(201936, "[1221740]+a5c", 0);
-            X = (BitConverter.ToSingle(BitConverter.GetBytes(address), 0)).ToString("F2");
-            float v = dm.ReadFloat(201936, "[1221740]+a5c");
+        public bool IsAlive { get { return dm.GetWindowState(_currentHwnd, 0) == 1; } }
 
-            Logger.Debug(Convert.ToString(address, 16));
-            Logger.Debug(v.ToString());
-            return false;
+        private string IntToFloatString(int val)
+        {
+            return (BitConverter.ToSingle(BitConverter.GetBytes(val), 0)).ToString("F1");
         }
 
-        
+        private int StringToFloatInt(string val)
+        {
+            return 0;
+        }
         //读取制定内存中的值
         public Int64 ReadMemoryValue(int baseAdd)
         {
@@ -142,6 +137,25 @@ namespace DnTool.ViewModels
         #endregion
 
         #region 数据
+        
+         
+         private int _currentHwnd;
+
+         public int CurrentHwnd
+         {
+             get { return _currentHwnd; }
+             set
+             {
+                if (_currentHwnd != value)
+                {
+                    _currentHwnd = value;
+                    timer.Stop();
+                    timer.Start();  
+                }
+             }
+         }
+         
+
          private InfoViewModel _selectedPoint;
 
          public InfoViewModel SelectedPoint

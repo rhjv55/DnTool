@@ -1,11 +1,11 @@
-﻿using DictTool.View;
-using DnTool.ViewModels;
+﻿using DnTool.ViewModels;
 using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -23,21 +23,17 @@ namespace DnTool
         {
             InitializeComponent();
             this.DataContext = new MainViewModel();
-            this.image1.Source = ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
+            this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
         }
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-
-        }
-        bool IsDragging = false;
+      
+        private bool IsDragging = false;
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 this.IsDragging = true;
                 this.CaptureMouse(true);
-
             }
         }
 
@@ -46,44 +42,39 @@ namespace DnTool
             if (this.IsDragging)
             {
                 this.IsDragging = false;
-                // dm.GetMousePointWindow();
                 this.CaptureMouse(false);
             }
         }
+        /// <summary>
+        /// 当前鼠标下的指向的句柄
+        /// </summary>
+        private IntPtr _hWndCurrent;
 
-        private const int WM_NCHITTEST = 0x0084;
-        private const int HTTOPLEFT = 13;
-        private const int WM_KEYDOWN = 0x100;
-        private const int WM_KEYUP = 0x101;
-        private const int WM_LBUTTONDOWN = 0x0201;
-        private const int WM_LBUTTONUP = 0x0202;
-        private const int WM_MOUSEMOVE = 512;
-        protected virtual IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        /// <summary>
+        /// 捕获或释放鼠标
+        /// </summary>
+        /// <param name="captured">true捕获,false释放</param>
+        private void CaptureMouse(bool captured)
         {
-            switch (msg)
+            if (captured)
             {
-                case WM_LBUTTONUP:
-                    {
-                        if (this.IsDragging)
-                        {
-                            this.IsDragging = false;
-                            // dm.GetMousePointWindow();
-                            this.CaptureMouse(false);
-                            handled = true;
-                        }
-                    }
-                    break;
-                case WM_MOUSEMOVE:
-                    {
-                        if (this.IsDragging)
-                        {
-                            this.HandleMouseMovements();
-                            handled = true;
-                        }
-                    }
-                    break;
+                var hwnd = EyeHelper.SetCapture(new WindowInteropHelper(this).Handle);
+                this.Cursor = new Cursor(new MemoryStream(softwatcher.Properties.Resources.eye));
+                this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag2);
             }
-            return IntPtr.Zero;
+            else
+            {
+                this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
+                this.Cursor = Cursors.Arrow;
+
+                var ret = EyeHelper.ReleaseCapture();
+                if (this._hWndCurrent != IntPtr.Zero)
+                {
+                    EyeHelper.DrawRevFrame(this._hWndCurrent);
+                    this._hWndCurrent = IntPtr.Zero;
+                }
+
+            }
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -93,139 +84,66 @@ namespace DnTool
             if (hwndSource != null)
                 hwndSource.AddHook(new HwndSourceHook(this.WndProc));
         }
-
-        private IntPtr _hWndCurrent;
-        /// <summary>
-        /// 捕获或释放鼠标
-        /// </summary>
-        /// <param name="captured"></param>
-        private void CaptureMouse(bool captured)
+        
+        private const int WM_LBUTTONUP = 0x0202;
+        private const int WM_MOUSEMOVE = 512;
+        protected virtual IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (captured)
+            switch (msg)
             {
-                var hwnd = Win32API.SetCapture(new WindowInteropHelper(this).Handle);
-                Logger.Info("设置捕获鼠标,返回" + hwnd.ToString());
-                this.Cursor = new Cursor(new MemoryStream(softwatcher.Properties.Resources.eye));
-                this.image1.Source = ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag2);
-            }
-            else
-            {
-                this.image1.Source = ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
-                this.Cursor = Cursors.Arrow;
-
-                var ret = Win32API.ReleaseCapture();
-                Logger.Info("释放鼠标,返回" + ret.ToString());
-                if (this._hWndCurrent != IntPtr.Zero)
-                {
-                    this.DrawRevFrame(this._hWndCurrent);
-                    this._hWndCurrent = IntPtr.Zero;
-                }
-
-            }
-        }
-
-        public void DrawRevFrame(IntPtr hWnd)
-        {
-            if (!(hWnd == IntPtr.Zero))
-            {
-                IntPtr windowDC = Win32API.GetWindowDC(hWnd);
-                Win32API.Rect rECT = default(Win32API.Rect);
-                Win32API.GetWindowRect(hWnd, ref rECT);
-                Win32API.OffsetRect(ref rECT, -rECT.left, -rECT.top);
-                Win32API.PatBlt(windowDC, rECT.left, rECT.top, rECT.right - rECT.left, 3, 5570569);
-                Win32API.PatBlt(windowDC, rECT.left, rECT.bottom - 3, 3, -(rECT.bottom - rECT.top - 6), 5570569);
-                Win32API.PatBlt(windowDC, rECT.right - 3, rECT.top + 3, 3, rECT.bottom - rECT.top - 6, 5570569);
-                Win32API.PatBlt(windowDC, rECT.right, rECT.bottom - 3, -(rECT.right - rECT.left), 3, 5570569);
-            }
-        }
-        /// <summary>
-        /// Forces a window to refresh, to eliminate our funky highlighted border
-        /// </summary>
-        /// <param name="hWnd"></param>
-        public void Refresh(IntPtr hWnd)
-        {
-            Win32API.InvalidateRect(hWnd, IntPtr.Zero, true);
-            Win32API.UpdateWindow(hWnd);
-            Win32API.RedrawWindow(hWnd, IntPtr.Zero, IntPtr.Zero, Win32.RDW_FRAME | Win32.RDW_INVALIDATE | Win32.RDW_UPDATENOW | Win32.RDW_ALLCHILDREN);
-        }
-        /// <summary>
-        /// Highlights the specified window just like Spy++
-        /// </summary>
-        /// <param name="hWnd"></param>
-        public void Highlight(IntPtr hWnd)
-        {
-            const float penWidth = 5;
-            Win32API.Rect rc = new Win32API.Rect();
-            Win32API.GetWindowRect(hWnd, ref rc);
-
-            IntPtr hDC = Win32API.GetWindowDC(hWnd);
-            if (hDC != IntPtr.Zero)
-            {
-                using (System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Color.Red, penWidth))
-                {
-                    using (Graphics g = Graphics.FromHdc(hDC))
+                case WM_LBUTTONUP://鼠标左键弹起
                     {
-                        Font font = new Font("Courer New", 9, System.Drawing.FontStyle.Bold);
-                        g.DrawRectangle(pen, 0, 0, rc.right - rc.left - (int)penWidth, rc.bottom - rc.top - (int)penWidth);
-                        g.DrawString("BIC Tech <SPY>", font, System.Drawing.Brushes.Red, 5, 5);
+                        if (this.IsDragging)
+                        {
+                            uint pid;
+                            EyeHelper.GetWindowThreadProcessId(this._hWndCurrent,out pid);
+                            if (pid > 0)
+                            {
+                                Process p = Process.GetProcessById((int)pid);
+                                if (p.ProcessName == "DragonNest")
+                                {
+                                    //鼠标最后指向的句柄
+                                    (this.DataContext as MainViewModel).CurrentHwnd = (int)this._hWndCurrent;
+                                }
+                                else
+                                {
+                                    System.Windows.MessageBox.Show("该窗口不是游戏窗口！");
+                                }
+                            }
+                          
+                            this.IsDragging = false;
+                            this.CaptureMouse(false);
+                            handled = true;
+                        }
                     }
-                }
+                    break;
+                case WM_MOUSEMOVE://鼠标移动
+                    {
+                        if (this.IsDragging)
+                        {
+                            IntPtr hWnd = EyeHelper.WindowFromPoint(System.Windows.Forms.Control.MousePosition);
+                            if (this._hWndCurrent != hWnd)
+                            {
+                                EyeHelper.DrawRevFrame(this._hWndCurrent);
+                                EyeHelper.DrawRevFrame(hWnd);
+                                this._hWndCurrent = hWnd;
+                                // 想显示当前句柄的位置如this.tbHwnd.Text = hWnd.ToInt32().ToString();
+                            }
+                            handled = true;
+                        }
+                    }
+                    break;
             }
-            Win32API.ReleaseDC(hWnd, hDC);
+            return IntPtr.Zero;
         }
 
-        [DllImport("gdi32.dll", SetLastError = true)]
-        private static extern bool DeleteObject(IntPtr hObject);
-
-        /// <summary>
-        /// 从bitmap转换成ImageSource
-        /// </summary>
-        /// <param name="icon"></param>
-        /// <returns></returns>
-        public static ImageSource ChangeBitmapToImageSource(Bitmap bitmap)
-        {
-            //Bitmap bitmap = icon.ToBitmap();
-            IntPtr hBitmap = bitmap.GetHbitmap();
-            ImageSource wpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                hBitmap,
-                IntPtr.Zero,
-                Int32Rect.Empty,
-                BitmapSizeOptions.FromEmptyOptions());
-            if (!DeleteObject(hBitmap))
-            {
-                throw new System.ComponentModel.Win32Exception();
-            }
-            return wpfBitmap;
-        }
-        /// <summary>
-        /// Handles all mouse move messages sent to the Spy Window
-        /// </summary>
-        private void HandleMouseMovements()
-        {
-            try
-            {
-                // capture the window under the cursor's position
-                IntPtr hWnd = Win32API.WindowFromPoint(System.Windows.Forms.Control.MousePosition);
-
-                // if the window we're over, is not the same as the one before, and we had one before, refresh it
-                if (this._hWndCurrent != hWnd)
-                {
-                    //   Refresh(_hWndCurrent); //erase old window
-                    this.DrawRevFrame(this._hWndCurrent);
-                    this.DrawRevFrame(hWnd);
-                    this._hWndCurrent = hWnd;
-                    // TrackerWindow(hWnd);
-                   // this.tbHwnd.Text = hWnd.ToInt32().ToString();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
-        }
+ 
+      
     }
-    public class Win32API
+    /// <summary>
+    /// WPF实现SPY++Eye效果帮助类
+    /// </summary>
+    public class EyeHelper
     {
         [Serializable]
         public struct Rect
@@ -235,6 +153,10 @@ namespace DnTool
             public int right;
             public int bottom;
         }
+
+        #region WIN32API
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
@@ -270,7 +192,7 @@ namespace DnTool
         public static extern bool OffsetRect(ref Rect lprc, int dx, int dy);
 
         [DllImport("gdi32.dll")]
-        public static extern bool PatBlt(IntPtr hdc, int nXLeft, int nYLeft, int nWidth, int nHeight, int dwRop);
+        public static extern bool PatBlt(IntPtr hdc, int nXLeft, int nYLeft, int nWidth, int nHeight, PatBltTypes dwRop);
 
         [DllImport("gdi32.dll")]
         public static extern bool PlgBlt(IntPtr hdcDest, ref System.Drawing.Point lpPoint, IntPtr hdcSrc, int nXSrc, int nYSrc, int nWidth, int nHeight, IntPtr hbmMask, int xMask, int yMask);
@@ -286,5 +208,66 @@ namespace DnTool
 
         [DllImport("kernel32.dll")]
         public extern static bool FreeLibrary(IntPtr lib);
+
+        [DllImport("gdi32.dll", SetLastError = true)]
+        private static extern bool DeleteObject(IntPtr hObject);
+        #endregion
+
+      
+        public enum PatBltTypes  
+        {
+            SRCCOPY = 0x00CC0020,     //将源矩形区域直接拷贝到目标矩形区域
+            SRCPAINT = 0x00EE0086,    //通过使用布尔型的OR（或）操作符将源和目标矩形区域的颜色合并
+            SRCAND = 0x008800C6,      //通过使用AND（与）操作符来将源和目标矩形区域内的颜色合并
+            SRCINVERT = 0x00660046,   //通过使用布尔型的XOR（异或）操作符将源和目标矩形区域的颜色合并
+            SRCERASE = 0x00440328,    //通过使用AND（与）操作符将目标矩形区域颜色取反后与源矩形区域的颜色值合并
+            NOTSRCCOPY = 0x00330008,  //将源矩形区域颜色取反，于拷贝到目标矩形区域
+            NOTSRCERASE = 0x001100A6, //使用布尔类型的OR（或）操作符组合源和目标矩形区域的颜色值，然后将合成的颜色取反
+            MERGECOPY = 0x00C000CA,   //表示使用布尔型的AND（与）操作符将源矩形区域的颜色与特定模式组合一起
+            MERGEPAINT = 0x00BB0226,  //通过使用布尔型的OR（或）操作符将反向的源矩形区域的颜色与目标矩形区域的颜色合并
+            PATCOPY = 0x00F00021,     //将特定的模式拷贝到目标位图上
+            PATPAINT = 0x00FB0A09,    //通过使用布尔OR（或）操作符将源矩形区域取反后的颜色值与特定模式的颜色合并。然后使用OR（或）操作符将该操作的结果与目标矩形区域内的颜色合并
+            PATINVERT = 0x005A0049,   //通过使用XOR（异或）操作符将源和目标矩形区域内的颜色合并
+            DSTINVERT = 0x00550009,   //表示使目标矩形区域颜色取反
+            BLACKNESS = 0x00000042,   //表示使用与物理调色板的索引0相关的色彩来填充目标矩形区域，（对缺省的物理调色板而言，该颜色为黑色）。
+            WHITENESS = 0x00FF0062    //使用与物理调色板中索引1有关的颜色填充目标矩形区域。（对于缺省物理调色板来说，这个颜色就是白色）。
+        }  
+
+        public static void DrawRevFrame(IntPtr hWnd)
+        {
+            if (!(hWnd == IntPtr.Zero))
+            {
+                IntPtr windowDC = GetWindowDC(hWnd);
+                Rect rECT = default(Rect);
+                GetWindowRect(hWnd, ref rECT);
+                OffsetRect(ref rECT, -rECT.left, -rECT.top);
+                PatBlt(windowDC, rECT.left, rECT.top, rECT.right - rECT.left, 3, PatBltTypes.DSTINVERT);
+                PatBlt(windowDC, rECT.left, rECT.bottom - 3, 3, -(rECT.bottom - rECT.top - 6), PatBltTypes.DSTINVERT);
+                PatBlt(windowDC, rECT.right - 3, rECT.top + 3, 3, rECT.bottom - rECT.top - 6, PatBltTypes.DSTINVERT);
+                PatBlt(windowDC, rECT.right, rECT.bottom - 3, -(rECT.right - rECT.left), 3, PatBltTypes.DSTINVERT);
+            }
+        }
+
+        /// <summary>
+        /// 从bitmap转换成ImageSource
+        /// </summary>
+        /// <param name="icon"></param>
+        /// <returns></returns>
+        public static ImageSource ChangeBitmapToImageSource(Bitmap bitmap)
+        {
+            //Bitmap bitmap = icon.ToBitmap();
+            IntPtr hBitmap = bitmap.GetHbitmap();
+            ImageSource wpfBitmap = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                hBitmap,
+                IntPtr.Zero,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
+            if (!DeleteObject(hBitmap))
+            {
+                throw new System.ComponentModel.Win32Exception();
+            }
+            return wpfBitmap;
+        }
+      
     }
 }
