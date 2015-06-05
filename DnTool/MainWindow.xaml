@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        Title="DnTool V1.0" Height="469.403" Width="378.732">
+        Title="DnTool V1.0" Height="627.202" Width="378.732">
        <i:Interaction.Triggers>
          <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding ClosedCommand}" />
@@ -36,13 +36,13 @@
          </WrapPanel>
             <DockPanel Height="300">
                 <Controls:ToggleSwitch DockPanel.Dock="Top" Content="置顶" Margin="275,0,0,0" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"/>
-                <DataGrid DockPanel.Dock="Left" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="" Width="30"/>
-                    </DataGrid.Columns>
-               
-                </DataGrid>
-                <DataGrid HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="250"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False" SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow" SelectionChanged="DataGrid_SelectionChanged">
+            
+                <DataGrid HeadersVisibility="Column" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="250"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False" SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow" SelectionChanged="DataGrid_SelectionChanged">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseRightButtonDown">
+                            <i:InvokeCommandAction Command="{Binding MouseDoubleClickCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <DataGrid.Columns>
                         <!--<DataGridTextColumn Header="ID" Width="35" Binding="{Binding ItemIndex}"/>-->
                         <DataGridTextColumn Header="坐标名" Width="120" Binding="{Binding Name}"/>
