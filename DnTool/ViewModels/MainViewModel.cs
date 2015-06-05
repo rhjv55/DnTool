@@ -10,6 +10,7 @@ using Utilities.Dm;
 using Utilities.Log;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 
 namespace DnTool.ViewModels
 {
@@ -21,6 +22,7 @@ namespace DnTool.ViewModels
         private string processName = "DragonNest";//游戏进程名字
         private DispatcherTimer timer = new DispatcherTimer();
         private DmPlugin dm = new DmPlugin();
+        private string startupPath = AppDomain.CurrentDomain.BaseDirectory;
 
         public MainViewModel()
         {
@@ -29,6 +31,12 @@ namespace DnTool.ViewModels
             {
                 timer.Stop();
             });
+            this.LoadedCommand = new RelayCommand(() =>
+            {
+                List<string> list = FileOperateHelper.GetFiles(startupPath+"\\data", "*.txt");
+                list.ForEach(x => _fileNames.Add(new FilePath() { Path=x,Name=Path.GetFileNameWithoutExtension(x)}));
+            });
+
             this.SavePointCommand = new RelayCommand(() =>
             {
                 if (X != null && Y != null && Z != null)
@@ -76,7 +84,6 @@ namespace DnTool.ViewModels
             
             timer.Tick += (s, e) =>
                 {
-                    dm.Delay(200);
                     if (IsAlive)
                     {
                         X = IntToFloatString(dm.ReadInt(CurrentHwnd, "[1221740]+a5c", 0));
@@ -85,22 +92,15 @@ namespace DnTool.ViewModels
                     }
                    
                 };
-            timer.Interval = TimeSpan.FromMilliseconds(1000);
- 
+            timer.Interval = TimeSpan.FromMilliseconds(500);
+
+
+          
+
         }
       
        
-        private ObservableCollection<InfoViewModel> _infoList=new ObservableCollection<InfoViewModel>();
-
-        public ObservableCollection<InfoViewModel> InfoList
-        {
-            get { return _infoList; }
-            set
-            {
-                _infoList = value;
-                this.OnPropertyChanged("InfoList");
-            }
-        }
+        
         #region 方法
         /// <summary>
         /// 获取 窗口是否存在
@@ -131,14 +131,67 @@ namespace DnTool.ViewModels
 
         #region 命令
         public RelayCommand ClosedCommand { get; set; }
-         public RelayCommand SavePointCommand { get; set; }
-         public RelayCommand MouseDoubleClickCommand { get; set; }
-        
+        public RelayCommand SavePointCommand { get; set; }
+        public RelayCommand MouseDoubleClickCommand { get; set; }
+        public RelayCommand LoadedCommand { get; set; }
         #endregion
 
         #region 数据
+        private ObservableCollection<InfoViewModel> _infoList = new ObservableCollection<InfoViewModel>();
+
+        public ObservableCollection<InfoViewModel> InfoList
+        {
+            get { return _infoList; }
+            set
+            {
+                _infoList = value;
+                this.OnPropertyChanged("InfoList");
+            }
+        }
+
+        private object _selectedPath;
+
+        public object SelectedPath
+        {
+            get { return _selectedPath; }
+            set
+            {
+                if (this._selectedPath!=value)
+                {
+                    _selectedPath = value;
+                    this.OnPropertyChanged("SelectedFile");
+                    List<string> lines=FileOperateHelper.ReadFileLines(value.ToString());
+                    this.InfoList.Clear();
+                    foreach (var line in lines)
+                    {
+                       string[] temp = line.Split('#');
+                       if (temp.Count() != 4)
+                       {
+                           Debug.WriteLine("路径:"+value.ToString()+",格式不对");
+                           continue;
+                       }
+                        this.InfoList.Add(
+                                new InfoViewModel() { Name = temp[0], CurrentPoint = new Point(temp[1], temp[2], temp[3]) }
+                            );
+                    }
+                }
+               
+            }
+        }
+
+        private ObservableCollection<FilePath> _fileNames = new ObservableCollection<FilePath>();
+
+        public ObservableCollection<FilePath> FileNames
+        {
+            get { return _fileNames; }
+            set
+            {
+                _fileNames = value;
+               // this.OnPropertyChanged("FileNames");
+            }
+        }
         
-         
+
          private int _currentHwnd;
 
          public int CurrentHwnd

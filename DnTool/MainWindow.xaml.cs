@@ -1,4 +1,5 @@
 ﻿using DnTool.ViewModels;
+using MahApps.Metro.Controls;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -17,7 +18,7 @@ namespace DnTool
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow :MetroWindow
     {
         public MainWindow()
         {
@@ -135,6 +136,17 @@ namespace DnTool
                     break;
             }
             return IntPtr.Zero;
+        }
+
+        private void DataGrid_LoadingRow(object sender, System.Windows.Controls.DataGridRowEventArgs e)
+        {
+            e.Row.Header = e.Row.GetIndex() + 1;
+            Debug.WriteLine(e.Row.GetIndex()+1);
+        }
+
+        private void DataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
         }
 
  
