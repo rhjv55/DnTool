@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        Title="DnTool V1.0" Height="627.202" Width="378.732">
+        Title="DnTool V1.0" Height="627.202" Width="378.732" Loaded="MetroWindow_Loaded">
        <i:Interaction.Triggers>
          <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding ClosedCommand}" />
@@ -12,7 +12,19 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DnTool;component/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Controls:MetroWindow.RightWindowCommands>
 
+        <Controls:WindowCommands>
+            <Button Content="设置" />
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Grid>
         <StackPanel>
         <WrapPanel Margin="0,20,0,0">
@@ -35,63 +47,40 @@
                 
          </WrapPanel>
             <DockPanel Height="300">
-                <Controls:ToggleSwitch DockPanel.Dock="Top" Content="置顶" Margin="275,0,0,0" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"/>
-            
-                <DataGrid HeadersVisibility="Column" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="250"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False" SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow" SelectionChanged="DataGrid_SelectionChanged">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseRightButtonDown">
-                            <i:InvokeCommandAction Command="{Binding MouseDoubleClickCommand}"/>
+                <WrapPanel Height="30" DockPanel.Dock="Top">
+                    <Button Width="80" Height="30" Content="多开" ToolTip="开一个窗口点一下按钮" Command="{Binding OpenCommand}"></Button>
+                    <Controls:ToggleSwitch  Content="置顶" Margin="100,0,0,0" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"/>
+                    
+                </WrapPanel>
+                
+                <DataGrid HeadersVisibility="Column" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="250"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
+                          SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single">
+                    <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding MoveCommand}"/>
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    </i:Interaction.Triggers>-->
                     <DataGrid.Columns>
                         <!--<DataGridTextColumn Header="ID" Width="35" Binding="{Binding ItemIndex}"/>-->
-                        <DataGridTextColumn Header="坐标名" Width="120" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="X" Width="80" Binding="{Binding CurrentPoint.X}"/>
-                        <DataGridTextColumn Header="Y" Width="80" Binding="{Binding CurrentPoint.Y}"/>
-                        <DataGridTextColumn Header="Z" Width="80" Binding="{Binding CurrentPoint.Z}"/>
+                        <DataGridTextColumn Header="坐标名" Width="110" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="X" Width="70" Binding="{Binding CurrentPoint.X}"/>
+                        <DataGridTextColumn Header="Y" Width="70" Binding="{Binding CurrentPoint.Y}"/>
+                        <DataGridTextColumn Header="Z" Width="70" Binding="{Binding CurrentPoint.Z}"/>
+                        <DataGridTemplateColumn Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ToggleButton Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.MoveCommand }">
+                                        <Rectangle Width="20" Height="15">
+                                            <Rectangle.Fill>
+                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}" />
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </ToggleButton>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-
-                    <!--<ListView DockPanel.Dock="Right" Margin="10,0,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" ItemsSource="{Binding InfoList}" SelectedItem="{Binding SelectedPoint}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding MouseDoubleClickCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="坐标名" Width="120" x:Name="name">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock TextAlignment ="Left" Text="{Binding Path=Name}"  MinWidth="{Binding Path=ActualWidth,ElementName=name}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="X" Width="60" x:Name="x">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock TextAlignment ="Center" Text="{Binding Path=CurrentPoint.X}"  MinWidth="{Binding Path=ActualWidth,ElementName=x}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Y" Width="60" x:Name="y">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock TextAlignment ="Center" Text="{Binding Path=CurrentPoint.Y}"  MinWidth="{Binding Path=ActualWidth,ElementName=y}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Z" Width="60" x:Name="z">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock TextAlignment ="Center" Text="{Binding Path=CurrentPoint.Z}"  MinWidth="{Binding Path=ActualWidth,ElementName=z}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-          
-                </GridView>
-            </ListView.View>
-        </ListView>-->
 
          </DockPanel>
           

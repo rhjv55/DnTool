@@ -11,6 +11,7 @@ using Utilities.Log;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace DnTool.ViewModels
 {
@@ -26,6 +27,58 @@ namespace DnTool.ViewModels
 
         public MainViewModel()
         {
+            this.OpenCommand = new RelayCommand(() =>
+            {
+                try
+                {
+                    Process[] all = Process.GetProcessesByName("DragonNest");
+
+                    if (all != null)
+                    {
+                        if (all.Length == 0)
+                        {
+                            return;
+                        }
+
+                        foreach (Process process in all)
+                        {
+                            var handles = Win32Processes.GetHandles(process, "Mutant", "\\BaseNamedObjects\\MutexDragonNest");
+
+                            if (handles.Count == 0)
+                            {
+                                continue;
+                            }
+
+                            foreach (var handle in handles)
+                            {
+                                IntPtr ipHandle = IntPtr.Zero;
+                                if (!MutexCloseHelper.DuplicateHandle(Process.GetProcessById(handle.ProcessID).Handle,
+                                    handle.Handle, MutexCloseHelper.GetCurrentProcess(), out ipHandle, 0, false, MutexCloseHelper.DUPLICATE_CLOSE_SOURCE))
+                                {
+                                    // richTextBox1.AppendText("DuplicateHandle() failed, error =" + Marshal.GetLastWin32Error() + Environment.NewLine);
+
+
+                                }
+                                else
+                                {
+                                    MutexCloseHelper.CloseHandle(ipHandle);
+                                    Debug.WriteLine("进程[" + handle.ProcessID + "]的互斥体句柄关闭成功");
+                                }
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        // richTextBox1.AppendText("没有找到运行的程序" + Environment.NewLine);
+                    }
+                }
+                catch (Exception ex)
+                {
+                   Debug.WriteLine(ex.Message);
+
+                }
+            });
            
             this.ClosedCommand = new RelayCommand(() =>
             {
@@ -46,9 +99,8 @@ namespace DnTool.ViewModels
                      );
                 }
             });
-            this.MouseDoubleClickCommand = new RelayCommand(() =>
+            this.MoveCommand = new RelayCommand(() =>
             {
-                Logger.Info("双击了");
                 if (SelectedPoint == null)
                 {
                     Logger.Info("未选择任何项");
@@ -66,8 +118,10 @@ namespace DnTool.ViewModels
                         if (a == 1 && b == 1 && c == 1)
                             Debug.WriteLine("瞬移成功");
                     }
+                   
                 }
                 Logger.Info( SelectedPoint.CurrentPoint.ToString());
+                this.SelectedPoint = null;
             });
           
             Memory64Helper m = new Memory64Helper();
@@ -130,9 +184,11 @@ namespace DnTool.ViewModels
         #endregion
 
         #region 命令
+        public RelayCommand OpenCommand { get; set; }
+        
         public RelayCommand ClosedCommand { get; set; }
         public RelayCommand SavePointCommand { get; set; }
-        public RelayCommand MouseDoubleClickCommand { get; set; }
+        public RelayCommand MoveCommand { get; set; }
         public RelayCommand LoadedCommand { get; set; }
         #endregion
 

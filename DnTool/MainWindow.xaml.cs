@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -23,6 +24,13 @@ namespace DnTool
         public MainWindow()
         {
             InitializeComponent();
+           // this.ShowTitleBar = false;
+            this.ShowIconOnTitleBar = true;
+            this.ShowMinButton = true;
+            this.ShowMaxRestoreButton = false;
+            this.ShowCloseButton = true;
+            this.ResizeMode = ResizeMode.CanMinimize;
+            this.SaveWindowPosition = true;
             this.DataContext = new MainViewModel();
             this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
         }
@@ -71,8 +79,8 @@ namespace DnTool
                 var ret = EyeHelper.ReleaseCapture();
                 if (this._hWndCurrent != IntPtr.Zero)
                 {
-                    EyeHelper.DrawRevFrame(this._hWndCurrent);
-                    this._hWndCurrent = IntPtr.Zero;
+                    EyeHelper.DrawRevFrame(this._hWndCurrent); //还原边框
+                    //this._hWndCurrent = IntPtr.Zero;
                 }
 
             }
@@ -96,6 +104,10 @@ namespace DnTool
                     {
                         if (this.IsDragging)
                         {
+                            this.IsDragging = false;
+                            this.CaptureMouse(false);
+                            handled = true;
+
                             uint pid;
                             EyeHelper.GetWindowThreadProcessId(this._hWndCurrent,out pid);
                             if (pid > 0)
@@ -112,9 +124,8 @@ namespace DnTool
                                 }
                             }
                           
-                            this.IsDragging = false;
-                            this.CaptureMouse(false);
-                            handled = true;
+                          
+                           
                         }
                     }
                     break;
@@ -141,7 +152,7 @@ namespace DnTool
         private void DataGrid_LoadingRow(object sender, System.Windows.Controls.DataGridRowEventArgs e)
         {
             e.Row.Header = e.Row.GetIndex() + 1;
-            Debug.WriteLine(e.Row.GetIndex()+1);
+           // Debug.WriteLine(e.Row.GetIndex()+1);
         }
 
         private void DataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -149,7 +160,40 @@ namespace DnTool
 
         }
 
- 
+       
+
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            //按Home键结束程序
+            HotKey hotKey = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.Home);
+            hotKey.OnHotKey += new HotKey.OnHotKeyEventHandler(hotKey_OnHotKey);
+        }
+
+        private void hotKey_OnHotKey()
+        {
+            //if (this.WindowState == WindowState.Normal)
+            //{
+            //    this.WindowState = WindowState.Minimized;
+            //    this.Hide();
+            //}
+            //else
+            //{
+            //    this.Show();
+            //    this.WindowState = WindowState.Normal;
+            //}
+            this.Close();
+        }
+
+        private void DataGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //var a=e.OriginalSource as TextBlock;
+            //var b = e.Source as DataGrid;
+            //if (a == null)
+            //{
+            //    b.SelectedIndex = -1;
+            //}
+
+        }
       
     }
     /// <summary>
