@@ -24,7 +24,7 @@ public class HotKey
         Window Window ;     //热键所在窗体
 uint ControlKey ;   //热键控制键
 uint Key ;          //热键主键
-
+    
         public delegate void OnHotKeyEventHandler();     //热键事件委托
 public event OnHotKeyEventHandler OnHotKey =null;   //热键事件
 
@@ -32,7 +32,7 @@ public event OnHotKeyEventHandler OnHotKey =null;   //热键事件
 private const int WM_HOTKEY =0x0312;       // 热键消息编号
 
         public enum KeyFlags    //控制键编码        
-        {  
+        { 
             MOD_NONE=0x0,
             MOD_ALT =0x1,
             MOD_CONTROL =0x2,

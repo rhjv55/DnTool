@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:uc="clr-namespace:DnTool.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         Title="DnTool V1.0" Height="627.202" Width="378.732" Loaded="MetroWindow_Loaded">
        <i:Interaction.Triggers>
@@ -17,14 +18,76 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/DnTool;component/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Ellipse x:Key="AccentMenuIcon"
+                     x:Shared="False"
+                     Width="16"
+                     Height="16"
+                     Fill="{Binding ColorBrush, Mode=OneWay}" />
+            <Style x:Key="AccentColorMenuItemStyle"
+                   TargetType="{x:Type MenuItem}"
+                   BasedOn="{StaticResource MetroMenuItem}">
+                <Setter Property="Command"
+                        Value="{Binding ChangeAccentCommand}" />
+                <Setter Property="Icon"
+                        Value="{StaticResource AccentMenuIcon}" />
+                <Setter Property="Header"
+                        Value="{Binding Name, Mode=OneWay}" />
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Controls:MetroWindow.RightWindowCommands>
 
         <Controls:WindowCommands>
-            <Button Content="设置" />
+            <Button Content="设置" Click="ShowSettings"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
+
+
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Controls:Flyout x:Name="settingsFlyout"
+                             Margin="100 0 0 0"
+                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Controls:MetroWindow}, Path=ActualWidth}"
+                             Header="设置"
+                             Position="Right"
+                             IsModal="True"
+                             Theme="Accent">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                  
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical">
+                            <Controls:ToggleSwitch  Content="窗体置顶" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"/>
+                            <ComboBox ItemsSource="{Binding AccentColors, Mode=OneWay}" ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}"></ComboBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <UniformGrid Columns="2"
+                                 Grid.Row="2"
+                                 Margin="10">
+                        <Button Style="{DynamicResource SquareButtonStyle}"
+                                Margin="10"
+                                Content="Create" />
+                        <Button Style="{DynamicResource SquareButtonStyle}"
+                                Margin="10"
+                                Content="Cancel" />
+                    </UniformGrid>
+                </Grid>
+
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+
+
+
+
+
+
+
     <Grid>
         <StackPanel>
         <WrapPanel Margin="0,20,0,0">
@@ -46,15 +109,15 @@
             <Button Content="添加坐标" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Width="75"/>
                 
          </WrapPanel>
-            <DockPanel Height="300">
+            <DockPanel Height="420">
                 <WrapPanel Height="30" DockPanel.Dock="Top">
                     <Button Width="80" Height="30" Content="多开" ToolTip="开一个窗口点一下按钮" Command="{Binding OpenCommand}"></Button>
-                    <Controls:ToggleSwitch  Content="置顶" Margin="100,0,0,0" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"/>
+                   
                     
                 </WrapPanel>
                 
-                <DataGrid HeadersVisibility="Column" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="250"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
-                          SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single">
+                <DataGrid x:Name="dg" HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="320"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
+                          SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" CanUserResizeColumns="False">
                     <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
                             <i:InvokeCommandAction Command="{Binding MoveCommand}"/>
@@ -63,9 +126,9 @@
                     <DataGrid.Columns>
                         <!--<DataGridTextColumn Header="ID" Width="35" Binding="{Binding ItemIndex}"/>-->
                         <DataGridTextColumn Header="坐标名" Width="110" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="X" Width="70" Binding="{Binding CurrentPoint.X}"/>
-                        <DataGridTextColumn Header="Y" Width="70" Binding="{Binding CurrentPoint.Y}"/>
-                        <DataGridTextColumn Header="Z" Width="70" Binding="{Binding CurrentPoint.Z}"/>
+                        <DataGridTextColumn Header="X" Width="65" Binding="{Binding CurrentPoint.X}"/>
+                        <DataGridTextColumn Header="Y" Width="65" Binding="{Binding CurrentPoint.Y}"/>
+                        <DataGridTextColumn Header="Z" Width="65" Binding="{Binding CurrentPoint.Z}"/>
                         <DataGridTemplateColumn Width="50">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

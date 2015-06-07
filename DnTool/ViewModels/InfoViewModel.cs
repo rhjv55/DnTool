@@ -11,8 +11,20 @@ namespace DnTool.ViewModels
     public class InfoViewModel:ViewModelBase
     {
         public Point CurrentPoint { get; set; }
-        public int PID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
-        public bool IsSelected { get; set; }
+        private bool _isSelected;
+
+	public bool IsSelected
+	{
+		get { return _isSelected;}
+		set 
+                { 
+ 		  _isSelected = value;
+                  this.OnPropertyChanged("IsSelected");
+                }
+	}
+	
+ 
     }
 }

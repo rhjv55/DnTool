@@ -34,8 +34,20 @@ namespace DnTool
             this.DataContext = new MainViewModel();
             this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
         }
+        private void ShowSettings(object sender, RoutedEventArgs e)
+        {
+            this.ToggleFlyout(0);
+        }
+        private void ToggleFlyout(int index)
+        {
+            var flyout = this.Flyouts.Items[index] as Flyout;
+            if (flyout == null)
+            {
+                return;
+            }
 
-      
+            flyout.IsOpen = !flyout.IsOpen;
+        }
         private bool IsDragging = false;
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -79,7 +91,7 @@ namespace DnTool
                 var ret = EyeHelper.ReleaseCapture();
                 if (this._hWndCurrent != IntPtr.Zero)
                 {
-                    EyeHelper.DrawRevFrame(this._hWndCurrent); //还原边框
+                   // EyeHelper.DrawRevFrame(this._hWndCurrent); //还原边框
                     //this._hWndCurrent = IntPtr.Zero;
                 }
 
@@ -113,7 +125,7 @@ namespace DnTool
                             if (pid > 0)
                             {
                                 Process p = Process.GetProcessById((int)pid);
-                                if (p.ProcessName == "DragonNest")
+                                if (p.ProcessName == "notepad")
                                 {
                                     //鼠标最后指向的句柄
                                     (this.DataContext as MainViewModel).CurrentHwnd = (int)this._hWndCurrent;
@@ -136,8 +148,8 @@ namespace DnTool
                             IntPtr hWnd = EyeHelper.WindowFromPoint(System.Windows.Forms.Control.MousePosition);
                             if (this._hWndCurrent != hWnd)
                             {
-                                EyeHelper.DrawRevFrame(this._hWndCurrent);
-                                EyeHelper.DrawRevFrame(hWnd);
+                               // EyeHelper.DrawRevFrame(this._hWndCurrent);
+                               // EyeHelper.DrawRevFrame(hWnd);
                                 this._hWndCurrent = hWnd;
                                 // 想显示当前句柄的位置如this.tbHwnd.Text = hWnd.ToInt32().ToString();
                             }
@@ -151,7 +163,13 @@ namespace DnTool
 
         private void DataGrid_LoadingRow(object sender, System.Windows.Controls.DataGridRowEventArgs e)
         {
-            e.Row.Header = e.Row.GetIndex() + 1;
+            if (e.Row.GetIndex() > 9)
+            {
+                e.Row.Header = "";
+                return;
+            }
+            e.Row.Header = e.Row.GetIndex();
+            
            // Debug.WriteLine(e.Row.GetIndex()+1);
         }
 
@@ -164,24 +182,44 @@ namespace DnTool
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            //按Home键结束程序
-            HotKey hotKey = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.Home);
-            hotKey.OnHotKey += new HotKey.OnHotKeyEventHandler(hotKey_OnHotKey);
+          
+            HotKey hotKey0 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad0);
+            HotKey hotKey1 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad1);
+            HotKey hotKey2 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad2);
+            HotKey hotKey3 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad3);
+            HotKey hotKey4 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad4);
+            HotKey hotKey5 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad5);
+            HotKey hotKey6 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad6);
+            HotKey hotKey7 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad7);
+            HotKey hotKey8 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad8);
+            HotKey hotKey9 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad9);
+
+            hotKey0.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(0); });
+            hotKey1.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(1); });
+            hotKey2.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(2); });
+            hotKey3.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(3); });
+            hotKey4.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(4); });
+            hotKey5.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(5); });
+            hotKey6.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(6); });
+            hotKey7.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(7); });
+            hotKey8.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(8); });
+            hotKey9.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(9); });
+          
+           
         }
 
-        private void hotKey_OnHotKey()
+        private void hotKey_OnHotKey(int num)
         {
-            //if (this.WindowState == WindowState.Normal)
-            //{
-            //    this.WindowState = WindowState.Minimized;
-            //    this.Hide();
-            //}
-            //else
-            //{
-            //    this.Show();
-            //    this.WindowState = WindowState.Normal;
-            //}
-            this.Close();
+            Debug.WriteLine("执行热键" + num);
+            var viewmodel=this.DataContext as MainViewModel;
+            if (this.dg.Items.Count <= num)
+            {
+                this.dg.SelectedIndex = -1;
+                return;
+            }
+            viewmodel.Move(viewmodel.CurrentHwnd,((InfoViewModel)this.dg.Items[num]).CurrentPoint);
+            this.dg.SelectedIndex = num;
+           
         }
 
         private void DataGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

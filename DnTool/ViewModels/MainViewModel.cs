@@ -24,9 +24,11 @@ namespace DnTool.ViewModels
         private DispatcherTimer timer = new DispatcherTimer();
         private DmPlugin dm = new DmPlugin();
         private string startupPath = AppDomain.CurrentDomain.BaseDirectory;
-
+     
         public MainViewModel()
         {
+            
+
             this.OpenCommand = new RelayCommand(() =>
             {
                 try
@@ -88,6 +90,9 @@ namespace DnTool.ViewModels
             {
                 List<string> list = FileOperateHelper.GetFiles(startupPath+"\\data", "*.txt");
                 list.ForEach(x => _fileNames.Add(new FilePath() { Path=x,Name=Path.GetFileNameWithoutExtension(x)}));
+                
+               
+               
             });
 
             this.SavePointCommand = new RelayCommand(() =>
@@ -102,26 +107,8 @@ namespace DnTool.ViewModels
             this.MoveCommand = new RelayCommand(() =>
             {
                 if (SelectedPoint == null)
-                {
-                    Logger.Info("未选择任何项");
                     return;
-                }
-                else
-                {
-                    if (IsAlive)
-                    {
-                        if (X == null || Y == null || Z == null)
-                            return;
-                        int a=dm.WriteFloat(CurrentHwnd, "[1221740]+a5c", float.Parse(SelectedPoint.CurrentPoint.X));
-                        int b=dm.WriteFloat(CurrentHwnd, "[1221740]+a64", float.Parse(SelectedPoint.CurrentPoint.Y));
-                        int c=dm.WriteFloat(CurrentHwnd, "[1221740]+a60", float.Parse(SelectedPoint.CurrentPoint.Z));
-                        if (a == 1 && b == 1 && c == 1)
-                            Debug.WriteLine("瞬移成功");
-                    }
-                   
-                }
-                Logger.Info( SelectedPoint.CurrentPoint.ToString());
-                this.SelectedPoint = null;
+                this.Move(CurrentHwnd,SelectedPoint.CurrentPoint);
             });
           
             Memory64Helper m = new Memory64Helper();
@@ -138,7 +125,7 @@ namespace DnTool.ViewModels
             
             timer.Tick += (s, e) =>
                 {
-                    if (IsAlive)
+                    if (IsAlive(CurrentHwnd))
                     {
                         X = IntToFloatString(dm.ReadInt(CurrentHwnd, "[1221740]+a5c", 0));
                         Y = IntToFloatString(dm.ReadInt(CurrentHwnd, "[1221740]+a64", 0));
@@ -153,13 +140,64 @@ namespace DnTool.ViewModels
 
         }
       
-       
+     
         
         #region 方法
         /// <summary>
-        /// 获取 窗口是否存在
+        /// 瞬移
         /// </summary>
-        public bool IsAlive { get { return dm.GetWindowState(_currentHwnd, 0) == 1; } }
+        /// <param name="hwnd">窗口句柄</param>
+        /// <returns></returns>
+        public bool Move(int hwnd,Point point)
+        {
+            if (point == null)
+            {
+                Debug.WriteLine("坐标不能为null");
+                return false;
+            }
+            else
+            {
+                if (IsAlive(hwnd))
+                {
+
+                    if (point.X == null || point.Y == null || point.Z == null)
+                    {
+                        Debug.WriteLine("坐标XYZ不能为null");
+                        return false;
+                    }
+                    Debug.WriteLine(point.ToString());
+                    int a = dm.WriteFloat(hwnd, "[1221740]+a5c", float.Parse(point.X));
+                    int b = dm.WriteFloat(hwnd, "[1221740]+a64", float.Parse(point.Y));
+                    int c = dm.WriteFloat(hwnd, "[1221740]+a60", float.Parse(point.Z));
+                    if (a == 1 && b == 1 && c == 1)
+                    {
+                        Debug.WriteLine("瞬移成功");
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2}",a,b,c);
+                        return false;
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("窗口不存在:" + hwnd);
+                    return false;
+                }
+            }
+  
+        }
+
+        /// <summary>
+        /// 判断窗口是否存在
+        /// </summary>
+        /// <param name="hwnd"></param>
+        /// <returns></returns>
+        public bool IsAlive(int hwnd) 
+        {
+            return dm.GetWindowState(hwnd, 0) == 1; 
+        }
 
         private string IntToFloatString(int val)
         {
@@ -227,7 +265,7 @@ namespace DnTool.ViewModels
                            continue;
                        }
                         this.InfoList.Add(
-                                new InfoViewModel() { Name = temp[0], CurrentPoint = new Point(temp[1], temp[2], temp[3]) }
+                                new InfoViewModel() { Name = temp[0], CurrentPoint = new Point(temp[1], temp[2], temp[3]),ID=this.InfoList.Count() }
                             );
                     }
                 }

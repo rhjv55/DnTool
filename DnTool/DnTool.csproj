@@ -114,6 +114,7 @@
     <Compile Include="Resources.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Utilities\CommandManagerHelper.cs" />
+    <Compile Include="Utilities\DataGridViewModelBase.cs" />
     <Compile Include="Utilities\Dm\DmBindDisplay.cs" />
     <Compile Include="Utilities\Dm\DmBindKeypad.cs" />
     <Compile Include="Utilities\Dm\DmBindMode.cs" />
@@ -134,6 +135,9 @@
     <Compile Include="Utilities\MutexCloseHelper.cs" />
     <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\FlyoutSettingsView.xaml.cs">
+      <DependentUpon>FlyoutSettingsView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -149,6 +153,10 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FlyoutSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -183,7 +191,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
