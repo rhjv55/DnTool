@@ -127,6 +127,8 @@
     <Compile Include="Utilities\Dm\NativeMethods.cs" />
     <Compile Include="Utilities\FileOperateHelper.cs" />
     <Compile Include="Utilities\HotKey.cs" />
+    <Compile Include="Utilities\Keypad\VKKey.cs" />
+    <Compile Include="Utilities\Keypad\WinIo.cs" />
     <Compile Include="Utilities\Log\Logger.cs" />
     <Compile Include="Utilities\Memory64Helper.cs" />
     <Compile Include="Utilities\MemoryHelper.cs" />

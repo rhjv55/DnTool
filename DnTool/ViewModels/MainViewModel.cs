@@ -12,6 +12,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
+using DnTool.Utilities.Keypad;
 
 namespace DnTool.ViewModels
 {
@@ -27,8 +29,61 @@ namespace DnTool.ViewModels
      
         public MainViewModel()
         {
-            
+            byte[] bytes = System.Text.Encoding.Unicode.GetBytes("sssse");
+            foreach (var item in bytes)
+            {
+                Debug.Write(item.ToString("x8"));
+            }
+          
 
+            this.TestCommand = new RelayCommand(() =>
+            {
+             
+                int ret = dm.BindWindowEx(CurrentHwnd, "normal", "normal", "dx.keypad.input.lock.api|dx.keypad.state.api|dx.keypad.api", "", 0);
+                Debug.WriteLine(ret);
+                dm.Delay(1000);
+              //  dm.SetWindowState(CurrentHwnd,1);
+                dm.KeyPress(DmKeys.Escape);
+                dm.KeyPress(DmKeys.Escape);
+                dm.KeyPress(DmKeys.Escape);
+            });
+
+            this.UnBindCommand = new RelayCommand(() =>
+            {
+
+                dm.SetWindowState(CurrentHwnd,1);
+                dm.Delay(2000);
+                dm.MoveTo(200,200);
+                dm.LeftClick();
+
+       int i = 0;  
+       while (i < 5)  
+       {
+           WinIo.MykeyDown(VKKey.VK_ESCAPE);
+           Thread.Sleep(100);
+           WinIo.MykeyUp(VKKey.VK_ESCAPE);
+           Thread.Sleep(100);
+           WinIo.MykeyDown(VKKey.VK_SPACE);  
+           Thread.Sleep(100);  
+           WinIo.MykeyUp(VKKey.VK_SPACE);  
+           Thread.Sleep(100);  
+           WinIo.MykeyDown(VKKey.VK_S);  
+           Thread.Sleep(100);  
+           WinIo.MykeyUp(VKKey.VK_S);  
+           Thread.Sleep(500);  
+           WinIo.MykeyDown(VKKey.VK_D);  
+           Thread.Sleep(100);  
+           WinIo.MykeyUp(VKKey.VK_D);  
+           Thread.Sleep(500);  
+           WinIo.MykeyDown(VKKey.VK_A);  
+           Thread.Sleep(100);  
+           WinIo.MykeyUp(VKKey.VK_A);  
+           i++;  
+       }  
+
+                dm.UnBindWindow();
+            });
+            
             this.OpenCommand = new RelayCommand(() =>
             {
                 try
@@ -84,14 +139,15 @@ namespace DnTool.ViewModels
            
             this.ClosedCommand = new RelayCommand(() =>
             {
+                WinIo.Shutdown();
                 timer.Stop();
             });
             this.LoadedCommand = new RelayCommand(() =>
             {
                 List<string> list = FileOperateHelper.GetFiles(startupPath+"\\data", "*.txt");
                 list.ForEach(x => _fileNames.Add(new FilePath() { Path=x,Name=Path.GetFileNameWithoutExtension(x)}));
-                
-               
+
+                WinIo.Initialize();
                
             });
 
@@ -223,7 +279,9 @@ namespace DnTool.ViewModels
 
         #region 命令
         public RelayCommand OpenCommand { get; set; }
+        public RelayCommand UnBindCommand { get; set; }
         
+        public RelayCommand TestCommand { get; set; }
         public RelayCommand ClosedCommand { get; set; }
         public RelayCommand SavePointCommand { get; set; }
         public RelayCommand MoveCommand { get; set; }

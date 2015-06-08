@@ -112,8 +112,8 @@
             <DockPanel Height="420">
                 <WrapPanel Height="30" DockPanel.Dock="Top">
                     <Button Width="80" Height="30" Content="多开" ToolTip="开一个窗口点一下按钮" Command="{Binding OpenCommand}"></Button>
-                   
-                    
+                    <Button Width="80" Content="键盘测试" Command="{Binding TestCommand}"></Button>
+                    <Button Width="80" Content="解绑" Command="{Binding UnBindCommand}"></Button>
                 </WrapPanel>
                 
                 <DataGrid x:Name="dg" HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="320"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"

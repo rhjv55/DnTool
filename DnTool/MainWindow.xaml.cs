@@ -1,4 +1,5 @@
-﻿using DnTool.ViewModels;
+﻿using DnTool.Utilities.Keypad;
+using DnTool.ViewModels;
 using MahApps.Metro.Controls;
 using System;
 using System.Diagnostics;
@@ -204,7 +205,7 @@ namespace DnTool
             hotKey7.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(7); });
             hotKey8.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(8); });
             hotKey9.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(9); });
-          
+
            
         }
 
