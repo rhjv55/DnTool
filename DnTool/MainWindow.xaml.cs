@@ -35,6 +35,8 @@ namespace DnTool
             this.SaveWindowPosition = true;
             this.DataContext = new MainViewModel();
             this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
+            UserActivityHook choosesc = new UserActivityHook();
+            choosesc.KeyDown += new System.Windows.Forms.KeyEventHandler(MyKeyDown);
         }
 
 
@@ -190,14 +192,13 @@ namespace DnTool
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            UserActivityHook choosesc = new UserActivityHook();
-            choosesc.KeyDown += new System.Windows.Forms.KeyEventHandler(MyKeyDown);
+           
 
         }
         public void MyKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             var viewmodel = this.DataContext as MainViewModel;
-            int i = 0;
+            int i = -1;
             if (e.KeyCode == System.Windows.Forms.Keys.NumPad0)
             {
                 i = 0;
@@ -254,6 +255,8 @@ namespace DnTool
                 this.dg.SelectedIndex = -1;
                 return;
             }
+            if (i == -1)
+                return;
             viewmodel.Move(viewmodel.CurrentHwnd, ((InfoViewModel)this.dg.Items[i]).CurrentPoint);
             this.dg.SelectedIndex = i;
         }

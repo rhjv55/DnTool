@@ -29,58 +29,17 @@ namespace DnTool.ViewModels
      
         public MainViewModel()
         {
-            byte[] bytes = System.Text.Encoding.Unicode.GetBytes("sssse");
-            foreach (var item in bytes)
-            {
-                Debug.Write(item.ToString("x8"));
-            }
-          
-
+           
             this.TestCommand = new RelayCommand(() =>
             {
              
                 int ret = dm.BindWindowEx(CurrentHwnd, "normal", "normal", "dx.keypad.input.lock.api|dx.keypad.state.api|dx.keypad.api", "", 0);
                 Debug.WriteLine(ret);
-                dm.Delay(1000);
-              //  dm.SetWindowState(CurrentHwnd,1);
-                dm.KeyPress(DmKeys.Escape);
-                dm.KeyPress(DmKeys.Escape);
-                dm.KeyPress(DmKeys.Escape);
+
             });
 
             this.UnBindCommand = new RelayCommand(() =>
             {
-
-                dm.SetWindowState(CurrentHwnd,1);
-                dm.Delay(2000);
-                dm.MoveTo(200,200);
-                dm.LeftClick();
-
-       int i = 0;  
-       while (i < 5)  
-       {
-           WinIo.MykeyDown(VKKey.VK_ESCAPE);
-           Thread.Sleep(100);
-           WinIo.MykeyUp(VKKey.VK_ESCAPE);
-           Thread.Sleep(100);
-           WinIo.MykeyDown(VKKey.VK_SPACE);  
-           Thread.Sleep(100);  
-           WinIo.MykeyUp(VKKey.VK_SPACE);  
-           Thread.Sleep(100);  
-           WinIo.MykeyDown(VKKey.VK_S);  
-           Thread.Sleep(100);  
-           WinIo.MykeyUp(VKKey.VK_S);  
-           Thread.Sleep(500);  
-           WinIo.MykeyDown(VKKey.VK_D);  
-           Thread.Sleep(100);  
-           WinIo.MykeyUp(VKKey.VK_D);  
-           Thread.Sleep(500);  
-           WinIo.MykeyDown(VKKey.VK_A);  
-           Thread.Sleep(100);  
-           WinIo.MykeyUp(VKKey.VK_A);  
-           i++;  
-       }  
-
                 dm.UnBindWindow();
             });
             
@@ -148,7 +107,7 @@ namespace DnTool.ViewModels
                 list.ForEach(x => _fileNames.Add(new FilePath() { Path=x,Name=Path.GetFileNameWithoutExtension(x)}));
 
               //
-                WinIo.Initialize();
+               // WinIo.Initialize();
                
             });
 
@@ -187,6 +146,13 @@ namespace DnTool.ViewModels
                         X = IntToFloatString(dm.ReadInt(CurrentHwnd, "[1221740]+a5c", 0));
                         Y = IntToFloatString(dm.ReadInt(CurrentHwnd, "[1221740]+a64", 0));
                         Z = IntToFloatString(dm.ReadInt(CurrentHwnd, "[1221740]+a60", 0));
+                        string ret = dm.FindPicE(0, 0, 2000, 2000, "跳过了.bmp");
+                        if (ret!= "")
+                        {
+                            Debug.WriteLine("正在动画，快跳过~~~");
+                            Debug.Write(ret);
+                        }
+                     
                     }
                    
                 };
