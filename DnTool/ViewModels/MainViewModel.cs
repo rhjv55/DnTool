@@ -139,7 +139,7 @@ namespace DnTool.ViewModels
            
             this.ClosedCommand = new RelayCommand(() =>
             {
-                WinIo.Shutdown();
+              //  WinIo.Shutdown();
                 timer.Stop();
             });
             this.LoadedCommand = new RelayCommand(() =>
@@ -147,6 +147,7 @@ namespace DnTool.ViewModels
                 List<string> list = FileOperateHelper.GetFiles(startupPath+"\\data", "*.txt");
                 list.ForEach(x => _fileNames.Add(new FilePath() { Path=x,Name=Path.GetFileNameWithoutExtension(x)}));
 
+              //
                 WinIo.Initialize();
                
             });

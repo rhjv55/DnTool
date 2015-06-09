@@ -126,6 +126,7 @@
     <Compile Include="Utilities\Dm\DmWindow.cs" />
     <Compile Include="Utilities\Dm\NativeMethods.cs" />
     <Compile Include="Utilities\FileOperateHelper.cs" />
+    <Compile Include="Utilities\Hook\UserActivityHook.cs" />
     <Compile Include="Utilities\HotKey.cs" />
     <Compile Include="Utilities\Keypad\VKKey.cs" />
     <Compile Include="Utilities\Keypad\WinIo.cs" />

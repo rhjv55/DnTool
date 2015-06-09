@@ -1,4 +1,5 @@
-﻿using DnTool.Utilities.Keypad;
+﻿using DnTool.Utilities.Hook;
+using DnTool.Utilities.Keypad;
 using DnTool.ViewModels;
 using MahApps.Metro.Controls;
 using System;
@@ -35,6 +36,12 @@ namespace DnTool
             this.DataContext = new MainViewModel();
             this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
         }
+
+
+       
+
+
+
         private void ShowSettings(object sender, RoutedEventArgs e)
         {
             this.ToggleFlyout(0);
@@ -126,7 +133,7 @@ namespace DnTool
                             if (pid > 0)
                             {
                                 Process p = Process.GetProcessById((int)pid);
-                                if (p.ProcessName == "notepad")
+                                if (p.ProcessName == "DragonNest")
                                 {
                                     //鼠标最后指向的句柄
                                     (this.DataContext as MainViewModel).CurrentHwnd = (int)this._hWndCurrent;
@@ -183,44 +190,72 @@ namespace DnTool
 
         private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
-          
-            HotKey hotKey0 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad0);
-            HotKey hotKey1 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad1);
-            HotKey hotKey2 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad2);
-            HotKey hotKey3 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad3);
-            HotKey hotKey4 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad4);
-            HotKey hotKey5 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad5);
-            HotKey hotKey6 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad6);
-            HotKey hotKey7 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad7);
-            HotKey hotKey8 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad8);
-            HotKey hotKey9 = new HotKey(this, HotKey.KeyFlags.MOD_NONE, System.Windows.Forms.Keys.NumPad9);
+            UserActivityHook choosesc = new UserActivityHook();
+            choosesc.KeyDown += new System.Windows.Forms.KeyEventHandler(MyKeyDown);
 
-            hotKey0.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(0); });
-            hotKey1.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(1); });
-            hotKey2.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(2); });
-            hotKey3.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(3); });
-            hotKey4.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(4); });
-            hotKey5.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(5); });
-            hotKey6.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(6); });
-            hotKey7.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(7); });
-            hotKey8.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(8); });
-            hotKey9.OnHotKey += new HotKey.OnHotKeyEventHandler(() => { hotKey_OnHotKey(9); });
-
-           
         }
-
-        private void hotKey_OnHotKey(int num)
+        public void MyKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            Debug.WriteLine("执行热键" + num);
-            var viewmodel=this.DataContext as MainViewModel;
-            if (this.dg.Items.Count <= num)
+            var viewmodel = this.DataContext as MainViewModel;
+            int i = 0;
+            if (e.KeyCode == System.Windows.Forms.Keys.NumPad0)
+            {
+                i = 0;
+                Debug.WriteLine("执行热键" + 0);
+            }
+            if (e.KeyCode == System.Windows.Forms.Keys.NumPad1)
+            {
+                i = 1;
+                Debug.WriteLine("执行热键" + 1);
+            }
+            if (e.KeyCode == System.Windows.Forms.Keys.NumPad2)
+            {
+                i = 2;
+                Debug.WriteLine("执行热键" + 2);
+            }
+            if (e.KeyCode == System.Windows.Forms.Keys.NumPad3)
+            {
+                i = 3;
+                Debug.WriteLine("执行热键" + 3);
+            }
+            if (e.KeyCode == System.Windows.Forms.Keys.NumPad4)
+            {
+                i = 4;
+                Debug.WriteLine("执行热键" + 4);
+            }
+            if (e.KeyCode == System.Windows.Forms.Keys.NumPad5)
+            {
+                i = 5;
+                Debug.WriteLine("执行热键" + 5);
+            }
+            if (e.KeyCode == System.Windows.Forms.Keys.NumPad6)
+            {
+                i = 6;
+                Debug.WriteLine("执行热键" + 6);
+            }
+            if (e.KeyCode == System.Windows.Forms.Keys.NumPad7)
+            {
+                i = 7;
+                Debug.WriteLine("执行热键" + 7);
+            }
+            if (e.KeyCode == System.Windows.Forms.Keys.NumPad8)
+            {
+                i =8;
+                Debug.WriteLine("执行热键" + 8);
+            }
+            if (e.KeyCode == System.Windows.Forms.Keys.NumPad9)
+            {
+                i = 9;
+                Debug.WriteLine("执行热键" + 9);
+            }
+
+            if (this.dg.Items.Count <= i)
             {
                 this.dg.SelectedIndex = -1;
                 return;
             }
-            viewmodel.Move(viewmodel.CurrentHwnd,((InfoViewModel)this.dg.Items[num]).CurrentPoint);
-            this.dg.SelectedIndex = num;
-           
+            viewmodel.Move(viewmodel.CurrentHwnd, ((InfoViewModel)this.dg.Items[i]).CurrentPoint);
+            this.dg.SelectedIndex = i;
         }
 
         private void DataGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

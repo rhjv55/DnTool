@@ -42,14 +42,14 @@ namespace DnTool.Utilities.Keypad
         private static bool IsInitialize { get; set; }  
   
         public static void Initialize()  
-        {  
-            if (InitializeWinIo())  
-            {  
-                KBCWait4IBE(); 
-                IsInitialize = true;  
-            }  
-            else
-                System.Windows.Forms.MessageBox.Show("WinIo Initialize failed");  
+        {
+            //if (InitializeWinIo())
+            //{
+            //    KBCWait4IBE();
+            //    IsInitialize = true;
+            //}
+            //else
+            //    System.Windows.Forms.MessageBox.Show("WinIo Initialize failed");  
   
         }  
         public static void Shutdown()  
