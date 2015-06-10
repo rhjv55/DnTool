@@ -18,27 +18,16 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/DnTool;component/Resources/Icons.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Ellipse x:Key="AccentMenuIcon"
-                     x:Shared="False"
-                     Width="16"
-                     Height="16"
-                     Fill="{Binding ColorBrush, Mode=OneWay}" />
-            <Style x:Key="AccentColorMenuItemStyle"
-                   TargetType="{x:Type MenuItem}"
-                   BasedOn="{StaticResource MetroMenuItem}">
-                <Setter Property="Command"
-                        Value="{Binding ChangeAccentCommand}" />
-                <Setter Property="Icon"
-                        Value="{StaticResource AccentMenuIcon}" />
-                <Setter Property="Header"
-                        Value="{Binding Name, Mode=OneWay}" />
-            </Style>
+           
         </ResourceDictionary>
     </Window.Resources>
     <Controls:MetroWindow.RightWindowCommands>
 
         <Controls:WindowCommands>
-            <Button Content="设置" Click="ShowSettings"/>
+            <Menu Height="20">
+                <MenuItem  Icon="{StaticResource appbar_settings}" Header="设置"></MenuItem>
+            </Menu>
+           
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
 
@@ -46,7 +35,7 @@
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
             <Controls:Flyout x:Name="settingsFlyout"
-                             Margin="100 0 0 0"
+                             Margin="0 0 0 0"
                              Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Controls:MetroWindow}, Path=ActualWidth}"
                              Header="设置"
                              Position="Right"
@@ -63,7 +52,7 @@
                                   VerticalScrollBarVisibility="Auto">
                         <StackPanel Orientation="Vertical">
                             <Controls:ToggleSwitch  Content="窗体置顶" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"/>
-                            <ComboBox ItemsSource="{Binding AccentColors, Mode=OneWay}" ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}"></ComboBox>
+                          
                         </StackPanel>
                     </ScrollViewer>
                     <UniformGrid Columns="2"
@@ -89,6 +78,60 @@
 
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0"
+                  Margin="5"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Left">
+            <MenuItem Header="Theme">
+                <MenuItem Click="ThemeLight"
+                              Header="Light"
+                              Icon="{StaticResource DarkThemeMenuIcon}" />
+                <MenuItem Click="ThemeDark"
+                              Header="Dark"
+                              Icon="{StaticResource LightThemeMenuIcon}" />
+            </MenuItem>
+            <MenuItem Header="Accent"
+                          ItemsSource="{Binding AccentColors, Mode=OneWay}"
+                          ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}" />
+            <MenuItem Header="Dialogs">
+                <MenuItem Header="Use Accent?"
+                              x:Name="UseAccentForDialogsMenuItem"
+                              IsCheckable="True" />
+                <Separator />
+                <MenuItem Click="ShowInputDialog"
+                              Header="Show InputDialog" />
+                <MenuItem Click="ShowMessageDialog"
+                              Header="Show MessageDialog" />
+                <MenuItem Click="ShowProgressDialog"
+                              Header="Show ProgressDialog" />
+                <MenuItem Click="ShowSimpleDialog"
+                              Header="Show SimpleDialog" />
+                <MenuItem Click="ShowDialogOutside"
+                              Header="Show SimpleDialog Externally" />
+            </MenuItem>
+        </Menu>
+        <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1">
+            <TabItem Header="buttons">
+            
+            </TabItem>
+            <TabItem Header="text">
+               
+            </TabItem>
+            <TabItem Header="dates">
+                
+            </TabItem>
+            <TabItem Header="selection">
+               
+            </TabItem>
+            
+        </Controls:MetroAnimatedSingleRowTabControl>
+        
+        
         <StackPanel>
         <WrapPanel Margin="0,20,0,0">
             <Label>当前坐标:</Label>
@@ -115,7 +158,13 @@
                     <Button Width="80" Content="键盘测试" Command="{Binding TestCommand}"></Button>
                     <Button Width="80" Content="解绑" Command="{Binding UnBindCommand}"></Button>
                 </WrapPanel>
-                
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <Button Width="30" Height="23" Content="Dark" Margin="10" Click="DarkButtonClick"/>
+                    <Button Width="30" Height="23" Content="Light" Margin="10" Click="LightButtonClick"/>
+                    <Button Width="30" Height="23" Content="Blue" Margin="10" Click="BlueButtonClick"/>
+                    <Button Width="30" Height="23" Content="Red" Margin="10" Click="RedButtonClick"/>
+                    
+                </StackPanel>
                 <DataGrid x:Name="dg" HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="320"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
                           SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" CanUserResizeColumns="False">
                     <!--<i:Interaction.Triggers>
