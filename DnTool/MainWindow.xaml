@@ -22,12 +22,7 @@
         </ResourceDictionary>
     </Window.Resources>
     <Controls:MetroWindow.RightWindowCommands>
-
         <Controls:WindowCommands>
-            <Menu Height="20">
-                <MenuItem  Icon="{StaticResource appbar_settings}" Header="设置"></MenuItem>
-            </Menu>
-           
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
 
@@ -80,6 +75,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -87,7 +85,7 @@
                   Margin="5"
                   VerticalAlignment="Stretch"
                   HorizontalAlignment="Left">
-            <MenuItem Header="Theme">
+            <!--<MenuItem Header="Theme">
                 <MenuItem Click="ThemeLight"
                               Header="Light"
                               Icon="{StaticResource DarkThemeMenuIcon}" />
@@ -97,105 +95,99 @@
             </MenuItem>
             <MenuItem Header="Accent"
                           ItemsSource="{Binding AccentColors, Mode=OneWay}"
-                          ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}" />
-            <MenuItem Header="Dialogs">
-                <MenuItem Header="Use Accent?"
-                              x:Name="UseAccentForDialogsMenuItem"
-                              IsCheckable="True" />
-                <Separator />
-                <MenuItem Click="ShowInputDialog"
-                              Header="Show InputDialog" />
-                <MenuItem Click="ShowMessageDialog"
-                              Header="Show MessageDialog" />
-                <MenuItem Click="ShowProgressDialog"
-                              Header="Show ProgressDialog" />
-                <MenuItem Click="ShowSimpleDialog"
-                              Header="Show SimpleDialog" />
-                <MenuItem Click="ShowDialogOutside"
-                              Header="Show SimpleDialog Externally" />
-            </MenuItem>
+                          ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}" />-->
+         
         </Menu>
         <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1">
-            <TabItem Header="buttons">
-            
-            </TabItem>
-            <TabItem Header="text">
+            <TabItem Header="飞机">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
+                        <Label>当前坐标:</Label>
+                        <Label>X:</Label>
+                        <Label Width="55" Foreground="Red" Content="{Binding X}"></Label>
+                        <Label>Y:</Label>
+                        <Label Width="55" Foreground="Red" Content="{Binding Y}"></Label>
+                        <Label>Z:</Label>
+                        <Label Width="55" Foreground="Red" Content="{Binding Z}"></Label>
+                        <Button Margin="5,0,0,0" Content="保存" Command="{Binding SavePointCommand}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1">
+                        <Canvas HorizontalAlignment="Left" Width="30" Height="21" Margin="10,0,0,0" VerticalAlignment="Top">
+                            <Image x:Name="image1" MouseDown="Image_MouseDown" MouseUp="Image_MouseUp"/>
+                        </Canvas>
+                        <Label Margin="40,0,0,0">选择坐标列表：</Label>
+                        <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="140" ItemsSource="{Binding FileNames}" SelectedValue="{Binding SelectedPath}" DisplayMemberPath="Name" SelectedValuePath="Path"/>
+                    </StackPanel>
+                    
+                  
+                    
+                    <DataGrid Grid.Row="2" x:Name="dg" HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="320"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
+                          SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" CanUserResizeColumns="False">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu StaysOpen="true">
+
+                                <MenuItem Header="修改" Command="{Binding ModifyCommand}"/>
+                                <MenuItem Header="删除"  Command="{Binding DeleteCommand}"/>
+                                <MenuItem Header="清空"  Command="{Binding ClearCommand}"/>
+                                <MenuItem Header="撤销"  Command="{Binding Undo}"/>
+                                <MenuItem Header="重做"  Command="{Binding Redo}"/>
+                                <MenuItem Header="导入列表"  Command="{Binding ImportListCommand}"/>
+                                <MenuItem Header="保存列表"  Command="{Binding SaveListCommand}"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <!--<DataGridTextColumn Header="ID" Width="35" Binding="{Binding ItemIndex}"/>-->
+                            <DataGridTextColumn Header="坐标名" Width="110" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="X" Width="65" Binding="{Binding CurrentPoint.X}"/>
+                            <DataGridTextColumn Header="Y" Width="65" Binding="{Binding CurrentPoint.Y}"/>
+                            <DataGridTextColumn Header="Z" Width="65" Binding="{Binding CurrentPoint.Z}"/>
+                            <DataGridTemplateColumn Width="50">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ToggleButton Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.MoveCommand }">
+                                            <Rectangle Width="20" Height="15">
+                                                <Rectangle.Fill>
+                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </ToggleButton>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="3">
+                        <TextBox Width="100" Margin="5,10,5,10" Text="{Binding AName}"/>
+                        <TextBox Width="50" Margin="5,10,5,10" Text="{Binding AX}"/>
+                        <TextBox Width="50" Margin="5,10,5,10" Text="{Binding AY}"/>
+                        <TextBox Width="50" Margin="5,10,5,10" Text="{Binding AZ}"/>
+                        <Button Margin="10" Content="添加" Command="{Binding AddNewPointCommand}"/>
+                    </StackPanel>
+                   
+                </Grid>
+              
                
             </TabItem>
-            <TabItem Header="dates">
-                
-            </TabItem>
-            <TabItem Header="selection">
-               
-            </TabItem>
-            
-        </Controls:MetroAnimatedSingleRowTabControl>
-        
-        
-        <StackPanel>
-        <WrapPanel Margin="0,20,0,0">
-            <Label>当前坐标:</Label>
-            <Label>X:</Label>
-            <Label Width="55" Foreground="Red" Content="{Binding X}"></Label>
-            <Label>Y:</Label>
-            <Label Width="55" Foreground="Red" Content="{Binding Y}"></Label>
-            <Label>Z:</Label>
-            <Label Width="55" Foreground="Red" Content="{Binding Z}"></Label>
-            <Button Content="保存坐标" Command="{Binding SavePointCommand}"/>
-        </WrapPanel>
-        
-         <WrapPanel Margin="0,20,0,0" Height="38">
-                <Canvas HorizontalAlignment="Left" Width="30" Height="21" Margin="10,0,0,0" VerticalAlignment="Top">
-                    <Image x:Name="image1" MouseDown="Image_MouseDown" MouseUp="Image_MouseUp"/>
-                </Canvas>
-                <ComboBox HorizontalAlignment="Left" Margin="50,0,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding FileNames}" SelectedValue="{Binding SelectedPath}" DisplayMemberPath="Name" SelectedValuePath="Path"/>
-            <Button Content="添加坐标" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Width="75"/>
-                
-         </WrapPanel>
-            <DockPanel Height="420">
-                <WrapPanel Height="30" DockPanel.Dock="Top">
+            <TabItem Header="多开">
+                <StackPanel Orientation="Horizontal" Height="30" Grid.Row="2">
                     <Button Width="80" Height="30" Content="多开" ToolTip="开一个窗口点一下按钮" Command="{Binding OpenCommand}"></Button>
                     <Button Width="80" Content="键盘测试" Command="{Binding TestCommand}"></Button>
                     <Button Width="80" Content="解绑" Command="{Binding UnBindCommand}"></Button>
-                </WrapPanel>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                    <Button Width="30" Height="23" Content="Dark" Margin="10" Click="DarkButtonClick"/>
-                    <Button Width="30" Height="23" Content="Light" Margin="10" Click="LightButtonClick"/>
-                    <Button Width="30" Height="23" Content="Blue" Margin="10" Click="BlueButtonClick"/>
-                    <Button Width="30" Height="23" Content="Red" Margin="10" Click="RedButtonClick"/>
-                    
                 </StackPanel>
-                <DataGrid x:Name="dg" HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="320"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
-                          SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" CanUserResizeColumns="False">
-                    <!--<i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding MoveCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>-->
-                    <DataGrid.Columns>
-                        <!--<DataGridTextColumn Header="ID" Width="35" Binding="{Binding ItemIndex}"/>-->
-                        <DataGridTextColumn Header="坐标名" Width="110" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="X" Width="65" Binding="{Binding CurrentPoint.X}"/>
-                        <DataGridTextColumn Header="Y" Width="65" Binding="{Binding CurrentPoint.Y}"/>
-                        <DataGridTextColumn Header="Z" Width="65" Binding="{Binding CurrentPoint.Z}"/>
-                        <DataGridTemplateColumn Width="50">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ToggleButton Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.MoveCommand }">
-                                        <Rectangle Width="20" Height="15">
-                                            <Rectangle.Fill>
-                                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}" />
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-                                    </ToggleButton>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+            </TabItem>
+            <TabItem Header="设置">
 
-         </DockPanel>
-          
-        </StackPanel>
+            </TabItem>
+        </Controls:MetroAnimatedSingleRowTabControl>
+        
+        
+        
     </Grid>
 </Controls:MetroWindow>

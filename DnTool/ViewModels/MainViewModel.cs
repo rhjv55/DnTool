@@ -29,7 +29,21 @@ namespace DnTool.ViewModels
      
         public MainViewModel()
         {
-           
+            this.SaveListCommand = new RelayCommand(() =>
+            {
+                foreach (var item in this.InfoList)
+                {
+                  //  FileOperateHelper.WriteFile("",string.Format("{0}#{1}#{2}#{3}",item.Name,item.CurrentPoint.X,item.CurrentPoint.Y,item.CurrentPoint.Z));
+                }
+            });
+            this.ClearCommand = new RelayCommand(() =>
+            {
+                this.InfoList.Clear();
+            });
+            this.DeleteCommand = new RelayCommand(() =>
+            {
+                this.InfoList.Remove(this.SelectedPoint);
+            });
             this.TestCommand = new RelayCommand(() =>
             {
              
@@ -120,6 +134,15 @@ namespace DnTool.ViewModels
                      );
                 }
             });
+            this.AddNewPointCommand = new RelayCommand(() =>
+            {
+
+                this.InfoList.Add(
+                        new InfoViewModel() { Name = AName, CurrentPoint = new Point(AX, AY, AZ) }
+                    );
+               
+            });
+           
             this.MoveCommand = new RelayCommand(() =>
             {
                 if (SelectedPoint == null)
@@ -247,15 +270,28 @@ namespace DnTool.ViewModels
         #region 命令
         public RelayCommand OpenCommand { get; set; }
         public RelayCommand UnBindCommand { get; set; }
-        
+        public RelayCommand AddNewPointCommand { get; set; }
         public RelayCommand TestCommand { get; set; }
         public RelayCommand ClosedCommand { get; set; }
         public RelayCommand SavePointCommand { get; set; }
         public RelayCommand MoveCommand { get; set; }
         public RelayCommand LoadedCommand { get; set; }
+        public RelayCommand DeleteCommand { get; set; }
+        public RelayCommand ModifyCommand { get; set; }
+        public RelayCommand ImportListCommand { get; set; }
+        public RelayCommand SaveListCommand { get; set; }
+        public RelayCommand Redo { get; set; }
+        public RelayCommand Undo { get; set; }
+        public RelayCommand ClearCommand { get; set; }
         #endregion
 
         #region 数据
+        public string AX { get; set; }
+        public string AY { get; set; }
+        public string AZ { get; set; }
+        public string AName { get; set; }
+        
+
         private ObservableCollection<InfoViewModel> _infoList = new ObservableCollection<InfoViewModel>();
 
         public ObservableCollection<InfoViewModel> InfoList

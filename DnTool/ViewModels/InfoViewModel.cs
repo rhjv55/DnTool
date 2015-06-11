@@ -15,15 +15,15 @@ namespace DnTool.ViewModels
         public string Name { get; set; }
         private bool _isSelected;
 
-	public bool IsSelected
-	{
-		get { return _isSelected;}
-		set 
-                { 
- 		  _isSelected = value;
-                  this.OnPropertyChanged("IsSelected");
-                }
-	}
+	    public bool IsSelected
+	    {
+		    get { return _isSelected;}
+		    set 
+                    { 
+ 		      _isSelected = value;
+                      this.OnPropertyChanged("IsSelected");
+                    }
+	    }
 	
  
     }
