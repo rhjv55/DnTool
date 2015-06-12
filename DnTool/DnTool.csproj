@@ -134,12 +134,21 @@
     <Compile Include="Utilities\Memory64Helper.cs" />
     <Compile Include="Utilities\MemoryHelper.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
-    <Compile Include="Utilities\ViewModelBase.cs" />
+    <Compile Include="Utilities\NotifyPropertyChanged.cs" />
     <Compile Include="Utilities\MutexCloseHelper.cs" />
     <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Views\FlyoutSettingsView.xaml.cs">
-      <DependentUpon>FlyoutSettingsView.xaml</DependentUpon>
+    <Compile Include="ViewModels\MultipleGameViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\TeleportViewModel.cs" />
+    <Compile Include="Views\MultipleGame.xaml.cs">
+      <DependentUpon>MultipleGame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TeleportView.xaml.cs">
+      <DependentUpon>TeleportView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -157,7 +166,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\FlyoutSettingsView.xaml">
+    <Page Include="Views\MultipleGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TeleportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

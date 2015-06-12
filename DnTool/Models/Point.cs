@@ -10,17 +10,59 @@ namespace DnTool.Models
     /// <summary>
     /// 坐标类
     /// </summary>
-    public class Point:ViewModelBase
+    public class Point:NotifyPropertyChanged,ICloneable
     {
-        public string X { get; set; }
-        public string Y { get; set; }
-        public string Z { get; set; }
+        private string _name;
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                base.SetProperty(ref _name, value, () => this.Name);
+            }
+        }
+        
+        private float _x;
+
+        public float X
+        {
+            get { return _x; }
+            set
+            {
+                base.SetProperty(ref _x,value,()=>this.X);
+            }
+        }
+
+        private float _y;
+
+        public float Y
+        {
+            get { return _y; }
+            set
+            {
+                base.SetProperty(ref _y, value, () => this.Y);
+            }
+        }
+
+        private float _z;
+
+        public float Z
+        {
+            get { return _z; }
+            set
+            {
+                base.SetProperty(ref _z, value, () => this.Z);
+            }
+        }
+        
 
         public Point()
         { 
         }
-        public Point(string x, string y, string z)
+        public Point(string name,float x, float y, float z)
         {
+            this.Name = name;
             this.X = x;
             this.Y = y;
             this.Z = z;
@@ -28,7 +70,12 @@ namespace DnTool.Models
 
         public override string ToString()
         {
-            return string.Format("X坐标:{0},Y坐标:{1},Z坐标:{2}",X,Y,Z);
+            return string.Format("名称：{0},X坐标:{1},Y坐标:{2},Z坐标:{3}",Name,X,Y,Z);
+        }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
         }
     }
 }

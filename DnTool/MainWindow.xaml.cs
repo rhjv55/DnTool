@@ -35,8 +35,7 @@ namespace DnTool
             this.SaveWindowPosition = true;
             this.DataContext = new MainViewModel();
             this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
-            UserActivityHook choosesc = new UserActivityHook();
-            choosesc.KeyDown += new System.Windows.Forms.KeyEventHandler(MyKeyDown);
+           
         }
 
 
@@ -171,107 +170,7 @@ namespace DnTool
             return IntPtr.Zero;
         }
 
-        private void DataGrid_LoadingRow(object sender, System.Windows.Controls.DataGridRowEventArgs e)
-        {
-            if (e.Row.GetIndex() > 9)
-            {
-                e.Row.Header = "";
-                return;
-            }
-            e.Row.Header = e.Row.GetIndex();
-            
-           // Debug.WriteLine(e.Row.GetIndex()+1);
-        }
-
-        private void DataGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
-
-       
-
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-           
-
-        }
-        public void MyKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
-        {
-            var viewmodel = this.DataContext as MainViewModel;
-            int i = -1;
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad0)
-            {
-                i = 0;
-                Debug.WriteLine("执行热键" + 0);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad1)
-            {
-                i = 1;
-                Debug.WriteLine("执行热键" + 1);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad2)
-            {
-                i = 2;
-                Debug.WriteLine("执行热键" + 2);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad3)
-            {
-                i = 3;
-                Debug.WriteLine("执行热键" + 3);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad4)
-            {
-                i = 4;
-                Debug.WriteLine("执行热键" + 4);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad5)
-            {
-                i = 5;
-                Debug.WriteLine("执行热键" + 5);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad6)
-            {
-                i = 6;
-                Debug.WriteLine("执行热键" + 6);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad7)
-            {
-                i = 7;
-                Debug.WriteLine("执行热键" + 7);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad8)
-            {
-                i =8;
-                Debug.WriteLine("执行热键" + 8);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad9)
-            {
-                i = 9;
-                Debug.WriteLine("执行热键" + 9);
-            }
-
-            if (this.dg.Items.Count <= i)
-            {
-                this.dg.SelectedIndex = -1;
-                return;
-            }
-            if (i == -1)
-                return;
-            viewmodel.Move(viewmodel.CurrentHwnd, ((InfoViewModel)this.dg.Items[i]).CurrentPoint);
-            this.dg.SelectedIndex = i;
-        }
-
-        private void DataGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //var a=e.OriginalSource as TextBlock;
-            //var b = e.Source as DataGrid;
-            //if (a == null)
-            //{
-            //    b.SelectedIndex = -1;
-            //}
-
-        }
-      
+ 
     }
     /// <summary>
     /// WPF实现SPY++Eye效果帮助类

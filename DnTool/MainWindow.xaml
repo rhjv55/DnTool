@@ -4,23 +4,16 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:uc="clr-namespace:DnTool.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        Title="DnTool V1.0" Height="627.202" Width="378.732" Loaded="MetroWindow_Loaded">
-       <i:Interaction.Triggers>
-         <i:EventTrigger EventName="Closed">
+        Title="DnTool V1.0" Height="627.202" Width="378.732">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding ClosedCommand}" />
-         </i:EventTrigger>
+        </i:EventTrigger>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/DnTool;component/Resources/Icons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-           
-        </ResourceDictionary>
-    </Window.Resources>
+
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
         </Controls:WindowCommands>
@@ -42,12 +35,12 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                  
+
                     <ScrollViewer Grid.Row="1"
                                   VerticalScrollBarVisibility="Auto">
                         <StackPanel Orientation="Vertical">
                             <Controls:ToggleSwitch  Content="窗体置顶" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}"/>
-                          
+
                         </StackPanel>
                     </ScrollViewer>
                     <UniformGrid Columns="2"
@@ -96,84 +89,18 @@
             <MenuItem Header="Accent"
                           ItemsSource="{Binding AccentColors, Mode=OneWay}"
                           ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}" />-->
-         
+
         </Menu>
         <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1">
-            <TabItem Header="飞机">
+            <TabItem Header="瞬移">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
-                        <Label>当前坐标:</Label>
-                        <Label>X:</Label>
-                        <Label Width="55" Foreground="Red" Content="{Binding X}"></Label>
-                        <Label>Y:</Label>
-                        <Label Width="55" Foreground="Red" Content="{Binding Y}"></Label>
-                        <Label>Z:</Label>
-                        <Label Width="55" Foreground="Red" Content="{Binding Z}"></Label>
-                        <Button Margin="5,0,0,0" Content="保存" Command="{Binding SavePointCommand}"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1">
-                        <Canvas HorizontalAlignment="Left" Width="30" Height="21" Margin="10,0,0,0" VerticalAlignment="Top">
-                            <Image x:Name="image1" MouseDown="Image_MouseDown" MouseUp="Image_MouseUp"/>
-                        </Canvas>
-                        <Label Margin="40,0,0,0">选择坐标列表：</Label>
-                        <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="140" ItemsSource="{Binding FileNames}" SelectedValue="{Binding SelectedPath}" DisplayMemberPath="Name" SelectedValuePath="Path"/>
-                    </StackPanel>
-                    
-                  
-                    
-                    <DataGrid Grid.Row="2" x:Name="dg" HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="320"  VerticalAlignment="Top"  ItemsSource="{Binding InfoList}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
-                          SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" CanUserResizeColumns="False">
-                        <DataGrid.ContextMenu>
-                            <ContextMenu StaysOpen="true">
-
-                                <MenuItem Header="修改" Command="{Binding ModifyCommand}"/>
-                                <MenuItem Header="删除"  Command="{Binding DeleteCommand}"/>
-                                <MenuItem Header="清空"  Command="{Binding ClearCommand}"/>
-                                <MenuItem Header="撤销"  Command="{Binding Undo}"/>
-                                <MenuItem Header="重做"  Command="{Binding Redo}"/>
-                                <MenuItem Header="导入列表"  Command="{Binding ImportListCommand}"/>
-                                <MenuItem Header="保存列表"  Command="{Binding SaveListCommand}"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                        <DataGrid.Columns>
-                            <!--<DataGridTextColumn Header="ID" Width="35" Binding="{Binding ItemIndex}"/>-->
-                            <DataGridTextColumn Header="坐标名" Width="110" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="X" Width="65" Binding="{Binding CurrentPoint.X}"/>
-                            <DataGridTextColumn Header="Y" Width="65" Binding="{Binding CurrentPoint.Y}"/>
-                            <DataGridTextColumn Header="Z" Width="65" Binding="{Binding CurrentPoint.Z}"/>
-                            <DataGridTemplateColumn Width="50">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ToggleButton Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},Path=DataContext.MoveCommand }">
-                                            <Rectangle Width="20" Height="15">
-                                                <Rectangle.Fill>
-                                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_arrow_right}" />
-                                                </Rectangle.Fill>
-                                            </Rectangle>
-                                        </ToggleButton>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="3">
-                        <TextBox Width="100" Margin="5,10,5,10" Text="{Binding AName}"/>
-                        <TextBox Width="50" Margin="5,10,5,10" Text="{Binding AX}"/>
-                        <TextBox Width="50" Margin="5,10,5,10" Text="{Binding AY}"/>
-                        <TextBox Width="50" Margin="5,10,5,10" Text="{Binding AZ}"/>
-                        <Button Margin="10" Content="添加" Command="{Binding AddNewPointCommand}"/>
-                    </StackPanel>
-                   
+                    <Canvas HorizontalAlignment="Left" Width="39" Height="34" Margin="22,47,0,0" VerticalAlignment="Top">
+                        <Image x:Name="image1" MouseDown="Image_MouseDown" MouseUp="Image_MouseUp"/>
+                    </Canvas>
+                    <uc:TeleportView></uc:TeleportView>
                 </Grid>
-              
-               
+
+
             </TabItem>
             <TabItem Header="多开">
                 <StackPanel Orientation="Horizontal" Height="30" Grid.Row="2">
@@ -186,8 +113,8 @@
 
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
-        
-        
-        
+
+
+
     </Grid>
 </Controls:MetroWindow>

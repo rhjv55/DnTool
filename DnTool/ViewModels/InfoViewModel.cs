@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DnTool.ViewModels
 {
-    public class InfoViewModel:ViewModelBase
+    public class InfoViewModel:NotifyPropertyChanged
     {
         public Point CurrentPoint { get; set; }
         public int ID { get; set; }
