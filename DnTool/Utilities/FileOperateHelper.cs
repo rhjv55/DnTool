@@ -20,7 +20,7 @@ namespace DnTool.Utilities
             GetFiles(dir, list, new List<string>());
         }
         /// <summary>
-        /// 返回当前目录符合搜索条件的所有文件路径
+        /// 返回当前目录符合搜索条件的所有文件完整路径
         /// </summary>
         /// <param name="dir">文件夹的路径</param>
         /// <param name="searchPattern">如 *.txt</param>
@@ -43,8 +43,15 @@ namespace DnTool.Utilities
             }
             return list;
         }
-
-
+        /// <summary>
+        ///文件是否存在
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool IsExists(string path)
+        {
+            return File.Exists(path);
+        }
 
         /// <summary>  
         ///     递归取得文件夹下文件  
@@ -79,8 +86,53 @@ namespace DnTool.Utilities
             }
         }
 
+
+
+        /// <summary>
+        /// 写入文件(一次性写入)
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <param name="content">写入内容</param>
+        /// <param name="isCreate">是否覆盖同名文件</param>
+        /// <returns></returns>
+        public static bool WriteFile(string filePath, string content,bool isCreate)
+        {
+            try
+            {
+                if (File.Exists(filePath)&&!isCreate)
+                    throw new Exception("写入失败：存在相同的文件名" );
+                string dirPath=Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(dirPath))
+                 {
+                     //目标目录不存在则创建
+                    try
+                     {
+                        Directory.CreateDirectory(dirPath);
+                     }
+                     catch (Exception ex)
+                    {
+                         throw new Exception("创建目标目录失败：" + ex.Message);
+                     }
+                }
+                
+               
+                var fs = new FileStream(filePath, FileMode.Create);
+                //获得字节数组  
+                byte[] data = Encoding.Default.GetBytes(content);
+                //开始写入  
+                fs.Write(data, 0, data.Length);
+                //清空缓冲区、关闭流  
+                fs.Flush();
+                fs.Close();
+                return true;
+            }
+            catch
+            {
+                throw;
+            }
+        }
         /// <summary>  
-        ///     写入文件  
+        /// 写入文件(一次性写入)
         /// </summary>  
         /// <param name="filePath">文件名</param>  
         /// <param name="content">文件内容</param>  
@@ -89,18 +141,17 @@ namespace DnTool.Utilities
             try
             {
                 var fs = new FileStream(filePath, FileMode.Create);
-                Encoding encode = Encoding;
                 //获得字节数组  
-                byte[] data = encode.GetBytes(content);
+                 byte[] data = Encoding.Default.GetBytes(content);
                 //开始写入  
                 fs.Write(data, 0, data.Length);
                 //清空缓冲区、关闭流  
                 fs.Flush();
                 fs.Close();
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine(ex.Message);
+                throw;
             }
         }
 

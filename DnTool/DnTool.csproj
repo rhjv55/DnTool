@@ -109,10 +109,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\FilePath.cs" />
+    <Compile Include="Models\File.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Utilities\WPF\IExecuteWithObject.cs" />
+    <Compile Include="Utilities\WPF\IExecuteWithObjectAndResult.cs" />
+    <Compile Include="Utilities\WPF\WeakActionGeneric.cs" />
     <Compile Include="Utilities\CommandManagerHelper.cs" />
     <Compile Include="Utilities\DataGridViewModelBase.cs" />
     <Compile Include="Utilities\Dm\DmBindDisplay.cs" />
@@ -133,9 +136,13 @@
     <Compile Include="Utilities\Log\Logger.cs" />
     <Compile Include="Utilities\Memory64Helper.cs" />
     <Compile Include="Utilities\MemoryHelper.cs" />
-    <Compile Include="Utilities\RelayCommand.cs" />
-    <Compile Include="Utilities\NotifyPropertyChanged.cs" />
+    <Compile Include="Utilities\WPF\RelayCommand.cs" />
+    <Compile Include="Utilities\WPF\NotifyPropertyChanged.cs" />
     <Compile Include="Utilities\MutexCloseHelper.cs" />
+    <Compile Include="Utilities\WPF\RelayCommandGeneric.cs" />
+    <Compile Include="Utilities\WPF\WeakAction.cs" />
+    <Compile Include="Utilities\WPF\WeakFunc.cs" />
+    <Compile Include="Utilities\WPF\WeakFuncGeneric.cs" />
     <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MultipleGameViewModel.cs" />
@@ -211,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="ValueConverters\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

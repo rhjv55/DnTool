@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DnTool.Models
 {
-    public class FilePath
+    public class File
     {
         public string Name { get; set; }
         public string Path { get; set; }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -12,6 +13,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
+
+    
     <Grid>
                 <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -33,22 +36,21 @@
             <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1">
            
             <Label Margin="40,0,0,0">选择坐标列表：</Label>
-                <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="140" ItemsSource="{Binding FileNames}" SelectedValue="{Binding SelectedPath}" DisplayMemberPath="Name" SelectedValuePath="Path"/>
+            <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="140" SelectionChanged="{Binding SelectionChangedCommand}" 
+                      ItemsSource="{Binding Files,Mode=OneWay}" SelectedValue="{Binding SelectedValue}" DisplayMemberPath="Name" SelectedValuePath="Path"/>
             </StackPanel>
 
 
 
         <DataGrid Grid.Row="2" x:Name="dg" HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="320"  VerticalAlignment="Top"  ItemsSource="{Binding Points}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
-                          SelectedItem="{Binding SelectedPoint}" LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" CanUserResizeColumns="False">
+                           LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="False" SelectionMode="Single" CanUserResizeColumns="False">
                 <DataGrid.ContextMenu>
                     <ContextMenu StaysOpen="true">
-                        <MenuItem Header="修改" Command="{Binding ModifyCommand}"/>
-                        <MenuItem Header="删除"  Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItems,ElementName=dg}"/>
+                        <MenuItem Header="删除"  Command="{Binding DeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>
                         <MenuItem Header="清空"  Command="{Binding ClearCommand}"/>
-                        <MenuItem Header="撤销"  Command="{Binding Undo}"/>
-                        <MenuItem Header="重做"  Command="{Binding Redo}"/>
-                        <MenuItem Header="导入列表"  Command="{Binding ImportListCommand}"/>
                         <MenuItem Header="保存列表"  Command="{Binding SaveListCommand}"/>
+                        <MenuItem Header="导入列表"  Command="{Binding ImportListCommand}"/>
+                       
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>

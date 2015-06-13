@@ -25,7 +25,7 @@ namespace DnTool.ViewModels
         private string processName = "DragonNest";//游戏进程名字
       
         private DmPlugin dm = new DmPlugin();
-        private string startupPath = AppDomain.CurrentDomain.BaseDirectory;
+  
      
         public MainViewModel()
         {
@@ -93,8 +93,7 @@ namespace DnTool.ViewModels
     
             this.LoadedCommand = new RelayCommand(() =>
             {
-                List<string> list = FileOperateHelper.GetFiles(startupPath+"\\data", "*.txt");
-                list.ForEach(x => _fileNames.Add(new FilePath() { Path=x,Name=Path.GetFileNameWithoutExtension(x)}));
+               
 
               //
                // WinIo.Initialize();
@@ -170,48 +169,7 @@ namespace DnTool.ViewModels
         
 
        
-        private object _selectedPath;
-
-        public object SelectedPath
-        {
-            get { return _selectedPath; }
-            set
-            {
-                if (this._selectedPath!=value)
-                {
-                    _selectedPath = value;
-                    this.OnPropertyChanged("SelectedFile");
-                    List<string> lines=FileOperateHelper.ReadFileLines(value.ToString());
-                  //  this.InfoList.Clear();
-                    foreach (var line in lines)
-                    {
-                       string[] temp = line.Split('#');
-                       if (temp.Count() != 4)
-                       {
-                           Debug.WriteLine("路径:"+value.ToString()+",格式不对");
-                           continue;
-                       }
-                        //this.InfoList.Add(
-                        //       // new InfoViewModel() { Name = temp[0], CurrentPoint = new Point(temp[1], temp[2], temp[3]),ID=this.InfoList.Count() }
-                        //       new InfoViewModel()
-                        //    );
-                    }
-                }
-               
-            }
-        }
-
-        private ObservableCollection<FilePath> _fileNames = new ObservableCollection<FilePath>();
-
-        public ObservableCollection<FilePath> FileNames
-        {
-            get { return _fileNames; }
-            set
-            {
-                _fileNames = value;
-               // this.OnPropertyChanged("FileNames");
-            }
-        }
+    
         
 
          private int _currentHwnd;

@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Utilities.Dm;
 using System.Windows.Threading;
+
+
 namespace DnTool.ViewModels
 {
     public class TeleportViewModel:NotifyPropertyChanged
@@ -25,6 +27,7 @@ namespace DnTool.ViewModels
         public RelayCommand Redo { get; set; }
         public RelayCommand Undo { get; set; }
         public RelayCommand ClearCommand { get; set; }
+        public RelayCommand SelectionChangedCommand { get; set; }
         #endregion
 
         public Point CurrentPoint { get; set; }
@@ -32,18 +35,29 @@ namespace DnTool.ViewModels
         public ObservableCollection<Point> Points { get; set; }
         private DmPlugin dm=new DmPlugin();
         private DispatcherTimer timer = new DispatcherTimer();
+        public List<File> Files { get; set; }
+        public string SelectedValue { get; set; }
 
+       
         public TeleportViewModel()
         {
             this.CurrentPoint = new Point("当前坐标",0,0,0);
             this.NewPoint = new Point("添加坐标",0,0,0);
             this.Points = new ObservableCollection<Point>();
+            this.Files = new List<File>();
+            List<string> list = FileOperateHelper.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\data", "*.txt");
+            list.ForEach(x => Files.Add(new File() { Path = x, Name = System.IO.Path.GetFileNameWithoutExtension(x) }));
 
             this.AddCurrentPointCommand = new RelayCommand(() => this.AddPoint(CurrentPoint));
             this.AddNewPointCommand = new RelayCommand(() => this.AddPoint(NewPoint));
             this.ClearCommand = new RelayCommand(() => this.Clear());
             this.DeleteCommand = new RelayCommand<Point>((p)=>this.DeletePoint(p));
             this.TeleportCommand = new RelayCommand<Point>((p) => Debug.WriteLine(p.ToString()));
+            this.SaveListCommand = new RelayCommand(()=>this.SaveList());
+            this.SelectionChangedCommand = new RelayCommand(() => this.SelectionChanged());
+            
+           
+
             timer.Tick += (s, e) =>
             {
                 if (IsAlive(11))
@@ -62,6 +76,65 @@ namespace DnTool.ViewModels
 
             };
             timer.Interval = TimeSpan.FromMilliseconds(500);
+        }
+
+        private void SelectionChanged()
+        {
+            if (SelectedValue == null)
+                return;
+
+
+            List<string> lines = FileOperateHelper.ReadFileLines(SelectedValue);
+            this.Points.Clear();
+            foreach (var line in lines)
+            {
+                string[] temp = line.Split('#');
+                if (temp.Count() != 4)
+                {
+                    Debug.WriteLine("路径:" + SelectedValue + ",格式不对");
+                    continue;
+                }
+                this.Points.Add(new Point(temp[0], float.Parse(temp[1]), float.Parse(temp[2]), float.Parse(temp[3])));
+               
+            }
+        }
+
+        private void SaveList()
+        {
+            try
+            {
+                if (FileOperateHelper.IsExists("c:\\"))
+                {
+                    var result=System.Windows.MessageBox.Show("文件已存在是否覆盖？","提示",System.Windows.MessageBoxButton.YesNo,System.Windows.MessageBoxImage.Question);
+                    if (result == System.Windows.MessageBoxResult.No)
+                        return;
+                }
+                //Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                //dlg.FileName = "User.txt"; // Default file name
+                //dlg.DefaultExt = ".txt"; // Default file extension
+                //dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+                //dlg.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory+"\\data";
+
+                //// Show save file dialog box
+                //Nullable<bool> result = dlg.ShowDialog();
+
+                //// Process save file dialog box results
+                //if (result == true)
+                //{
+                //    // Save document
+                //    this.txtPlace.Text = dlg.FileName;
+                //}
+
+                string content = "";
+                foreach (var p in Points)
+                {
+                    content += p.Name + "#" + p.X + "#" + p.Y + "#" + p.Z + "\r\n";
+                }
+                FileOperateHelper.WriteFile("c:\\aa.txt", content,true);
+            }catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
         }
         private float IntToFloat(int val)
         {
@@ -84,11 +157,11 @@ namespace DnTool.ViewModels
                 if (IsAlive(hwnd))
                 {
 
-                    if (point.X == null || point.Y == null || point.Z == null)
-                    {
-                        Debug.WriteLine("坐标XYZ不能为null");
-                        return false;
-                    }
+                    //if (point.X == null || point.Y == null || point.Z == null)
+                    //{
+                    //    Debug.WriteLine("坐标XYZ不能为null");
+                    //    return false;
+                    //}
                     Debug.WriteLine(point.ToString());
                     int a = dm.WriteFloat(hwnd, "[1221740]+a5c", point.X);
                     int b = dm.WriteFloat(hwnd, "[1221740]+a64", point.Y);

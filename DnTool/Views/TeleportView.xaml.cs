@@ -109,5 +109,17 @@ namespace DnTool.Views
             //viewmodel.Move(viewmodel.CurrentHwnd, ((InfoViewModel)this.dg.Items[i]).CurrentPoint);
             //this.dg.SelectedIndex = i;
         }
+
+        private void ShowModifyView(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
+
+
 }
