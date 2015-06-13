@@ -23,7 +23,7 @@ namespace DnTool.ViewModels
        //  private int roleBaseAddress = 0x1221740;//游戏内存基址
        // private int moneyBaseAddress = 0x16D1E50;//背包金钱基址
         private string processName = "DragonNest";//游戏进程名字
-      
+        public static int Hwnd = 0;
         private DmPlugin dm = new DmPlugin();
   
      
@@ -112,10 +112,13 @@ namespace DnTool.ViewModels
             //    if (base_addr > 0)
             //        moduleAddrs.Add(base_addr);
             //}
-            
-           
 
 
+
+            this.ClosedCommand = new RelayCommand(() =>
+            {
+                TeleportViewModel.timer.Stop();
+            });
           
 
         }

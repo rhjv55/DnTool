@@ -34,9 +34,32 @@ namespace DnTool.ViewModels
         public Point NewPoint { get; set; }
         public ObservableCollection<Point> Points { get; set; }
         private DmPlugin dm=new DmPlugin();
-        private DispatcherTimer timer = new DispatcherTimer();
-        public List<File> Files { get; set; }
-        public string SelectedValue { get; set; }
+        public static DispatcherTimer timer = new DispatcherTimer();
+        public ObservableCollection<File> Files { get; set; }
+        private object _selectedValue;
+
+        public object SelectedValue
+        {
+            get { return _selectedValue; }
+            set 
+            {
+                _selectedValue = value;
+                List<string> lines = FileOperateHelper.ReadFileLines(_selectedValue.ToString());
+                this.Points.Clear();
+                foreach (var line in lines)
+                {
+                    string[] temp = line.Split('#');
+                    if (temp.Count() != 4)
+                    {
+                        Debug.WriteLine("路径:" + _selectedValue + ",格式不对");
+                        Debug.WriteLine(line);
+                        continue;
+                    }
+                    this.Points.Add(new Point(temp[0], float.Parse(temp[1]), float.Parse(temp[2]), float.Parse(temp[3])));
+                }
+            }
+        }
+        
 
        
         public TeleportViewModel()
@@ -44,7 +67,7 @@ namespace DnTool.ViewModels
             this.CurrentPoint = new Point("当前坐标",0,0,0);
             this.NewPoint = new Point("添加坐标",0,0,0);
             this.Points = new ObservableCollection<Point>();
-            this.Files = new List<File>();
+            this.Files = new ObservableCollection<File>();
             List<string> list = FileOperateHelper.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\data", "*.txt");
             list.ForEach(x => Files.Add(new File() { Path = x, Name = System.IO.Path.GetFileNameWithoutExtension(x) }));
 
@@ -52,63 +75,46 @@ namespace DnTool.ViewModels
             this.AddNewPointCommand = new RelayCommand(() => this.AddPoint(NewPoint));
             this.ClearCommand = new RelayCommand(() => this.Clear());
             this.DeleteCommand = new RelayCommand<Point>((p)=>this.DeletePoint(p));
-            this.TeleportCommand = new RelayCommand<Point>((p) => Debug.WriteLine(p.ToString()));
+            this.TeleportCommand = new RelayCommand<Point>((p) =>this.Teleport(p));
             this.SaveListCommand = new RelayCommand(()=>this.SaveList());
-            this.SelectionChangedCommand = new RelayCommand(() => this.SelectionChanged());
-            
+         
            
 
             timer.Tick += (s, e) =>
             {
-                if (IsAlive(11))
+                int hwnd = MainViewModel.Hwnd;
+                if (IsAlive(hwnd))
                 {
-                    CurrentPoint.X = IntToFloat(dm.ReadInt(11, "[1221740]+a5c", 0));
-                    CurrentPoint.Y = IntToFloat(dm.ReadInt(11, "[1221740]+a64", 0));
-                    CurrentPoint.Z = IntToFloat(dm.ReadInt(11, "[1221740]+a60", 0));
-                    string ret = dm.FindPicE(0, 0, 2000, 2000, "跳过了.bmp");
-                    if (ret != "")
-                    {
-                        Debug.WriteLine("正在动画，快跳过~~~");
-                        Debug.Write(ret);
-                    }
-
+                    CurrentPoint.X = IntToFloat(dm.ReadInt(hwnd, "[1221740]+a5c", 0));
+                    CurrentPoint.Y = IntToFloat(dm.ReadInt(hwnd, "[1221740]+a64", 0));
+                    CurrentPoint.Z = IntToFloat(dm.ReadInt(hwnd, "[1221740]+a60", 0));
+                }
+                else
+                {
+                    CurrentPoint.X = 0;
+                    CurrentPoint.Y = 0;
+                    CurrentPoint.Z = 0;
                 }
 
             };
             timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Start();
         }
 
-        private void SelectionChanged()
-        {
-            if (SelectedValue == null)
-                return;
-
-
-            List<string> lines = FileOperateHelper.ReadFileLines(SelectedValue);
-            this.Points.Clear();
-            foreach (var line in lines)
-            {
-                string[] temp = line.Split('#');
-                if (temp.Count() != 4)
-                {
-                    Debug.WriteLine("路径:" + SelectedValue + ",格式不对");
-                    continue;
-                }
-                this.Points.Add(new Point(temp[0], float.Parse(temp[1]), float.Parse(temp[2]), float.Parse(temp[3])));
-               
-            }
-        }
+       
 
         private void SaveList()
         {
             try
             {
-                if (FileOperateHelper.IsExists("c:\\"))
-                {
-                    var result=System.Windows.MessageBox.Show("文件已存在是否覆盖？","提示",System.Windows.MessageBoxButton.YesNo,System.Windows.MessageBoxImage.Question);
-                    if (result == System.Windows.MessageBoxResult.No)
-                        return;
-                }
+                if (_selectedValue == null)
+                    return;
+                //if (FileOperateHelper.IsExists(_selectedValue.ToString()))
+                //{
+                //    var result=System.Windows.MessageBox.Show("文件已存在是否覆盖？","提示",System.Windows.MessageBoxButton.YesNo,System.Windows.MessageBoxImage.Question);
+                //    if (result == System.Windows.MessageBoxResult.No)
+                //        return;
+                //}
                 //Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
                 //dlg.FileName = "User.txt"; // Default file name
                 //dlg.DefaultExt = ".txt"; // Default file extension
@@ -130,7 +136,7 @@ namespace DnTool.ViewModels
                 {
                     content += p.Name + "#" + p.X + "#" + p.Y + "#" + p.Z + "\r\n";
                 }
-                FileOperateHelper.WriteFile("c:\\aa.txt", content,true);
+                FileOperateHelper.WriteFile(_selectedValue.ToString(), content,true);
             }catch(Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message);
@@ -138,7 +144,7 @@ namespace DnTool.ViewModels
         }
         private float IntToFloat(int val)
         {
-            return BitConverter.ToSingle(BitConverter.GetBytes(val), 0);
+            return float.Parse(BitConverter.ToSingle(BitConverter.GetBytes(val), 0).ToString("F1"));
         }
         private bool IsAlive(int hwnd) 
         {
@@ -146,7 +152,8 @@ namespace DnTool.ViewModels
         }
         private bool Teleport(Point point)
         {
-            int hwnd=0;
+
+            int hwnd = MainViewModel.Hwnd;
             if (point == null)
             {
                 Debug.WriteLine("坐标不能为null");

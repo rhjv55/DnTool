@@ -137,7 +137,7 @@ namespace DnTool
                                 if (p.ProcessName == "DragonNest")
                                 {
                                     //鼠标最后指向的句柄
-                                    (this.DataContext as MainViewModel).CurrentHwnd = (int)this._hWndCurrent;
+                                    MainViewModel.Hwnd= (int)this._hWndCurrent;
                                 }
                                 else
                                 {

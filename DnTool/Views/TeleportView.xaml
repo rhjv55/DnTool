@@ -36,8 +36,8 @@
             <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1">
            
             <Label Margin="40,0,0,0">选择坐标列表：</Label>
-            <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="140" SelectionChanged="{Binding SelectionChangedCommand}" 
-                      ItemsSource="{Binding Files,Mode=OneWay}" SelectedValue="{Binding SelectedValue}" DisplayMemberPath="Name" SelectedValuePath="Path"/>
+            <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="140" 
+                      ItemsSource="{Binding Files}" SelectedValue="{Binding SelectedValue}" DisplayMemberPath="Name" SelectedValuePath="Path"/>
             </StackPanel>
 
 
@@ -46,9 +46,11 @@
                            LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="False" SelectionMode="Single" CanUserResizeColumns="False">
                 <DataGrid.ContextMenu>
                     <ContextMenu StaysOpen="true">
+                        <MenuItem Header="新建"  Command="{Binding CreateCommand}"/>
                         <MenuItem Header="删除"  Command="{Binding DeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>
                         <MenuItem Header="清空"  Command="{Binding ClearCommand}"/>
-                        <MenuItem Header="保存列表"  Command="{Binding SaveListCommand}"/>
+                        <MenuItem Header="保存"  Command="{Binding SaveListCommand}"/>
+                        <MenuItem Header="另存为"  Command="{Binding SaveListCommand}"/>
                         <MenuItem Header="导入列表"  Command="{Binding ImportListCommand}"/>
                        
                     </ContextMenu>
