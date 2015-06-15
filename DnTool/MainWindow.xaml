@@ -112,6 +112,9 @@
             <TabItem Header="设置">
 
             </TabItem>
+            <TabItem Header="购买">
+                <uc:BuyView></uc:BuyView>
+            </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
 
 

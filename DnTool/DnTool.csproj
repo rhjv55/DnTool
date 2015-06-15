@@ -111,6 +111,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\Point.cs" />
+    <Compile Include="Models\Thing.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Utilities\WPF\IExecuteWithObject.cs" />
@@ -143,11 +144,15 @@
     <Compile Include="Utilities\WPF\WeakAction.cs" />
     <Compile Include="Utilities\WPF\WeakFunc.cs" />
     <Compile Include="Utilities\WPF\WeakFuncGeneric.cs" />
+    <Compile Include="ViewModels\BuyViewModel.cs" />
     <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MultipleGameViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\TeleportViewModel.cs" />
+    <Compile Include="Views\BuyView.xaml.cs">
+      <DependentUpon>BuyView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MultipleGame.xaml.cs">
       <DependentUpon>MultipleGame.xaml</DependentUpon>
     </Compile>
@@ -172,6 +177,10 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BuyView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MultipleGame.xaml">
       <SubType>Designer</SubType>
