@@ -26,7 +26,7 @@ namespace Utilities.Dm
        
         public  int Width { get { return ClientSize.Item1; } }
         public  int Height { get { return ClientSize.Item2; } }
-        public DmWindow(DmPlugin dm,int hwnd)
+        public DmWindow(int hwnd,DmPlugin dm)
         {
             _hwnd = hwnd;
             _dm = dm;

@@ -109,11 +109,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Delegater.cs" />
+    <Compile Include="GameTask\BuyThingsTask.cs" />
+    <Compile Include="Models\Blank.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\Thing.cs" />
     <Compile Include="Resources.cs" />
+    <Compile Include="RoleExtensions.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Utilities\Tasks\IRole.cs" />
+    <Compile Include="Utilities\Tasks\NoOpTask.cs" />
+    <Compile Include="Utilities\Tasks\ObjectUtils.cs" />
+    <Compile Include="Utilities\Tasks\TaskBase.cs" />
+    <Compile Include="Utilities\Tasks\TaskBuilder.cs" />
+    <Compile Include="Utilities\Tasks\TaskContext.cs" />
+    <Compile Include="Utilities\Tasks\TaskEngine.cs" />
+    <Compile Include="Utilities\Tasks\TaskInterruptException.cs" />
+    <Compile Include="Utilities\Tasks\TaskRestartException.cs" />
+    <Compile Include="Utilities\Tasks\TaskResult.cs" />
+    <Compile Include="Utilities\Tasks\TaskRunState.cs" />
+    <Compile Include="Utilities\Tasks\TaskStep.cs" />
     <Compile Include="Utilities\WPF\IExecuteWithObject.cs" />
     <Compile Include="Utilities\WPF\IExecuteWithObjectAndResult.cs" />
     <Compile Include="Utilities\WPF\WeakActionGeneric.cs" />
@@ -145,6 +161,7 @@
     <Compile Include="Utilities\WPF\WeakFunc.cs" />
     <Compile Include="Utilities\WPF\WeakFuncGeneric.cs" />
     <Compile Include="ViewModels\BuyViewModel.cs" />
+    <Compile Include="ViewModels\GameRoleViewModel.cs" />
     <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MultipleGameViewModel.cs" />
@@ -251,6 +268,7 @@
     <Resource Include="Resources\Entypo-license.txt" />
     <Content Include="Utilities\Plugin\dm.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>\</CustomToolNamespace>
     </Content>
     <Content Include="Utilities\Plugin\dmc.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

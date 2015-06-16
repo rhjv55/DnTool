@@ -7,6 +7,7 @@ using DnTool.Utilities;
 using Utilities.Dm;
 using System.Diagnostics;
 using DnTool.Models;
+using Utilities.Tasks;
 namespace DnTool.ViewModels
 {
     public class BuyViewModel:NotifyPropertyChanged
@@ -44,6 +45,25 @@ namespace DnTool.ViewModels
             InitThings();
             this.BuyCommand = new RelayCommand<Thing>((t)=>this.Buy(t));
             dm.SetPath(AppDomain.CurrentDomain.BaseDirectory);
+
+            //TaskEngine engine = new TaskEngine();
+
+            //var task1 = TaskBuilder.Create<KejuzhuangyuanTask>()
+            //                             .WithIdentity("科举状元")
+            //                              .UsingJobData(KejuzhuangyuanTask.DelayTime, 1)
+            //                              .UsingJobData(KejuzhuangyuanTask.IsAuto, true)
+            //                              .UsingJobData(KejuzhuangyuanTask.IsUseTransfer, false)
+            //                              .UsingJobData(KejuzhuangyuanTask.IsUseRandomAnswer, false)
+            //                              .Build(window);
+            //var task2 = TaskBuilder.Create<MeirifubenTask>()
+            //                             .WithIdentity("每日副本")
+            //                             .RequestRecovery()
+            //                             .UsingJobData(MeirifubenTask.Test, 11111)
+            //                             .Build(role);
+
+            //engine.MultiTask.Add(task1);
+            //// engine.MultiTask.Add(task2);
+            //engine.Start();
         }
         DmPlugin dm = new DmPlugin();
         private void Buy(Thing thing)

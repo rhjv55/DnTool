@@ -92,6 +92,7 @@
 
         </Menu>
         <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1">
+            <!--Controls:ControlsHelper.HeaderFontSize="24"-->
             <TabItem Header="瞬移">
                 <Grid>
                     <Canvas HorizontalAlignment="Left" Width="39" Height="34" Margin="22,47,0,0" VerticalAlignment="Top">
