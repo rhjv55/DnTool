@@ -9,44 +9,25 @@ using System.Diagnostics;
 using DnTool.Models;
 namespace DnTool
 {
-    public class RoleExtensions : IRole
+    public static class RoleExtensions 
     {
-
-        private RoleExtensions role;
-        public DmWindow Window
+        /// <summary>
+        /// 获取背包金钱
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public static Money GetBagMoney(this IRole role)
         {
-            get { throw new NotImplementedException(); }
+           DmPlugin dm=role.Window.Dm;
+           int hwnd = role.Window.Hwnd;
+           int val = dm.ReadInt(hwnd, "[16D1E50]+68", 0);
+           Money money = new Money();
+           money.Gold = val / 10000;
+           money.Silver = val % 10000 / 100;
+           money.Copper = val % 10000 % 100;
+           return money;
         }
-
-
-        public bool aaa()
-        {
-            bool wusun = false;
-            DmPlugin dm = role.Window.Dm;
-            bool flag = Delegater.WaitTrue(() => role.IsAlive,
-                () =>
-                {
-                    dm.MoveToClick(wusun ? 400 : 280, 270);
-                    dm.Delay(2000);
-                },
-                5);
-            if (flag)
-            {
-                OverweightDialogClose(role);
-            }
-            return flag;
-        }
-
-        private void OverweightDialogClose(RoleExtensions role)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public bool IsAlive
-        {
-            get { throw new NotImplementedException(); }
-        }
+     
         /// <summary>
         /// 获取背包中指定名称的物品,不存在返回null
         /// </summary>
@@ -93,32 +74,32 @@ namespace DnTool
         }
 
 
-        public void BagCleanup()
+        public static void BagCleanup(this IRole role)
         {
         }
-        public string GetBagPageName(Thing thing)
-        {
-            return "";
-        }
-
-        public string GetRepertoryPageName(Thing thing)
-        {
-            return "";
-        }
-        public string GetRepertoryPageName(int page)
+        public static string GetBagPageName(Thing thing)
         {
             return "";
         }
 
-        public Thing[] GetRepertoryThings()
+        public static string GetRepertoryPageName(Thing thing)
+        {
+            return "";
+        }
+        public static string GetRepertoryPageName(int page)
+        {
+            return "";
+        }
+
+        public static Thing[] GetRepertoryThings()
         {
             return null;
         }
-        public Thing GetRepertoryThing(string name, int page = 0)
+        public static Thing GetRepertoryThing(string name, int page = 0)
         {
             return null;
         }
-        public Thing GetRepertoryThing(string name)
+        public static Thing GetRepertoryThing(string name)
         {
             return null;
         }
@@ -126,52 +107,52 @@ namespace DnTool
         //public Blank[] GetRepertoryBlanks()
         //{
         //}
-        public void RepertoryCleanup()
+        public static void RepertoryCleanup()
         {
         }
-        public bool PutBagThingsToRepertory()
-        {
-            return true;
-        }
-        public bool GetRepertoryThingsToBag()
+        public static bool PutBagThingsToRepertory()
         {
             return true;
         }
-        public bool GetRepertoryMoneyToBag()
+        public static bool GetRepertoryThingsToBag()
         {
             return true;
         }
-        public bool MoveThing(Thing thing)
+        public static bool GetRepertoryMoneyToBag()
         {
             return true;
         }
-        public bool PickupThingToMouse()
+        public static bool MoveThing(Thing thing)
         {
             return true;
         }
-        public bool PutdownMouseThing()
+        public static bool PickupThingToMouse()
         {
             return true;
         }
-        public bool PutMouseThingToBag()
+        public static bool PutdownMouseThing()
         {
             return true;
         }
-        public Thing GetMouseThing()
+        public static bool PutMouseThingToBag()
+        {
+            return true;
+        }
+        public static Thing GetMouseThing()
         {
             return null;
         }
-        public Thing GetMousePointThing()
+        public static Thing GetMousePointThing()
         {
             return null;
         }
 
-        public void HasDialogDetail(string name, string color)
+        public static void HasDialogDetail(string name, string color)
         {
             //role.HasDialogDetail("任务道具",Resources.Fsb_Color_纯红色)
 
         }
-        public void HasDialogButton(string name)
+        public static void HasDialogButton(string name)
         {
 
         }

@@ -26,5 +26,6 @@ namespace Utilities.Tasks
         bool HasDialogButton(string p);
 
         int Empirical { get; set; }
+
     }
 }

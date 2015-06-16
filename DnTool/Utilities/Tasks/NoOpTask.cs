@@ -16,9 +16,10 @@ namespace Utilities.Tasks
             
         }
 
-        protected override int GetStepIndex()
+        protected override int GetStepIndex(TaskContext context)
         {
             return 1;
         }
+
     }
 }

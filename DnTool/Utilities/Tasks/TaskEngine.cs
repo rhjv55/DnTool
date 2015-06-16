@@ -38,7 +38,7 @@ namespace Utilities.Tasks
         private List<TaskBase> _multiTask=new List<TaskBase>();
         public OutMessageHandler OutMessage;
         public DmWindow Window { get; set; }
-        public bool IsWorking { get; }
+       // public bool IsWorking { get; }
         public string CurrentTask { get{return _task.Name;}}
        
         #region 事件

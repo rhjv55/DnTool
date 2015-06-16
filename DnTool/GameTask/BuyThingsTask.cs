@@ -35,6 +35,7 @@ namespace DnTool.GameTask
         private TaskResult RunStep2(TaskContext context)
         {
             IRole role = context.Role;
+   
             DmPlugin dm = role.Window.Dm;
             Delegater.WaitTrue(()=>role.FindNpc("",""),()=>dm.Delay(1000));
             role.FindDialogButtonAndClick("");

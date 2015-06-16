@@ -14,6 +14,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using DnTool.Utilities.Keypad;
+using Utilities.Tasks;
 
 namespace DnTool.ViewModels
 {
@@ -29,6 +30,8 @@ namespace DnTool.ViewModels
      
         public MainViewModel()
         {
+            IRole role = new Role();
+            role.GetBagMoney();
             //this.SaveListCommand = new RelayCommand(() =>
             //{
             //    foreach (var item in this.InfoList)
