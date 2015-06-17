@@ -11,13 +11,81 @@ namespace DnTool
 {
     public class Role:IRole
     {
+        public Money BagMoney { get { return this.GetBagMoney(); } }
+        public Money RepertoryMoney { get { return this.GetRepertoryMoney(); } }
+        public uint MallVolume { get { return this.GetMallVolume(); } }
+        public uint MallLB { get { return this.GetMallLB(); } }
 
-
-
+        private readonly DmWindow _window;
+        public Role(int hwnd)
+        {
+            _window = new DmWindow(hwnd,new DmPlugin());
+           
+        }
         public DmWindow Window
         {
-            get { throw new NotImplementedException(); }
+            get { return _window; }
         }
+
+        #region 私有方法
+        /// <summary>
+        /// 获取背包金钱
+        /// </summary>
+        /// <returns></returns>
+        private Money GetBagMoney()
+        {
+            DmPlugin dm = Window.Dm;
+            int hwnd = Window.Hwnd;
+            int val = dm.ReadInt(hwnd, "[16D1E50]+68", 0);
+            Money money = new Money();
+            money.Gold = (uint)val / 10000;
+            money.Silver = (uint)val % 10000 / 100;
+            money.Copper = (uint)val % 10000 % 100;
+            return money;
+        }
+        /// <summary>
+        /// 获取仓库金钱
+        /// </summary>
+        /// <returns></returns>
+        private Money GetRepertoryMoney()
+        {
+            DmPlugin dm = Window.Dm;
+            int hwnd = Window.Hwnd;
+            int val = dm.ReadInt(hwnd, "[16D1E50]+70", 0);
+            Money money = new Money();
+            money.Gold = (uint)val / 10000;
+            money.Silver = (uint)val % 10000 / 100;
+            money.Copper = (uint)val % 10000 % 100;
+            return money;
+        }
+
+        /// <summary>
+        /// 获得商城点卷数
+        /// </summary>
+        /// <returns></returns>
+        private uint GetMallVolume()
+        {
+            DmPlugin dm = Window.Dm;
+            int hwnd = Window.Hwnd;
+            int val = dm.ReadInt(hwnd, "[16D208C]+234", 0);
+            return (uint)val;
+        }
+        /// <summary>
+        /// 获得商城龙币数
+        /// </summary>
+        /// <returns></returns>
+        private uint GetMallLB()
+        {
+            DmPlugin dm =Window.Dm;
+            int hwnd =Window.Hwnd;
+            int val = dm.ReadInt(hwnd, "[16D208C]+238", 0);
+            return (uint)val;
+        }
+        #endregion
+
+
+
+
 
         public bool IsAlive
         {
@@ -29,7 +97,7 @@ namespace DnTool
             throw new NotImplementedException();
         }
 
-        public void FindDialogButtonAndClick(string p)
+        public void FindDialogButtonAndClick(string name)
         {
             throw new NotImplementedException();
         }

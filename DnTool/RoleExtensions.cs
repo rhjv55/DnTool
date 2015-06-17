@@ -9,25 +9,29 @@ using System.Diagnostics;
 using DnTool.Models;
 namespace DnTool
 {
+    /// <summary>
+    /// 角色拓展类
+    /// </summary>
     public static class RoleExtensions 
     {
         /// <summary>
-        /// 获取背包金钱
+        /// 商城界面是否有某个物品
         /// </summary>
         /// <param name="role"></param>
+        /// <param name="name">物品的名字</param>
         /// <returns></returns>
-        public static Money GetBagMoney(this IRole role)
+        public static bool HasMallThing(this IRole role,string name)
         {
-           DmPlugin dm=role.Window.Dm;
-           int hwnd = role.Window.Hwnd;
-           int val = dm.ReadInt(hwnd, "[16D1E50]+68", 0);
-           Money money = new Money();
-           money.Gold = val / 10000;
-           money.Silver = val % 10000 / 100;
-           money.Copper = val % 10000 % 100;
-           return money;
+            DmPlugin dm = role.Window.Dm;
+            return dm.FindPicE(0, 0, role.Window.Width, role.Window.Height, name + ".bmp")==""?true:false;
         }
-     
+
+        public static bool FindMallButtonAndClick(this IRole role, string name)
+        {
+            DmPlugin dm = role.Window.Dm;
+            return dm.FindPicE_LeftClick(0, 0, role.Window.Width,role.Window.Height, name + ".bmp",35,85)? true : false; 
+
+        }
         /// <summary>
         /// 获取背包中指定名称的物品,不存在返回null
         /// </summary>
@@ -73,7 +77,8 @@ namespace DnTool
             return GetBagBlanks(1).Union(GetBagBlanks(2)).ToArray();
         }
 
-
+        #region xxx
+       
         public static void BagCleanup(this IRole role)
         {
         }
@@ -156,5 +161,6 @@ namespace DnTool
         {
 
         }
+        #endregion
     }
 }

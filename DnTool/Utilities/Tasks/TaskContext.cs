@@ -12,10 +12,10 @@ namespace Utilities.Tasks
     /// </summary>
     public class TaskContext
     {
-        public TaskContext(IRole role,Function function)
+        public TaskContext(IRole role)
         {
            Role = role;
-           Function = function;
+         
            Settings = new ExpandoObject();
            StepIndex = 0;
            TaskSteps = new List<TaskStep>();

@@ -11,6 +11,7 @@ namespace DnTool.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Value { get; set; }
+        public uint Value { get; set; }
+        public bool CanUseLB { get; set; }
     }
 }

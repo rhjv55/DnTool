@@ -113,6 +113,7 @@
     <Compile Include="GameTask\BuyThingsTask.cs" />
     <Compile Include="Models\Blank.cs" />
     <Compile Include="Models\File.cs" />
+    <Compile Include="Models\MemoryAddress.cs" />
     <Compile Include="Models\Money.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\Thing.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Role.cs" />
     <Compile Include="RoleExtensions.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Utilities\AnyRadixConvert.cs" />
     <Compile Include="Utilities\Tasks\IRole.cs" />
     <Compile Include="Utilities\Tasks\NoOpTask.cs" />
     <Compile Include="Utilities\Tasks\ObjectUtils.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="Utilities\Tasks\TaskResult.cs" />
     <Compile Include="Utilities\Tasks\TaskRunState.cs" />
     <Compile Include="Utilities\Tasks\TaskStep.cs" />
+    <Compile Include="Utilities\UtilExtensions.cs" />
     <Compile Include="Utilities\WPF\IExecuteWithObject.cs" />
     <Compile Include="Utilities\WPF\IExecuteWithObjectAndResult.cs" />
     <Compile Include="Utilities\WPF\WeakActionGeneric.cs" />
@@ -163,6 +166,7 @@
     <Compile Include="Utilities\WPF\WeakFunc.cs" />
     <Compile Include="Utilities\WPF\WeakFuncGeneric.cs" />
     <Compile Include="ViewModels\BuyViewModel.cs" />
+    <Compile Include="ViewModels\GameRoleListViewModel.cs" />
     <Compile Include="ViewModels\GameRoleViewModel.cs" />
     <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

@@ -47,8 +47,8 @@ namespace Utilities.Tasks
             {
                 throw new Exception("window不能为空");
             }
-            IRole role=new Role();
-            TaskContext context = new TaskContext(role,Function.fun);
+            IRole role=new Role(0);
+            TaskContext context = new TaskContext(role);
             //context.JobType = jobType;
             //context.Description = description;
             //if (name == null)

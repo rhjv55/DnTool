@@ -30,8 +30,11 @@ namespace DnTool.ViewModels
      
         public MainViewModel()
         {
-            IRole role = new Role();
-            role.GetBagMoney();
+            //IRole role = new Role(0);
+            //var v1 = ((Role)role).MallVolume;
+            //var v2 = ((Role)role).BagMoney;
+            //var v3 = ((Role)role).MallLB;
+            //var v4 = ((Role)role).RepertoryMoney;
             //this.SaveListCommand = new RelayCommand(() =>
             //{
             //    foreach (var item in this.InfoList)

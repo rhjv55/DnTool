@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DnTool.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,69 +11,90 @@ namespace DnTool.GameTask
     public class BuyThingsTask:TaskBase
     {
         /// <summary>
-        /// 任务设置，可用属性为：.Map .ZiYuans  .RightSkill  .UpLevelEnabled
+        /// 任务设置，可用属性为：.Thing .Num .UseLB
         /// </summary>
         private readonly dynamic _setting;
-        private int _leftSkillId;
-
+        private Thing _thing;
+        private int _num;
+        private bool _useLB;
         public BuyThingsTask(TaskContext context)
             : base(context)
         {
             _setting = context.Settings;
+            _thing = _setting.Thing;
+            _num = _setting.Num;
+            _useLB = _setting.UseLB;
         }
         protected override void StepsInitialize(ICollection<TaskStep> steps)
         {
             steps.Add(new TaskStep { StepName = "", Order = 1, RunFunc = RunStep1 });
-            steps.Add(new TaskStep { StepName = "", Order = 2, RunFunc = RunStep2 });
-            steps.Add(new TaskStep { StepName = "", Order = 3, RunFunc = RunStep3 });
         }
 
-        private TaskResult RunStep3(TaskContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        private TaskResult RunStep2(TaskContext context)
-        {
-            IRole role = context.Role;
-   
-            DmPlugin dm = role.Window.Dm;
-            Delegater.WaitTrue(()=>role.FindNpc("",""),()=>dm.Delay(1000));
-            role.FindDialogButtonAndClick("");
-            Delegater.WaitTrue(()=>role.HasDialogButton(""),()=>dm.MoveToClick(400,250));
-            role.FindDialogButtonAndClick("");
-            role.CloseDialogBoard();
-            //TaskItem task = role.GetTaskItem(Name);
-            //return task!=null&&task.Step.Contains("你需要收集")?TaskResult.Success:RunStep2(context);
-            return TaskResult.Success;
-        }
 
         private TaskResult RunStep1(TaskContext context)
         {
             IRole role = context.Role;
+            Role r = (Role)role;
             DmPlugin dm = role.Window.Dm;
-            Delegater.WaitTrue(()=>role.FindNpc("",""),()=>dm.Delay(1000));
-            role.FindDialogButtonAndClick("");
-            role.FindDialogButtonAndClick("");
-            role.CloseDialogBoard();
-            //TaskItem task = role.GetTaskItem(Name);
-            //return task!=null&&task.Step.Contains("答应再次营救武吉")?TaskResult.Success:RunStep1(context);
-            return new TaskResult(TaskResultType.Failure,"角色声望不足50点，无法兌换道具时空符");
+            int hwnd=role.Window.Hwnd;
+            if (_useLB)
+            {
+                if (!_thing.CanUseLB)
+                    return new TaskResult(TaskResultType.Failure, "无法使用龙币购买物品“{0}”.".FormatWith(_thing.Name));
+                if (r.MallLB < _thing.Value)
+                    return new TaskResult(TaskResultType.Failure, "龙币不足,无法购买物品“{0}”.".FormatWith(_thing.Name));
+            }
+            else
+            {
+                if(r.MallVolume<_thing.Value)
+                    return new TaskResult(TaskResultType.Failure, "点卷不足,无法购买物品“{0}”.".FormatWith(_thing.Name));
+            }
 
+            bool ret=Delegater.WaitTrue(() =>
+            {
+                dm.MoveToClick(100,100);
+                return dm.SendString(hwnd,_thing.Name)==1?true:false;
+            }, () => dm.Delay(1000), 10);
+            if(ret==false) 
+                return new TaskResult(TaskResultType.Failure,"发送文本数据失败,无法购买物品“{0}”.".FormatWith(_thing.Name));
+
+            ret = Delegater.WaitTrue(() =>
+            {
+                dm.MoveToClick(100, 100);
+                return role.HasMallThing(_thing.Name) ? true : false;
+            }, () => 
+            {
+                dm.Delay(1000);
+                dm.MoveToClick(100, 100);
+                dm.SendString(hwnd, _thing.Name);                
+            }, 5);
+            if (ret == false) return new TaskResult(TaskResultType.Failure, "无法找到该商品“{0}”.".FormatWith(_thing.Name));
+
+            if (role.FindMallButtonAndClick(_thing.Name))
+            {
+                
+               Delegater.WaitTrue(() => role.HasDialogButton("取消") ,()=>dm.Delay(1000));
+               if (_useLB)
+                   dm.MoveToClick(100, 100);
+               role.FindDialogButtonAndClick("购买");
+               Delegater.WaitTrue(() => role.HasDialogButton("是"), () => dm.Delay(1000));
+               role.FindDialogButtonAndClick("是");
+               Delegater.WaitTrue(() => role.HasDialogButton("确认"), () => dm.Delay(1000));
+               role.FindDialogButtonAndClick("确认");
+            }
+            _num--;
+            return _num==0? TaskResult.Success : RunStep1(context); 
         }
 
         protected override int GetStepIndex(TaskContext context)
         {
             IRole role = context.Role;
-            if (role.Empirical <= 0)
-            {
-                return 4;
-            }
+           
            //有是空腹 返回1
             //快捷键 无 返回2
             //防御》=20 返回3
             //返回4
-            return 4;
+            return 1;
         }
     }
 }

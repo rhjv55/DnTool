@@ -8,8 +8,8 @@ namespace DnTool.Models
 {
     public class Money
     {
-        public int Gold { get; set; }
-        public int Silver { get; set; }
-        public int Copper { get; set; }
+        public uint Gold { get; set; }
+        public uint Silver { get; set; }
+        public uint Copper { get; set; }
     }
 }
