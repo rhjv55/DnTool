@@ -4,7 +4,7 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:uc="clr-namespace:DnTool.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        Title="DnTool V1.0" Height="627.202" Width="378.732">
+        Title="DnTool V1.0" Height="630" Width="380">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding ClosedCommand}" />

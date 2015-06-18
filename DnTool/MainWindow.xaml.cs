@@ -1,6 +1,7 @@
 ﻿using DnTool.Utilities.Hook;
 using DnTool.Utilities.Keypad;
 using DnTool.ViewModels;
+using DnTool.Views;
 using MahApps.Metro.Controls;
 using System;
 using System.Diagnostics;
@@ -35,13 +36,14 @@ namespace DnTool
             this.SaveWindowPosition = true;
             this.DataContext = new MainViewModel();
             this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
-           
+            this.Flyouts.Items.Add(new LoginFlyout());
+            this.ToggleFlyout(1);
         }
 
 
        
 
-
+       
 
         private void ShowSettings(object sender, RoutedEventArgs e)
         {

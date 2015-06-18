@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="DnTool.Views.SettingsFlyout"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:uc="clr-namespace:DnTool.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="360" d:DesignWidth="640"
+             x:Name="SettingsFlyout1" >
+    <Grid>
+        <mah:MetroAnimatedSingleRowTabControl>
+            <TabItem Header="角色设置" mah:ControlsHelper.HeaderFontSize="14">
+                <uc:SettingsGameRolesView></uc:SettingsGameRolesView>
+            </TabItem>
+            <TabItem Header="软件设置" mah:ControlsHelper.HeaderFontSize="14">
+                <uc:SettingsGameView></uc:SettingsGameView>
+            </TabItem>
+        </mah:MetroAnimatedSingleRowTabControl>
+     
+    </Grid>
+</UserControl>
