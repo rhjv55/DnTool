@@ -7,7 +7,7 @@ using Utilities.Tasks;
 
 namespace DnTool.ViewModels
 {
-    public class GameRoleViewModel
+    public class GameRoleViewModel : FlyoutBaseViewModel
     {
         public GameRoleViewModel()
         {

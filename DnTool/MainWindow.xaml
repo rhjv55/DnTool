@@ -4,7 +4,8 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:uc="clr-namespace:DnTool.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        Title="DnTool V1.0" Height="630" Width="380">
+        Title="DnTool V1.0" Height="630" Width="380" DataContext="{Binding Main,Source={StaticResource Locator}}">
+    
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding ClosedCommand}" />
@@ -20,7 +21,7 @@
     </Controls:MetroWindow.RightWindowCommands>
 
 
-    <Controls:MetroWindow.Flyouts>
+    <!--<Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
             <Controls:Flyout x:Name="settingsFlyout"
                              Margin="0 0 0 0"
@@ -57,8 +58,18 @@
 
             </Controls:Flyout>
         </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>-->
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl x:Name="Flyouts1">
+            <Controls:FlyoutsControl.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type Controls:Flyout}}" TargetType="{x:Type Controls:Flyout}">
+                    <Setter Property="Header" Value="{Binding Header}" />
+                    <Setter Property="IsOpen" Value="{Binding IsOpen}" />
+                    <Setter Property="Position" Value="{Binding Position}" />
+                </Style>
+            </Controls:FlyoutsControl.ItemContainerStyle>
+        </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
-
 
 
 

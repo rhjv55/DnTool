@@ -16,6 +16,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Utilities.Log;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DnTool
 {
@@ -34,10 +35,13 @@ namespace DnTool
             this.ShowCloseButton = true;
             this.ResizeMode = ResizeMode.CanMinimize;
             this.SaveWindowPosition = true;
-            this.DataContext = new MainViewModel();
+          
+            this.RightWindowCommandsOverlayBehavior = WindowCommandsOverlayBehavior.Flyouts;
             this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
-            this.Flyouts.Items.Add(new LoginFlyout());
-            this.ToggleFlyout(1);
+          
+            this.Flyouts1.Items.Add(new LoginFlyout());
+            this.Flyouts1.Items.Add(new GameRoleRelateFlyout());
+            new SoftContext(this);
         }
 
 

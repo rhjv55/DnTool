@@ -15,7 +15,8 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using DnTool.Utilities.Keypad;
 using Utilities.Tasks;
-
+using MahApps.Metro.Controls.Dialogs;
+using DnTool.Views;
 namespace DnTool.ViewModels
 {
     public class MainViewModel:NotifyPropertyChanged
@@ -26,10 +27,16 @@ namespace DnTool.ViewModels
         private string processName = "DragonNest";//游戏进程名字
         public static int Hwnd = 0;
         private DmPlugin dm = new DmPlugin();
-  
-     
+        public void ToggleFlyout(int index)
+        {
+            var flyout = this._flyouts[index];
+            flyout.IsOpen = !flyout.IsOpen;
+        }
+
+        public RelayCommand ShowLoginCommand { get; set; }
         public MainViewModel()
         {
+ 
             //IRole role = new Role(0);
             //var v1 = ((Role)role).MallVolume;
             //var v2 = ((Role)role).BagMoney;
@@ -174,7 +181,13 @@ namespace DnTool.ViewModels
         #endregion
 
         #region 数据
+        private ObservableCollection<FlyoutBaseViewModel> _flyouts=new ObservableCollection<FlyoutBaseViewModel>();
 
+        public ObservableCollection<FlyoutBaseViewModel> Flyouts
+        {
+            get { return _flyouts; }
+        }
+        
         
 
        

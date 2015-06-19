@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using DnTool.ViewModels;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,12 @@ namespace DnTool.Views
     /// <summary>
     /// LoginFlyout.xaml 的交互逻辑
     /// </summary>
-    public partial class LoginFlyout :Flyout
+    public partial class LoginFlyout : Flyout
     {
         public LoginFlyout()
         {
             InitializeComponent();
+          
         }
     }
 }
