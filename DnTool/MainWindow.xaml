@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:uc="clr-namespace:DnTool.Views"
+                      xmlns:uc2="clr-namespace:DnTool.UserControls"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         Title="DnTool V1.0" Height="630" Width="380" DataContext="{Binding Main,Source={StaticResource Locator}}">
     
@@ -15,11 +16,13 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
+
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
+            <Button Command="{Binding ShowGameRoleRelateFlyoutCommand}" Content="角色列表" />
+       
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-
 
     <!--<Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl>
@@ -76,34 +79,11 @@
 
 
 
+    
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <Menu Grid.Row="0"
-                  Margin="5"
-                  VerticalAlignment="Stretch"
-                  HorizontalAlignment="Left">
-            <!--<MenuItem Header="Theme">
-                <MenuItem Click="ThemeLight"
-                              Header="Light"
-                              Icon="{StaticResource DarkThemeMenuIcon}" />
-                <MenuItem Click="ThemeDark"
-                              Header="Dark"
-                              Icon="{StaticResource LightThemeMenuIcon}" />
-            </MenuItem>
-            <MenuItem Header="Accent"
-                          ItemsSource="{Binding AccentColors, Mode=OneWay}"
-                          ItemContainerStyle="{StaticResource AccentColorMenuItemStyle}" />-->
-
-        </Menu>
+        
         <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1">
-            <!--Controls:ControlsHelper.HeaderFontSize="24"-->
+       
             <TabItem Header="瞬移">
                 <Grid>
                     <Canvas HorizontalAlignment="Left" Width="39" Height="34" Margin="22,47,0,0" VerticalAlignment="Top">
@@ -111,8 +91,6 @@
                     </Canvas>
                     <uc:TeleportView></uc:TeleportView>
                 </Grid>
-
-
             </TabItem>
             <TabItem Header="多开">
                 <StackPanel Orientation="Horizontal" Height="30" Grid.Row="2">
@@ -128,8 +106,7 @@
                 <uc:BuyView></uc:BuyView>
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
-
-
+      
 
     </Grid>
 </Controls:MetroWindow>

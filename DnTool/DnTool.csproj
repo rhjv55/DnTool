@@ -156,9 +156,6 @@
     <Compile Include="RoleExtensions.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SoftContext.cs" />
-    <Compile Include="UserControls\GameRoleListView.xaml.cs">
-      <DependentUpon>GameRoleListView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\GameRoleRelateView.xaml.cs">
       <DependentUpon>GameRoleRelateView.xaml</DependentUpon>
     </Compile>
@@ -302,10 +299,6 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\GameRoleListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\GameRoleRelateView.xaml">
       <SubType>Designer</SubType>

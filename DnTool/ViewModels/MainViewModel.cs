@@ -27,16 +27,12 @@ namespace DnTool.ViewModels
         private string processName = "DragonNest";//游戏进程名字
         public static int Hwnd = 0;
         private DmPlugin dm = new DmPlugin();
-        public void ToggleFlyout(int index)
-        {
-            var flyout = this._flyouts[index];
-            flyout.IsOpen = !flyout.IsOpen;
-        }
 
+        public RelayCommand ShowGameRoleRelateFlyoutCommand { get; set; }
         public RelayCommand ShowLoginCommand { get; set; }
         public MainViewModel()
         {
- 
+            this.ShowGameRoleRelateFlyoutCommand = new RelayCommand(()=> new ViewModelLocator().GameRoleRelate.IsOpen = true);
             //IRole role = new Role(0);
             //var v1 = ((Role)role).MallVolume;
             //var v2 = ((Role)role).BagMoney;

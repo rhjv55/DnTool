@@ -10,7 +10,7 @@ namespace DnTool.ViewModels
     {
         public GameRoleRelateViewModel()
         {
-            this.Header = "未关联角色";
+            this.Header = "关联";
             this.Position = Position.Right;
         }
     }
