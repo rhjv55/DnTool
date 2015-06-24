@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DnTool.ViewModels
+namespace DnTool.Utilities.HYX
 {
-    class MemberViewModel
+    internal static class NativeMethods
     {
+
     }
 }

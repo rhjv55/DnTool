@@ -1,22 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DnTool.Models;
 using DnTool.Utilities;
-using System.Windows.Threading;
 using Utilities.Dm;
-using Utilities.Log;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Threading;
-using DnTool.Utilities.Keypad;
-using Utilities.Tasks;
-using MahApps.Metro.Controls.Dialogs;
-using DnTool.Views;
+using GalaSoft.MvvmLight.CommandWpf;
 namespace DnTool.ViewModels
 {
     public class MainViewModel:NotifyPropertyChanged
@@ -27,12 +14,19 @@ namespace DnTool.ViewModels
         private string processName = "DragonNest";//游戏进程名字
         public static int Hwnd = 0;
         private DmPlugin dm = new DmPlugin();
-
-        public RelayCommand ShowGameRoleRelateFlyoutCommand { get; set; }
+        public RelayCommand ExitLoginCommand { get; set; }
         public RelayCommand ShowLoginCommand { get; set; }
+        ViewModelLocator Locator = new ViewModelLocator();
         public MainViewModel()
         {
-            this.ShowGameRoleRelateFlyoutCommand = new RelayCommand(()=> new ViewModelLocator().GameRoleRelate.IsOpen = true);
+
+            this.ExitLoginCommand = new RelayCommand(()=>
+            {
+                Locator.Login.IsOpen = true;
+                SoftContext.IsLogin = false;
+            }
+            ,()=>SoftContext.IsLogin);
+
             //IRole role = new Role(0);
             //var v1 = ((Role)role).MallVolume;
             //var v2 = ((Role)role).BagMoney;

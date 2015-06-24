@@ -1,7 +1,9 @@
-﻿using DnTool.ViewModels;
+﻿using DnTool.Utilities;
+using DnTool.ViewModels;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,5 +29,23 @@ namespace DnTool.Views
             InitializeComponent();
           
         }
+
+      
+
+        private ICommand closeCmd;
+
+        public ICommand CloseCmd
+        {
+            get
+            {
+                return this.closeCmd ?? (this.closeCmd = new SimpleCommand
+                {
+                    CanExecuteDelegate = x => false,
+                    ExecuteDelegate = x => { }
+                });
+            }
+        }
+
+     
     }
 }

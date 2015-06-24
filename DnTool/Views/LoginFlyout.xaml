@@ -4,15 +4,19 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Width="380" Height="300" IsModal="True" Theme="Accent" DataContext="{Binding Login,Source={StaticResource Locator}}">
+             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=mah:MetroWindow}, Path=ActualWidth}"
+             Height="300"
+             AreAnimationsEnabled="True"
+             mc:Ignorable="d" IsModal="True" Theme="Accent" x:Name="loginFlyout"
+             d:DesignHeight="630" d:DesignWidth="380" CloseCommand="{Binding ElementName=loginFlyout, Path=CloseCmd}"
+             DataContext="{Binding Login,Source={StaticResource Locator}}">
     <Grid>
-        <Label Content="用户名：" HorizontalAlignment="Left" Margin="64,10,0,0" VerticalAlignment="Top"/>
-        <Label Content="密  码：" HorizontalAlignment="Left" Margin="64,54,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="141,10,0,0"  Text="{Binding Username}" VerticalAlignment="Top" Width="158"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="141,54,0,0"  Text="{Binding Password}" VerticalAlignment="Top" Width="158"/>
-        <Button Content="登录" HorizontalAlignment="Left" Margin="141,114,0,0" VerticalAlignment="Top" Width="158" Command="{Binding LoginCommand}"/>
-        <CheckBox Content="记住密码" HorizontalAlignment="Left" Margin="141,171,0,0" VerticalAlignment="Top"/>
-        <CheckBox Content="自动登录" HorizontalAlignment="Left" Margin="224,171,0,0" VerticalAlignment="Top"/>
+        <Label Content="用户名：" HorizontalAlignment="Left" Margin="65,21,0,0" VerticalAlignment="Top"/>
+        <Label Content="密  码：" HorizontalAlignment="Left" Margin="65,65,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="142,21,0,0"  Text="{Binding Username}" VerticalAlignment="Top" Width="158"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="142,65,0,0"  Text="{Binding Password}" VerticalAlignment="Top" Width="158"/>
+        <Button Content="登录" HorizontalAlignment="Left" Margin="142,125,0,0" VerticalAlignment="Top" Width="158" Command="{Binding LoginCommand}"/>
+        <CheckBox Content="自动登录" HorizontalAlignment="Left" Margin="225,182,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </mah:Flyout>

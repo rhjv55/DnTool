@@ -93,7 +93,7 @@ namespace Utilities.Tasks
         /// <summary>
         /// 任务设置信息
         /// </summary>
-        public ExpandoObject Settings { get; set; }
+        public dynamic Settings { get; set; }
         /// <summary>
         /// 即将或正在执行的任务步骤序号
         /// </summary>

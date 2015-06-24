@@ -156,33 +156,11 @@
     <Compile Include="RoleExtensions.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SoftContext.cs" />
-    <Compile Include="UserControls\GameRoleRelateView.xaml.cs">
-      <DependentUpon>GameRoleRelateView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\MemberCenterDataView.xaml.cs">
-      <DependentUpon>MemberCenterDataView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\MemberCenterView.xaml.cs">
-      <DependentUpon>MemberCenterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\SettingsGameRolesView.xaml.cs">
-      <DependentUpon>SettingsGameRolesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\SettingsGameView.xaml.cs">
-      <DependentUpon>SettingsGameView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\SettingViews\CaijiCaokuangSetting.xaml.cs">
-      <DependentUpon>CaijiCaokuangSetting.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\SettingViews\YunsongWuziSetting.xaml.cs">
-      <DependentUpon>YunsongWuziSetting.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\TaskStartView.xaml.cs">
-      <DependentUpon>TaskStartView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\AnyRadixConvert.cs" />
     <Compile Include="Utilities\DialogCoordinator.cs" />
     <Compile Include="Utilities\DialogParticipation.cs" />
+    <Compile Include="Utilities\HYX\HYXPlugin.cs" />
+    <Compile Include="Utilities\HYX\NativeMethods.cs" />
     <Compile Include="Utilities\IDialogCoordinator.cs" />
     <Compile Include="Utilities\Tasks\IRole.cs" />
     <Compile Include="Utilities\Tasks\NoOpTask.cs" />
@@ -197,9 +175,6 @@
     <Compile Include="Utilities\Tasks\TaskRunState.cs" />
     <Compile Include="Utilities\Tasks\TaskStep.cs" />
     <Compile Include="Utilities\UtilExtensions.cs" />
-    <Compile Include="Utilities\WPF\IExecuteWithObject.cs" />
-    <Compile Include="Utilities\WPF\IExecuteWithObjectAndResult.cs" />
-    <Compile Include="Utilities\WPF\WeakActionGeneric.cs" />
     <Compile Include="Utilities\CommandManagerHelper.cs" />
     <Compile Include="Utilities\DataGridViewModelBase.cs" />
     <Compile Include="Utilities\Dm\DmBindDisplay.cs" />
@@ -220,65 +195,32 @@
     <Compile Include="Utilities\Log\Logger.cs" />
     <Compile Include="Utilities\Memory64Helper.cs" />
     <Compile Include="Utilities\MemoryHelper.cs" />
-    <Compile Include="Utilities\WPF\RelayCommand.cs" />
     <Compile Include="Utilities\WPF\NotifyPropertyChanged.cs" />
     <Compile Include="Utilities\MutexCloseHelper.cs" />
-    <Compile Include="Utilities\WPF\RelayCommandGeneric.cs" />
-    <Compile Include="Utilities\WPF\WeakAction.cs" />
-    <Compile Include="Utilities\WPF\WeakFunc.cs" />
-    <Compile Include="Utilities\WPF\WeakFuncGeneric.cs" />
+    <Compile Include="Utilities\WPF\SimpleCommand.cs" />
     <Compile Include="ViewModels\BuyViewModel.cs" />
     <Compile Include="ViewModels\FlyoutBaseViewModel.cs" />
-    <Compile Include="ViewModels\FunctionSettingViewModel.cs" />
-    <Compile Include="ViewModels\FunctionViewModel.cs" />
-    <Compile Include="ViewModels\GameRoleListViewModel.cs" />
-    <Compile Include="ViewModels\GameRoleRelateViewModel.cs" />
-    <Compile Include="ViewModels\GameRoleViewModel.cs" />
-    <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MemberViewModel.cs" />
-    <Compile Include="ViewModels\MultipleGameViewModel.cs" />
-    <Compile Include="ViewModels\RoleSettingViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\TaskSettings\CaijiCaokuangViewModel.cs" />
     <Compile Include="ViewModels\TaskSettings\YunsongWuziViewModel.cs" />
-    <Compile Include="ViewModels\TaskStartViewModel.cs" />
     <Compile Include="ViewModels\TeleportViewModel.cs" />
-    <Compile Include="ViewModels\ToolsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\BuyView.xaml.cs">
       <DependentUpon>BuyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GameRoleRelateFlyout.xaml.cs">
-      <DependentUpon>GameRoleRelateFlyout.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\LoginFlyout.xaml.cs">
       <DependentUpon>LoginFlyout.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MemberCenterFlyout.xaml.cs">
-      <DependentUpon>MemberCenterFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MultipleGame.xaml.cs">
       <DependentUpon>MultipleGame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsFlyout.xaml.cs">
-      <DependentUpon>SettingsFlyout.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TaskSettingFlyout.xaml.cs">
-      <DependentUpon>TaskSettingFlyout.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TaskStartFlyout.xaml.cs">
-      <DependentUpon>TaskStartFlyout.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\TeleportView.xaml.cs">
       <DependentUpon>TeleportView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ToolsFlyout.xaml.cs">
-      <DependentUpon>ToolsFlyout.xaml</DependentUpon>
     </Compile>
     <Page Include="GameTask\Window1.xaml">
       <SubType>Designer</SubType>
@@ -300,43 +242,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\GameRoleRelateView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\MemberCenterDataView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\MemberCenterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\SettingsGameRolesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\SettingsGameView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\SettingViews\CaijiCaokuangSetting.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\SettingViews\YunsongWuziSetting.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\TaskStartView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\BuyView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GameRoleRelateFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -344,15 +250,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MemberCenterFlyout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MultipleGame.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SettingsFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -360,19 +258,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TaskSettingFlyout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TaskStartFlyout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\TeleportView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ToolsFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -409,6 +295,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="UserControls\" />
     <Folder Include="ValueConverters\" />
   </ItemGroup>
   <ItemGroup>

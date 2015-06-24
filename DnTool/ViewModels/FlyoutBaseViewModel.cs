@@ -12,7 +12,8 @@ namespace DnTool.ViewModels
         private string header;
         private bool isOpen;
         private Position position;
-        
+
+        public event EventHandler OpendEvent;
 
         public Position Position
         {
@@ -38,6 +39,8 @@ namespace DnTool.ViewModels
                     return;
                 }
                 base.SetProperty(ref isOpen, value, () => this.IsOpen);
+                if (this.OpendEvent != null&&this.isOpen)
+                    OpendEvent.Invoke(this,new EventArgs()) ;
             }
         }
         

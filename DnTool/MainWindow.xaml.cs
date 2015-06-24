@@ -34,13 +34,12 @@ namespace DnTool
             this.ShowMaxRestoreButton = false;
             this.ShowCloseButton = true;
             this.ResizeMode = ResizeMode.CanMinimize;
-            this.SaveWindowPosition = true;
-          
-            this.RightWindowCommandsOverlayBehavior = WindowCommandsOverlayBehavior.Flyouts;
+           // this.SaveWindowPosition = true;
+            this.LeftWindowCommandsOverlayBehavior = WindowCommandsOverlayBehavior.Never;
+            this.RightWindowCommandsOverlayBehavior = WindowCommandsOverlayBehavior.Never;
             this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
           
             this.Flyouts1.Items.Add(new LoginFlyout());
-            this.Flyouts1.Items.Add(new GameRoleRelateFlyout());
             new SoftContext(this);
         }
 
@@ -143,11 +142,11 @@ namespace DnTool
                                 if (p.ProcessName == "DragonNest")
                                 {
                                     //鼠标最后指向的句柄
-                                    MainViewModel.Hwnd= (int)this._hWndCurrent;
+                                    SoftContext.Role = new Role((int)this._hWndCurrent);
                                 }
                                 else
                                 {
-                                    System.Windows.MessageBox.Show("该窗口不是游戏窗口！");
+                                    this.ShowMessageAsync("绑定失败", "请选择游戏窗口！");
                                 }
                             }
                           

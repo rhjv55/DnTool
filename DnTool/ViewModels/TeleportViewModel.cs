@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Utilities.Dm;
 using System.Windows.Threading;
+using GalaSoft.MvvmLight.CommandWpf;
 
 
 namespace DnTool.ViewModels

@@ -38,17 +38,7 @@ namespace DnTool
             return count < maxCount;
         }
 
-        public static async Task GameRolesTaskStop(IEnumerable<GameRoleViewModel> roleModels)
-        {
-            foreach (var roleModel in roleModels)
-            {
-                TaskEngine engine = roleModel.TaskEngine;
-                if (engine != null)
-                {
-                    //await TaskEx.Run(()=>engine.Stop());
-                }
-            }
-        }
+      
       
     }
 }

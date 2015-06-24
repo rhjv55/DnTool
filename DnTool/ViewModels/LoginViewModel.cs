@@ -9,12 +9,15 @@ using Utilities.Dm;
 using Utilities.Log;
 using MahApps.Metro.Controls.Dialogs;
 using System.Net.Http;
+using GalaSoft.MvvmLight.CommandWpf;
+using System.Windows.Input;
 
 
 namespace DnTool.ViewModels
 {
     public class LoginViewModel:FlyoutBaseViewModel
     {
+      
         public RelayCommand LoginCommand { get; set; }
         public LoginViewModel()
         {
@@ -22,6 +25,7 @@ namespace DnTool.ViewModels
             this.Position = Position.Right;
             this.IsOpen = true;
             this.LoginCommand = new RelayCommand(()=>this.Login());
+           
         }
 
         private async void Login()
@@ -52,16 +56,11 @@ namespace DnTool.ViewModels
             await progress.CloseAsync();
             Logger.Debug("登录成功");
             this.IsOpen = false;
-
-            GameRoleRelateViewModel relate = new ViewModelLocator().GameRoleRelate;
-            relate.IsOpen = true;
-            // MemberViewModel member = Locator.Member;
-            //if (_username == "admin" && _password == "admin")
-          
-
-   
+            SoftContext.IsLogin = true;
         }
+       
 
+ 
         private string _username;
 
         public string Username
