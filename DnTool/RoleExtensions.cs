@@ -39,7 +39,7 @@ namespace DnTool
         /// <param name="name"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public static Thing GetBagThing(this IRole role, string name, int page = 0)
+        public static MallThing GetBagThing(this IRole role, string name, int page = 0)
         {
             if (name == null) throw new Exception("");
             Debug.WriteLine("在背包0中查找物品1" + GetBagPageName(page), name);
@@ -51,7 +51,7 @@ namespace DnTool
             throw new NotImplementedException();
         }
 
-        private static Thing[] GetBagThings(IRole role, int page)
+        private static MallThing[] GetBagThings(IRole role, int page)
         {
             throw new NotImplementedException();
         }
@@ -82,12 +82,12 @@ namespace DnTool
         public static void BagCleanup(this IRole role)
         {
         }
-        public static string GetBagPageName(Thing thing)
+        public static string GetBagPageName(MallThing thing)
         {
             return "";
         }
 
-        public static string GetRepertoryPageName(Thing thing)
+        public static string GetRepertoryPageName(MallThing thing)
         {
             return "";
         }
@@ -96,15 +96,15 @@ namespace DnTool
             return "";
         }
 
-        public static Thing[] GetRepertoryThings()
+        public static MallThing[] GetRepertoryThings()
         {
             return null;
         }
-        public static Thing GetRepertoryThing(string name, int page = 0)
+        public static MallThing GetRepertoryThing(string name, int page = 0)
         {
             return null;
         }
-        public static Thing GetRepertoryThing(string name)
+        public static MallThing GetRepertoryThing(string name)
         {
             return null;
         }
@@ -127,7 +127,7 @@ namespace DnTool
         {
             return true;
         }
-        public static bool MoveThing(Thing thing)
+        public static bool MoveThing(MallThing thing)
         {
             return true;
         }
@@ -143,11 +143,11 @@ namespace DnTool
         {
             return true;
         }
-        public static Thing GetMouseThing()
+        public static MallThing GetMouseThing()
         {
             return null;
         }
-        public static Thing GetMousePointThing()
+        public static MallThing GetMousePointThing()
         {
             return null;
         }

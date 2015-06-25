@@ -13,7 +13,7 @@ namespace DnTool.ViewModels
        // private int moneyBaseAddress = 0x16D1E50;//背包金钱基址
         private string processName = "DragonNest";//游戏进程名字
         public static int Hwnd = 0;
-        private DmPlugin dm = new DmPlugin();
+   
         public RelayCommand ExitLoginCommand { get; set; }
         public RelayCommand ShowLoginCommand { get; set; }
         ViewModelLocator Locator = new ViewModelLocator();
@@ -130,14 +130,6 @@ namespace DnTool.ViewModels
         
         #region 方法
 
-
-
-        private bool IsAlive(int hwnd)
-        {
-            return dm.GetWindowState(hwnd, 0) == 1;
-        }
-
-      
 
         //读取制定内存中的值
         public Int64 ReadMemoryValue(int baseAdd)

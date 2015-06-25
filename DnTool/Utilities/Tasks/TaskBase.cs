@@ -58,8 +58,6 @@ namespace Utilities.Tasks
             _context.StepIndex = GetStepIndex(_context);
 
             //循环执行每个步骤，出现步骤失败则返回任务失败
-            while (true)
-            {
                 foreach (TaskStep taskStep in _context.TaskSteps)
                 {
                     if (_context.StepIndex > taskStep.Order)
@@ -73,9 +71,7 @@ namespace Utilities.Tasks
                     }
                 }
                 _context.StepIndex = 1;
-            }
-           
-            
+ 
             return TaskResult.Finished;
         }
         /// <summary>

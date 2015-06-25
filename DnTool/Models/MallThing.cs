@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DnTool.Models
 {
-    public class Thing
+    public class MallThing
     {
         public int ID { get; set; }
         public string Name { get; set; }

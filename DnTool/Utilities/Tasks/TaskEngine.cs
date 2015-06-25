@@ -34,8 +34,6 @@ namespace Utilities.Tasks
         private TaskBase _task;
         private TaskEventArg _taskEventArg;
         private Thread _workThread;
-        private Thread _detectThread;
-        private List<TaskBase> _multiTask=new List<TaskBase>();
         public OutMessageHandler OutMessage;
         public DmWindow Window { get; set; }
        // public bool IsWorking { get; }
@@ -46,12 +44,12 @@ namespace Utilities.Tasks
 
         public event TaskEventHandler OnStarted;
         public event TaskEventHandler OnStarting;
-        public event TaskEventHandler OnPausing;
-        public event TaskEventHandler OnPaused;
-        public event TaskEventHandler OnContinuing;
-        public event TaskEventHandler OnContinued;
-        public event TaskEventHandler OnStopping;
-        public event TaskEventHandler OnStopped;
+       // public event TaskEventHandler OnPausing;
+      //  public event TaskEventHandler OnPaused;
+      //  public event TaskEventHandler OnContinuing;
+       // public event TaskEventHandler OnContinued;
+     //   public event TaskEventHandler OnStopping;
+      //  public event TaskEventHandler OnStopped;
         public event TaskEventHandler OnStateChanged;
         protected void DoEventHandler(TaskEventHandler handler, TaskEventArg e)
         {

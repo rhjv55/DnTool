@@ -10,6 +10,7 @@ using System.Diagnostics;
 using Utilities.Dm;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight.CommandWpf;
+using Utilities.Tasks;
 
 
 namespace DnTool.ViewModels
@@ -34,7 +35,7 @@ namespace DnTool.ViewModels
         public Point CurrentPoint { get; set; }
         public Point NewPoint { get; set; }
         public ObservableCollection<Point> Points { get; set; }
-        private DmPlugin dm=new DmPlugin();
+        
         public static DispatcherTimer timer = new DispatcherTimer();
         public ObservableCollection<File> Files { get; set; }
         private object _selectedValue;
@@ -79,12 +80,15 @@ namespace DnTool.ViewModels
             this.TeleportCommand = new RelayCommand<Point>((p) =>this.Teleport(p));
             this.SaveListCommand = new RelayCommand(()=>this.SaveList());
          
-           
+            
 
             timer.Tick += (s, e) =>
             {
-                int hwnd = MainViewModel.Hwnd;
-                if (IsAlive(hwnd))
+                if (SoftContext.Role == null)
+                    return;
+                DmPlugin dm = SoftContext.Role.Window.Dm;
+                int hwnd = SoftContext.Role.Window.Hwnd;
+                if (SoftContext.Role.Window.IsAlive)
                 {
                     CurrentPoint.X = IntToFloat(dm.ReadInt(hwnd, "[1221740]+a5c", 0));
                     CurrentPoint.Y = IntToFloat(dm.ReadInt(hwnd, "[1221740]+a64", 0));
@@ -147,14 +151,14 @@ namespace DnTool.ViewModels
         {
             return float.Parse(BitConverter.ToSingle(BitConverter.GetBytes(val), 0).ToString("F1"));
         }
-        private bool IsAlive(int hwnd) 
-        {
-            return dm.GetWindowState(hwnd, 0) == 1; 
-        }
+   
         private bool Teleport(Point point)
         {
-
-            int hwnd = MainViewModel.Hwnd;
+            IRole role = SoftContext.Role;
+            if (role == null)
+                return false;
+            DmPlugin dm = role.Window.Dm;
+            int hwnd = role.Window.Hwnd;
             if (point == null)
             {
                 Debug.WriteLine("坐标不能为null");
@@ -162,7 +166,7 @@ namespace DnTool.ViewModels
             }
             else
             {
-                if (IsAlive(hwnd))
+                if (role.Window.IsAlive)
                 {
 
                     //if (point.X == null || point.Y == null || point.Z == null)

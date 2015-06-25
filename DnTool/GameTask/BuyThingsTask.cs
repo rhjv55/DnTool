@@ -14,7 +14,7 @@ namespace DnTool.GameTask
         /// 任务设置，可用属性为：.Thing .Num .UseLB
         /// </summary>
         private readonly dynamic _setting;
-        private Thing _thing;
+        private MallThing _thing;
         private int _num;
         private bool _useLB;
         public BuyThingsTask(TaskContext context)

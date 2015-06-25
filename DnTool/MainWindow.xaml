@@ -97,11 +97,12 @@
                     <Button Width="80" Content="解绑" Command="{Binding UnBindCommand}"></Button>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="设置">
-
-            </TabItem>
-            <TabItem Header="购买">
+            
+            <TabItem Header="商城">
                 <uc:BuyView></uc:BuyView>
+            </TabItem>
+            <TabItem Header="背包">
+
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
       

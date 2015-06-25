@@ -14,32 +14,34 @@ namespace DnTool.ViewModels
 {
     public class BuyViewModel:NotifyPropertyChanged
     {
-        public RelayCommand<Thing> BuyCommand { get; set; }
+        public RelayCommand<MallThing> BuyCommand { get; set; }
         private void InitThings()
         {
-            this.Things.Add(new Thing() { ID = 1, Name = "龙裔特别口袋", Description = "70龙玉,70纹章" });
-            this.Things.Add(new Thing() { ID = 2, Name = "物品保护魔法药", Description = "强化+8至+12保护" });
+            this.Things.Add(new MallThing() { ID = 1, Name = "龙裔特别口袋", Description = "70龙玉,70纹章" ,CanUseLB=false,Value=30000});
+            this.Things.Add(new MallThing() { ID = 2, Name = "物品保护魔法药", Description = "强化+8至+12保护",CanUseLB=true,Value=100000});
         }
         
         public BuyViewModel()
         {
             InitThings();
-            this.BuyCommand = new RelayCommand<Thing>((t)=>this.Buy(t));
+            this.BuyCommand = new RelayCommand<MallThing>(
+                (t)=>this.Buy(t),
+                (t)=>t!=null&&SoftContext.Role!=null);
         }
-        private void Buy(Thing thing)
+        private void Buy(MallThing thing)
         {
             TaskContext context = new TaskContext(SoftContext.Role);
             /// 任务设置，可用属性为：.Thing .Num .UseLB
             context.Settings.Thing = thing;
             context.Settings.Num = int.Parse(Number);
-            context.Settings.UseLB = false;
+            context.Settings.UseLB = this._useLB;
             SoftContext.TaskEngine.Start(new BuyThingsTask(context));
         }
 
    
-        private List<Thing> _things=new List<Thing>();
+        private List<MallThing> _things=new List<MallThing>();
 
-        public List<Thing> Things
+        public List<MallThing> Things
         {
             get { return _things; }
             set
@@ -56,5 +58,17 @@ namespace DnTool.ViewModels
             get { return _number; }
             set { _number = value; }
         }
+
+        private bool _useLB;
+
+        public bool UseLB
+        {
+            get { return _useLB; }
+            set
+            {
+                base.SetProperty(ref _useLB, value, () => this.UseLB);
+            }
+        }
+        
     }
 }

@@ -150,7 +150,7 @@
     <Compile Include="Models\MemoryAddress.cs" />
     <Compile Include="Models\Money.cs" />
     <Compile Include="Models\Point.cs" />
-    <Compile Include="Models\Thing.cs" />
+    <Compile Include="Models\MallThing.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="RoleExtensions.cs" />
