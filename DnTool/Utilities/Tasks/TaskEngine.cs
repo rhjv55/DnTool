@@ -76,7 +76,7 @@ namespace Utilities.Tasks
             {
                 _workThread = GetWorkThread();
             }
-            if (!CheckTaskRunState(TaskRunState.Starting))
+            if (!CheckTaskRunState(TaskRunState.Starting)) //如果正在启动，则返回
             {
                 return;
             }
@@ -129,11 +129,12 @@ namespace Utilities.Tasks
                 Logger.Info("当前无任务，无法停止！");
                 return;
             }
-            if (!CheckTaskRunState(TaskRunState.Stopping))
+            if (!CheckTaskRunState(TaskRunState.Stopping))  //任务正在停止则返回
             {
                 return;
             }
             Logger.Info("任务正在停止："+_task.Name);
+            TaskRunState = TaskRunState.Stopping;
             if (_workThread!=null)
             {
                 try
@@ -151,6 +152,7 @@ namespace Utilities.Tasks
                   
             }
             Logger.Info("任务已停止："+_task.Name);
+            TaskRunState = TaskRunState.Stopped;
         }
 
        
@@ -230,9 +232,38 @@ namespace Utilities.Tasks
         {
 
         }
+        /// <summary>
+        /// 检查是否可以进入指定任务状态
+        /// </summary>
+        /// <param name="taskRunState"></param>
+        /// <returns></returns>
         private bool CheckTaskRunState(TaskRunState taskRunState)
         {
-            return true;
+            switch (taskRunState)
+            {
+                case TaskRunState.Starting:
+                    if (TaskRunState == TaskRunState.Stopped)
+                        return true;
+                    else
+                        return false;
+                case TaskRunState.Stopping:
+                    if (TaskRunState != TaskRunState.Stopped&&TaskRunState!=TaskRunState.Stopping)
+                        return true;
+                    else
+                        return false;
+                case TaskRunState.Continuing:
+                    if (TaskRunState == TaskRunState.Paused)
+                        return true;
+                    else
+                        return false;
+                case TaskRunState.Pausing:
+                    if (TaskRunState == TaskRunState.Running)
+                        return true;
+                    else
+                        return false;
+                default:
+                    return false;
+            }
         }
         private bool WaitForUnBind()
         {
