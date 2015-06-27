@@ -37,23 +37,23 @@ namespace DnTool.ViewModels
         {
             if (string.IsNullOrEmpty(_username) || string.IsNullOrEmpty(_password))
                 return;
-            DmSystem system = SoftContext.DmSystem;
-            string url = "http://192.168.170.110/accounts/login";
-            var param = new { _username, _password, ClientSystem = system };
+            //DmSystem system = SoftContext.DmSystem;
+            //string url = "http://127.0.0.1/accounts/login";
+            //var param = new { _username, _password, ClientSystem = system };
             Logger.Debug("连接服务器开始登录");
             ProgressDialogController progress = await
                 SoftContext.MainWindow.ShowProgressAsync("请稍候", "正在登录,请稍候......");
-            HttpResponseMessage response = await SoftContext.HttpClient.PostAsJsonAsync(url, param);
-            if (response.IsSuccessStatusCode)
-            {
-                await progress.CloseAsync();
-                string message = response.ReasonPhrase;
-                await SoftContext.MainWindow.ShowMessageAsync("登录失败", message);
-                message = "登录验证失败：{0}".FormatWith(message);
-                Logger.Error(message);
-                return;
-            }
-            await progress.CloseAsync();
+            //HttpResponseMessage response = await SoftContext.HttpClient.PostAsJsonAsync(url, param);
+            //if (response.IsSuccessStatusCode)
+            //{
+               await progress.CloseAsync();
+            //    string message = response.ReasonPhrase;
+            //    await SoftContext.MainWindow.ShowMessageAsync("登录失败", message);
+            //    message = "登录验证失败：{0}".FormatWith(message);
+            //    Logger.Error(message);
+            //    return;
+            //}
+            //await progress.CloseAsync();
             Logger.Debug("登录成功");
             this.IsOpen = false;
             SoftContext.IsLogin = true;

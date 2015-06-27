@@ -81,7 +81,7 @@ namespace Utilities.Tasks
         /// <returns></returns>
         public virtual TaskResult CanRun(TaskContext context)
         {
-            return new TaskResult() { ResultType=TaskResultType.Failure,Message=""};
+            return TaskResult.Success;
         }
        
 

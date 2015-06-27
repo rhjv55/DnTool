@@ -29,6 +29,10 @@ namespace Utilities.Tasks
     }
     public class TaskEngine
     {
+        public TaskEngine()
+        {
+            TaskRunState = TaskRunState.Stopped;
+        }
 
         public TaskRunState TaskRunState { get; set; }
         private TaskBase _task;
@@ -70,7 +74,7 @@ namespace Utilities.Tasks
                 return;           //如果任务为空则返回
             _task = task;         //否则当前任务等于task
             _taskEventArg = new TaskEventArg{ Context=task.Context};
-           // Window = task.Context.Role.Window;  //当前窗口等于当前角色所在窗口
+            Window = task.Context.Role.Window;  //当前窗口等于当前角色所在窗口
 
             if (_workThread == null)           //没有在执行任务,则获取任务线程
             {
@@ -101,7 +105,13 @@ namespace Utilities.Tasks
                 Logger.Info("当前无任务，无法暂停！");
                 return;
             }
+            if (!CheckTaskRunState(TaskRunState.Pausing))
+            {
+                return;
+            }
+
             TaskRunState = TaskRunState.Pausing;
+            
             _workThread.Suspend();
             TaskRunState = TaskRunState.Paused;
             Logger.Info("任务线程已暂停.");
@@ -113,10 +123,11 @@ namespace Utilities.Tasks
             {
                 Logger.Info("当前无任务，无法继续！");  
             }
-            if (_workThread.ThreadState != System.Threading.ThreadState.Suspended)
+            if (!CheckTaskRunState(TaskRunState.Continuing)) 
             {
-                Logger.Info("任务未暂停，无法继续！"); 
+                return;
             }
+            
             TaskRunState = TaskRunState.Continuing;
             _workThread.Resume();
             TaskRunState = TaskRunState.Continued;
@@ -186,11 +197,16 @@ namespace Utilities.Tasks
 
         private void TaskStart()
         {
+            TaskRunState = TaskRunState.Started;
             DmPlugin dm = Window.Dm;
-            bool flag = Delegater.WaitTrue(()=>Window.BindHalfBackground(),()=>dm.Delay(1000),10);
+            bool flag = Delegater.WaitTrue(()=>Window.BindFullBackground(),()=>dm.Delay(1000),10);
             if (!flag)
             {
-                throw new Exception(string.Format("窗口“{0}”绑定失败.",Window.Title));
+                throw new Exception(string.Format("窗口“{0}”绑定失败.", Window.Title));
+            }
+            else
+            {
+                Debug.WriteLine("窗口绑定成功！");
             }
             TaskRunState = TaskRunState.Running;
             DoEventHandler(OnStateChanged,_taskEventArg);
@@ -230,7 +246,12 @@ namespace Utilities.Tasks
         }
         private void TaskStop()
         {
-
+            TaskRunState = TaskRunState.Stopping;
+            DoEventHandler(OnStateChanged, _taskEventArg);
+            DmPlugin dm = Window.Dm;
+            dm.UnBindWindow();
+            WaitForUnBind();
+            TaskRunState = TaskRunState.Stopped;
         }
         /// <summary>
         /// 检查是否可以进入指定任务状态
@@ -267,6 +288,7 @@ namespace Utilities.Tasks
         }
         private bool WaitForUnBind()
         {
+            System.Threading.Thread.Sleep(2000);
             return true;
         }
 

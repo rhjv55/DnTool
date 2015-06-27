@@ -52,7 +52,7 @@ namespace DnTool.GameTask
 
             bool ret=Delegater.WaitTrue(() =>
             {
-                dm.MoveToClick(100,100);
+                dm.MoveToClick(567,43);
                 return dm.SendString(hwnd,_thing.Name)==1?true:false;
             }, () => dm.Delay(1000), 10);
             if(ret==false) 
@@ -60,12 +60,12 @@ namespace DnTool.GameTask
 
             ret = Delegater.WaitTrue(() =>
             {
-                dm.MoveToClick(100, 100);
+                dm.MoveToClick(766, 43);
                 return role.HasMallThing(_thing.Name) ? true : false;
             }, () => 
             {
                 dm.Delay(1000);
-                dm.MoveToClick(100, 100);
+                dm.MoveToClick(567, 43);
                 dm.SendString(hwnd, _thing.Name);                
             }, 5);
             if (ret == false) return new TaskResult(TaskResultType.Failure, "无法找到该商品“{0}”.".FormatWith(_thing.Name));
@@ -75,7 +75,7 @@ namespace DnTool.GameTask
                 
                Delegater.WaitTrue(() => role.HasDialogButton("取消") ,()=>dm.Delay(1000));
                if (_useLB)
-                   dm.MoveToClick(100, 100);
+                   dm.MoveToClick(939, 574);
                role.FindDialogButtonAndClick("购买");
                Delegater.WaitTrue(() => role.HasDialogButton("是"), () => dm.Delay(1000));
                role.FindDialogButtonAndClick("是");
