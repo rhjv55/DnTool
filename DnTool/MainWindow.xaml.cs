@@ -1,7 +1,4 @@
-﻿using DnTool.Utilities.Hook;
-using DnTool.Utilities.Keypad;
-using DnTool.ViewModels;
-using DnTool.Views;
+﻿using DnTool.Views;
 using MahApps.Metro.Controls;
 using System;
 using System.Diagnostics;
@@ -9,13 +6,10 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Utilities.Log;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace DnTool
@@ -139,7 +133,7 @@ namespace DnTool
                             if (pid > 0)
                             {
                                 Process p = Process.GetProcessById((int)pid);
-                                if (p.ProcessName == "DragonNest")
+                                if (p.ProcessName == "notepad")
                                 {
                                     //鼠标最后指向的句柄
                                     SoftContext.Role = new Role((int)this._hWndCurrent);

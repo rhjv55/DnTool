@@ -10,6 +10,7 @@ using DnTool.Models;
 using Utilities.Tasks;
 using GalaSoft.MvvmLight.CommandWpf;
 using DnTool.GameTask;
+using Utilities.Log;
 namespace DnTool.ViewModels
 {
     public class BuyViewModel:NotifyPropertyChanged
@@ -31,11 +32,17 @@ namespace DnTool.ViewModels
         private void Buy(MallThing thing)
         {
             TaskContext context = new TaskContext(SoftContext.Role);
+        
             /// 任务设置，可用属性为：.Thing .Num .UseLB
             context.Settings.Thing = thing;
-            context.Settings.Num = int.Parse(Number);
+          
+            context.Settings.Num = Number;
             context.Settings.UseLB = this._useLB;
-            SoftContext.TaskEngine.Start(new BuyThingsTask(context));
+          
+            TaskBase task = new BuyThingsTask(context);
+            task.Name = "购买商城物品";
+      
+            SoftContext.TaskEngine.Start(task);
         }
 
    
@@ -51,9 +58,9 @@ namespace DnTool.ViewModels
             }
         }
 
-        private string _number;
+        private int _number;
 
-        public string Number
+        public int Number
         {
             get { return _number; }
             set { _number = value; }

@@ -25,7 +25,8 @@ namespace DnTool.ViewModels
             this.Position = Position.Right;
             this.IsOpen = true;
             this.LoginCommand = new RelayCommand(()=>this.Login());
-           
+            this._username = "admin";
+            this._password = "admin";
         }
 
         private async void Login()

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utilities.Dm;
+using Utilities.Log;
 using Utilities.Tasks;
 namespace DnTool.GameTask
 {
@@ -13,21 +14,21 @@ namespace DnTool.GameTask
         /// <summary>
         /// 任务设置，可用属性为：.Thing .Num .UseLB
         /// </summary>
-        private readonly dynamic _setting;
         private MallThing _thing;
         private int _num;
         private bool _useLB;
         public BuyThingsTask(TaskContext context)
             : base(context)
         {
-            _setting = context.Settings;
-            _thing = _setting.Thing;
-            _num = _setting.Num;
-            _useLB = _setting.UseLB;
+            Logger.Debug("1");
+           _thing = context.Settings.Thing;
+           _num = context.Settings.Num;
+           _useLB = context.Settings.UseLB;
+           Logger.Debug("2");
         }
         protected override void StepsInitialize(ICollection<TaskStep> steps)
         {
-            steps.Add(new TaskStep { StepName = "", Order = 1, RunFunc = RunStep1 });
+            steps.Add(new TaskStep { StepName = "购买商城物品", Order = 1, RunFunc = RunStep1 });
         }
 
 
@@ -37,6 +38,7 @@ namespace DnTool.GameTask
             Role r = (Role)role;
             DmPlugin dm = role.Window.Dm;
             int hwnd=role.Window.Hwnd;
+           
             if (_useLB)
             {
                 if (!_thing.CanUseLB)

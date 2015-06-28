@@ -142,9 +142,6 @@
     </ApplicationDefinition>
     <Compile Include="Delegater.cs" />
     <Compile Include="GameTask\BuyThingsTask.cs" />
-    <Compile Include="GameTask\Window1.xaml.cs">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Models\Blank.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\MemoryAddress.cs" />
@@ -222,10 +219,6 @@
     <Compile Include="Views\TeleportView.xaml.cs">
       <DependentUpon>TeleportView.xaml</DependentUpon>
     </Compile>
-    <Page Include="GameTask\Window1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

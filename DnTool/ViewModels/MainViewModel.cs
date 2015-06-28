@@ -27,19 +27,6 @@ namespace DnTool.ViewModels
             }
             ,()=>SoftContext.IsLogin);
 
-            //IRole role = new Role(0);
-            //var v1 = ((Role)role).MallVolume;
-            //var v2 = ((Role)role).BagMoney;
-            //var v3 = ((Role)role).MallLB;
-            //var v4 = ((Role)role).RepertoryMoney;
-            //this.SaveListCommand = new RelayCommand(() =>
-            //{
-            //    foreach (var item in this.InfoList)
-            //    {
-            //      //  FileOperateHelper.WriteFile("",string.Format("{0}#{1}#{2}#{3}",item.Name,item.CurrentPoint.X,item.CurrentPoint.Y,item.CurrentPoint.Z));
-            //    }
-            //});
- 
             this.OpenCommand = new RelayCommand(() =>
             {
                 try
@@ -96,27 +83,8 @@ namespace DnTool.ViewModels
     
             this.LoadedCommand = new RelayCommand(() =>
             {
-               
-
-              //
                // WinIo.Initialize();
-               
             });
-
-
-            Memory64Helper m = new Memory64Helper();
-
-            //List<int> moduleAddrs = new List<int>();
-            //string hwndString=dm.EnumWindowByProcess("DragonNest.exe","","DRAGONNEST",2);
-            //List<int> hwndList=dm.GetHwnds(hwndString);
-            //foreach (var hwnd in hwndList)
-            //{
-            //    int base_addr=dm.GetModuleBaseAddr(hwnd, "DragonNest.exe");
-            //    if (base_addr > 0)
-            //        moduleAddrs.Add(base_addr);
-            //}
-
-
 
             this.ClosedCommand = new RelayCommand(() =>
             {
@@ -125,73 +93,10 @@ namespace DnTool.ViewModels
           
 
         }
-      
-     
-        
-        #region 方法
-
-
-        //读取制定内存中的值
-        public Int64 ReadMemoryValue(int baseAdd)
-        {
-            return MemoryHelper.ReadMemoryValue(baseAdd, processName);
-        }
-
-        //将值写入指定内存中
-        public void WriteMemory(int baseAdd, int value)
-        {
-            MemoryHelper.WriteMemoryValue(baseAdd, processName, value);
-        }
-        #endregion
-
-        #region 命令
-        public RelayCommand OpenCommand { get; set; }
-        public RelayCommand UnBindCommand { get; set; }
-        public RelayCommand AddNewPointCommand { get; set; }
-        public RelayCommand TestCommand { get; set; }
-        public RelayCommand ClosedCommand { get; set; }
-        public RelayCommand SavePointCommand { get; set; }
-        public RelayCommand MoveCommand { get; set; }
-        public RelayCommand LoadedCommand { get; set; }
-        public RelayCommand DeleteCommand { get; set; }
-        public RelayCommand ModifyCommand { get; set; }
-        public RelayCommand ImportListCommand { get; set; }
-        public RelayCommand SaveListCommand { get; set; }
-        public RelayCommand Redo { get; set; }
-        public RelayCommand Undo { get; set; }
-        public RelayCommand ClearCommand { get; set; }
-        #endregion
-
-        #region 数据
-        private ObservableCollection<FlyoutBaseViewModel> _flyouts=new ObservableCollection<FlyoutBaseViewModel>();
-
-        public ObservableCollection<FlyoutBaseViewModel> Flyouts
-        {
-            get { return _flyouts; }
-        }
-        
-        
-
        
-    
-        
+        public RelayCommand OpenCommand { get; set; }
+        public RelayCommand ClosedCommand { get; set; }
+        public RelayCommand LoadedCommand { get; set; }
 
-         private int _currentHwnd;
-
-         public int CurrentHwnd
-         {
-             get { return _currentHwnd; }
-             set
-             {
-                if (_currentHwnd != value)
-                {
-                    _currentHwnd = value;
-                   
-                }
-             }
-         }
-         
-
-        #endregion
     }
 }

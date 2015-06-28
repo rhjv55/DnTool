@@ -40,7 +40,6 @@ namespace Utilities.Tasks
         private Thread _workThread;
         public OutMessageHandler OutMessage;
         public DmWindow Window { get; set; }
-       // public bool IsWorking { get; }
         public string CurrentTask { get{return _task.Name;}}
        
         #region 事件
@@ -72,28 +71,28 @@ namespace Utilities.Tasks
         {
             if (task == null)
                 return;           //如果任务为空则返回
+
+            if (!CheckTaskRunState(TaskRunState.Starting)) //是否可以进入启动状态
+            {
+                Logger.Error("无法启动,当前任务“{0}”状态：{1}".FormatWith(_task.Name,TaskRunState.ToString()));
+                return;
+            }
+
             _task = task;         //否则当前任务等于task
             _taskEventArg = new TaskEventArg{ Context=task.Context};
             Window = task.Context.Role.Window;  //当前窗口等于当前角色所在窗口
 
             if (_workThread == null)           //没有在执行任务,则获取任务线程
             {
-                _workThread = GetWorkThread();
+                _workThread = GetWorkThread(); //获取任务线程
             }
-            if (!CheckTaskRunState(TaskRunState.Starting)) //如果正在启动，则返回
-            {
-                return;
-            }
-            //if (IsWorking)                      //如果正在工作，则返回
-            //{
-            //    return;
-            //}
-            Debug.WriteLine(string.Format("任务“{0}”正在启动.",_task.Name));
+            Logger.Debug(string.Format("任务“{0}”正在启动.",_task.Name));
            
             TaskRunState = TaskRunState.Starting;  //任务状态改为正在启动
             DoEventHandler(OnStateChanged,_taskEventArg);
             DoEventHandler(OnStarting,_taskEventArg);
-            _workThread.Start();                  //任务开始
+            _workThread.Start();                  //线程启动
+            
         }
 
 
@@ -178,21 +177,22 @@ namespace Utilities.Tasks
                     TaskStart();
                     TaskStop();
                     Window.FlashWindow();
-                    _workThread = null;
+                    _workThread = null;             //如果没有null，线程处于stopped状态
                 }
-                catch (ThreadAbortException)
+                catch (ThreadAbortException ex)
                 {
+                    Logger.Error("线程结束异常："+ex.Message);
                     TaskStop();
                 }
                 catch (Exception ex)
                 {
+                    Logger.Error("任务执行失败，" + ex.Message);
                     TaskStop();
                     Window.FlashWindow();
-                    Logger.Error("任务执行失败，"+ex.Message);
                     _workThread = null;
                 }
              
-            }) { IsBackground=true};
+            }) { IsBackground=true,Name="任务线程"};
         }
 
         private void TaskStart()
@@ -200,18 +200,15 @@ namespace Utilities.Tasks
             TaskRunState = TaskRunState.Started;
             DmPlugin dm = Window.Dm;
             bool flag = Delegater.WaitTrue(()=>Window.BindFullBackground(),()=>dm.Delay(1000),10);
+            dm.Delay(1000);
             if (!flag)
-            {
                 throw new Exception(string.Format("窗口“{0}”绑定失败.", Window.Title));
-            }
             else
-            {
-                Debug.WriteLine("窗口绑定成功！");
-            }
+               Logger.Debug("窗口绑定成功！");
             TaskRunState = TaskRunState.Running;
             DoEventHandler(OnStateChanged,_taskEventArg);
             DoEventHandler(OnStarted,_taskEventArg);
-            Logger.Info("任务启动成功:"+_task.Name);
+            Logger.Debug("任务“{0}”启动成功.".FormatWith(_task.Name));
             TaskResult result = null;
             try
             {
@@ -228,28 +225,34 @@ namespace Utilities.Tasks
                 TaskStop();
                 Window.FlashWindow();
                 _workThread = null;
-                Logger.Error("任务执行中断："+ex.Message);
+                Logger.Error("任务“{0}”执行中断：{1}".FormatWith(_task.Name,ex.Message));
             }
             if (result == null)
             {
                 return;
             }
-            if (result.ResultType == TaskResultType.Success)
+
+            if (result.ResultType == TaskResultType.Failure)
             {
-                Logger.Info("任务执行完毕"+_task.Name);
+                Logger.Info("任务“{0}”执行失败：{1}".FormatWith(_task.Name,result.Message));
                 return;
             }
             if (result.ResultType == TaskResultType.Finished)
             {
-                Logger.Info("任务执行结束"+_task.Name+result.Message);
+                Logger.Info("任务“{0}”执行结束,{1}".FormatWith(_task.Name,result.Message));
             }
         }
         private void TaskStop()
         {
             TaskRunState = TaskRunState.Stopping;
             DoEventHandler(OnStateChanged, _taskEventArg);
-            DmPlugin dm = Window.Dm;
-            dm.UnBindWindow();
+            if (Window.IsBind)
+            {
+                if (Window.UnBind())
+                    Logger.Debug("窗口解绑成功！");
+                else
+                    Logger.Error("窗口解绑失败！");
+            }
             WaitForUnBind();
             TaskRunState = TaskRunState.Stopped;
         }
@@ -297,6 +300,7 @@ namespace Utilities.Tasks
         {
             while (!_workThread.IsAlive)
             {
+
             }
             Thread.Sleep(1);
         }

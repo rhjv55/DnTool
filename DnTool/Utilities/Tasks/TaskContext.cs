@@ -15,7 +15,7 @@ namespace Utilities.Tasks
         public TaskContext(IRole role)
         {
            Role = role;
-         
+
            Settings = new ExpandoObject();
            StepIndex = 0;
            TaskSteps = new List<TaskStep>();
