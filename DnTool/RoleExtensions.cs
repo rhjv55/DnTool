@@ -23,7 +23,7 @@ namespace DnTool
         public static bool HasMallThing(this IRole role,string name)
         {
             DmPlugin dm = role.Window.Dm;
-            return dm.FindPicE(0, 0, role.Window.Width, role.Window.Height, name + ".bmp")==""?true:false;
+            return dm.FindPicE(0, 0, role.Window.Width, role.Window.Height, name + ".bmp")==""?false:true;
         }
 
         public static bool FindMallButtonAndClick(this IRole role, string name)

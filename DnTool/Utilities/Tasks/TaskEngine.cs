@@ -86,7 +86,7 @@ namespace Utilities.Tasks
             {
                 _workThread = GetWorkThread(); //获取任务线程
             }
-            Logger.Debug(string.Format("任务“{0}”正在启动.",_task.Name));
+            Logger.Debug(string.Format("任务“{0}”正在启动...",_task.Name));
            
             TaskRunState = TaskRunState.Starting;  //任务状态改为正在启动
             DoEventHandler(OnStateChanged,_taskEventArg);
@@ -199,7 +199,9 @@ namespace Utilities.Tasks
         {
             TaskRunState = TaskRunState.Started;
             DmPlugin dm = Window.Dm;
-            bool flag = Delegater.WaitTrue(()=>Window.BindFullBackground(),()=>dm.Delay(1000),10);
+            bool flag = Delegater.WaitTrue(()=>
+                dm.BindWindow(Window.Hwnd,DmBindDisplay.dx,DmBindMouse.windows,DmBindKeypad.normal,0)==1?true:false,
+                ()=>dm.Delay(1000),10);
             dm.Delay(1000);
             if (!flag)
                 throw new Exception(string.Format("窗口“{0}”绑定失败.", Window.Title));

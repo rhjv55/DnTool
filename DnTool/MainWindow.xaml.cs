@@ -133,10 +133,11 @@ namespace DnTool
                             if (pid > 0)
                             {
                                 Process p = Process.GetProcessById((int)pid);
-                                if (p.ProcessName == "notepad")
+                                if (p.ProcessName == "DragonNest")
                                 {
                                     //鼠标最后指向的句柄
                                     SoftContext.Role = new Role((int)this._hWndCurrent);
+                                    SoftContext.Role.Window.Dm.SetPath(AppDomain.CurrentDomain.BaseDirectory+"\\pic");
                                 }
                                 else
                                 {

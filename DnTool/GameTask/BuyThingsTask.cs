@@ -85,7 +85,7 @@ namespace DnTool.GameTask
                role.FindDialogButtonAndClick("确认");
             }
             _num--;
-            return _num==0? TaskResult.Success : RunStep1(context); 
+            return _num<=0? TaskResult.Success : RunStep1(context); 
         }
 
         protected override int GetStepIndex(TaskContext context)
