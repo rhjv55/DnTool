@@ -120,12 +120,14 @@ namespace DnTool
         /// <returns></returns>
         public static bool HasButton(this IRole role,string name)
         {
-            return role.Window.Dm.FindStrE(0,0,2000,2000,"","",0.9)==""?true:false;
+            DmPlugin dm = role.Window.Dm;
+            return dm.FindStr(0, 0, 2000, 2000, name, "BEBEBE-414141", 0.9);
         }
 
         public static bool FindButtonAndClick(this IRole role, string name)
         {
-            return true;
+            DmPlugin dm = role.Window.Dm;
+            return dm.FindStrE_LeftClick(0, 0, 2000, 2000, name, "BEBEBE-414141");
         }
         /// <summary>
         /// 是否有对话框
@@ -135,7 +137,8 @@ namespace DnTool
         /// <returns></returns>
         public static bool HasDialogBoard(this IRole role,string boardName)
         {
-            return true;
+            DmPlugin dm = role.Window.Dm;
+            return dm.FindStr(0, 0, 2000, 2000, boardName, "BEBEBE-414141", 0.9);
         }
         /// <summary>
         /// 是否有对话框按钮

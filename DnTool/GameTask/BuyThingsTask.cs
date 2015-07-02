@@ -39,8 +39,8 @@ namespace DnTool.GameTask
             DmPlugin dm = role.Window.Dm;
             int hwnd=role.Window.Hwnd;
 
-            if(!role.HasButton("搜索"))  //商城界面是否打开
-                throw new TaskInterruptException("请先打开商城界面.");
+           // if(!role.HasButton("搜索"))  //商城界面是否打开
+            //    throw new TaskInterruptException("请先打开商城界面.");
 
             if (_useLB)
             {
@@ -60,23 +60,27 @@ namespace DnTool.GameTask
                 dm.MoveToClick(567, 43);
                 dm.SendString(hwnd, _thing.Name);
                 dm.MoveToClick(766, 43);
-                return role.HasMallThing(_thing.Name) ? true : false;
-            },()=>dm.Delay(2000),10);
+                return true;
+               // return role.HasButton("购买") ? true : false;
+            },()=>dm.Delay(1000),10);
             if (ret == false) 
                 return new TaskResult(TaskResultType.Failure, "无法找到该商品“{0}”.".FormatWith(_thing.Name));
-            role.FindMallButtonAndClick(_thing);
-            if (role.HasDialogBoard("购买物品"))
-            { 
-               if (_useLB)
-                   dm.MoveToClick(939, 574);
-               role.FindDialogButtonAndClick("购买");
-               Delegater.WaitTrue(() => role.HasDialogButton("是"), () => dm.Delay(1000));
-               role.FindDialogButtonAndClick("是");
-               Delegater.WaitTrue(() => role.HasDialogButton("确认"), () => dm.Delay(1000));
-               role.FindDialogButtonAndClick("确认");
-            }
+            role.FindButtonAndClick("购买");
+            dm.Delay(500);
+          //  if (role.HasDialogBoard("结算"))
+           // { 
+              // if (_useLB)
+                //   dm.MoveToClick(939, 574);   
+              // Delegater.WaitTrue(() => role.HasDialogButton("是"),()=>dm.MoveToClick(608,718));
+              // Delegater.WaitTrue(() => !role.HasDialogButton("是"),()=>dm.MoveToClick(508,537));
+               dm.MoveToClick(608,718);
+                   dm.Delay(500);
+               dm.MoveToClick(508, 537);
+               Delegater.WaitTrue(() => dm.FindStr(629, 459, 850, 560,"确认","BEBEBE-414141",0.9), () => dm.Delay(100));
+              // Delegater.WaitTrue(() => !role.HasDialogButton("确认"), () => dm.MoveToClick(719,506));
+               dm.MoveToClick(719, 506);
+          //  }
             _num--;
-            dm.Delay(2000);
             return _num<=0? TaskResult.Finished : RunStep1(context); 
         }
 

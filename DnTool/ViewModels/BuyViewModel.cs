@@ -20,6 +20,8 @@ namespace DnTool.ViewModels
         {
             this.Things.Add(new MallThing() { ID = 1, Name = "龙裔特别口袋", Description = "70龙玉,70纹章" ,CanUseLB=false,Value=30000});
             this.Things.Add(new MallThing() { ID = 2, Name = "物品保护魔法药", Description = "强化+8至+12保护",CanUseLB=true,Value=100000});
+            this.Things.Add(new MallThing() { ID = 2, Name = "钻石潘多拉之心", Description = "随机获得各种物品", CanUseLB = true, Value = 40000 });
+            this.Things.Add(new MallThing() { ID = 2, Name = "柏林的感谢口袋", Description = "精髓阿尔泰钻石", CanUseLB = true, Value = 80000 });
         }
         
         public BuyViewModel()

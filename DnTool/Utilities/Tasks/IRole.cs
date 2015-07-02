@@ -22,7 +22,7 @@ namespace Utilities.Tasks
         /// 找到对话框按钮并点击
         /// </summary>
         /// <param name="p"></param>
-        void FindDialogButtonAndClick(string p);
+        bool FindDialogButtonAndClick(string p);
 
         void CloseDialogBoard();
 

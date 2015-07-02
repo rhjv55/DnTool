@@ -97,9 +97,9 @@ namespace DnTool
             throw new NotImplementedException();
         }
 
-        public void FindDialogButtonAndClick(string name)
+        public bool FindDialogButtonAndClick(string button)
         {
-            throw new NotImplementedException();
+            return _window.Dm.FindStrE_LeftClick(0, 0, 2000, 2000, button, "BEBEBE-414141", 0, 0, 0.9);
         }
 
         public void CloseDialogBoard()
@@ -109,7 +109,7 @@ namespace DnTool
 
         public bool HasDialogButton(string p)
         {
-            throw new NotImplementedException();
+            return _window.Dm.FindStr(0, 0, 2000, 2000, p, "BEBEBE-414141",0.9);
         }
 
         public int Empirical

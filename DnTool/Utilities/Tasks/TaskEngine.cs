@@ -199,14 +199,17 @@ namespace Utilities.Tasks
         {
             TaskRunState = TaskRunState.Started;
             DmPlugin dm = Window.Dm;
-            bool flag = Delegater.WaitTrue(()=>
-                dm.BindWindow(Window.Hwnd,DmBindDisplay.dx,DmBindMouse.windows,DmBindKeypad.normal,0)==1?true:false,
+            bool flag = Delegater.WaitTrue(()=>Window.BindFullBackground(),
+               // dm.BindWindow(Window.Hwnd,DmBindDisplay.dx,DmBindMouse.windows,DmBindKeypad.normal,0)==1?true:false,
                 ()=>dm.Delay(1000),10);
             dm.Delay(1000);
             if (!flag)
                 throw new Exception(string.Format("窗口“{0}”绑定失败.", Window.Title));
             else
-               Logger.Debug("窗口绑定成功！");
+            {
+                Logger.Debug("窗口绑定成功！");
+                Window.IsBind = true;
+            }
             TaskRunState = TaskRunState.Running;
             DoEventHandler(OnStateChanged,_taskEventArg);
             DoEventHandler(OnStarted,_taskEventArg);
@@ -227,7 +230,7 @@ namespace Utilities.Tasks
                 TaskStop();
                 Window.FlashWindow();
                 _workThread = null;
-                OutMessage("任务“{0}”执行中断：{1}".FormatWith(_task.Name,ex.Message));
+                Logger.Error("任务“{0}”执行中断：{1}".FormatWith(_task.Name,ex.Message));
             }
             if (result == null)
             {

@@ -57,7 +57,7 @@ namespace Utilities.Dm
 
         public int ProcessId { get { return Dm.GetWindowProcessId(_hwnd); } }
 
-        public bool IsBind { get; private set; }
+        public bool IsBind { get; set; }
 
         /// <summary>
         /// 获取 窗口的绑定模式

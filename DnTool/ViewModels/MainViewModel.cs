@@ -19,7 +19,7 @@ namespace DnTool.ViewModels
         ViewModelLocator Locator = new ViewModelLocator();
         public MainViewModel()
         {
-            SoftContext.TaskEngine.OutMessage += new global::Utilities.Tasks.OutMessageHandler(this.SetMessage);
+
             this.ExitLoginCommand = new RelayCommand(()=>
             {
                 Locator.Login.IsOpen = true;
