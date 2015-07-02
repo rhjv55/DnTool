@@ -28,54 +28,45 @@ namespace DnTool.GameTask
         }
         protected override void StepsInitialize(ICollection<TaskStep> steps)
         {
-            steps.Add(new TaskStep { StepName = "购买商城物品", Order = 1, RunFunc = RunStep1 });
+            steps.Add(new TaskStep { StepName = "购买物品“{0}”".FormatWith(_thing.Name), Order = 1, RunFunc = RunStep1 });
         }
-
 
         private TaskResult RunStep1(TaskContext context)
         {
+            
             IRole role = context.Role;
             Role r = (Role)role;
             DmPlugin dm = role.Window.Dm;
             int hwnd=role.Window.Hwnd;
-           
+
+            if(!role.HasButton("搜索"))  //商城界面是否打开
+                throw new TaskInterruptException("请先打开商城界面.");
+
             if (_useLB)
             {
                 if (!_thing.CanUseLB)
-                    return new TaskResult(TaskResultType.Failure, "无法使用龙币购买物品“{0}”.".FormatWith(_thing.Name));
+                    throw new TaskInterruptException("“{0}”无法使用龙币购买.".FormatWith(_thing.Name));
                 if (r.MallLB < _thing.Value)
-                    return new TaskResult(TaskResultType.Failure, "龙币不足,无法购买物品“{0}”.".FormatWith(_thing.Name));
+                    throw new TaskInterruptException("龙币不足,无法购买物品“{0}”.".FormatWith(_thing.Name));
             }
             else
             {
                 if(r.MallVolume<_thing.Value)
-                    return new TaskResult(TaskResultType.Failure, "点卷不足,无法购买物品“{0}”.".FormatWith(_thing.Name));
+                    throw new TaskInterruptException("点卷不足,无法购买物品“{0}”.".FormatWith(_thing.Name));
             }
 
-            bool ret=Delegater.WaitTrue(() =>
+            bool ret = Delegater.WaitTrue(() =>
             {
-                dm.MoveToClick(567,43);
-                return dm.SendString(hwnd,_thing.Name)==1?true:false;
-            }, () => dm.Delay(1000), 10);
-            if(ret==false) 
-                return new TaskResult(TaskResultType.Failure,"发送文本数据失败,无法购买物品“{0}”.".FormatWith(_thing.Name));
-
-            ret = Delegater.WaitTrue(() =>
-            {
+                dm.MoveToClick(567, 43);
+                dm.SendString(hwnd, _thing.Name);
                 dm.MoveToClick(766, 43);
                 return role.HasMallThing(_thing.Name) ? true : false;
-            }, () => 
-            {
-                dm.Delay(1000);
-                dm.MoveToClick(567, 43);
-                dm.SendString(hwnd, _thing.Name);                
-            }, 5);
-            if (ret == false) return new TaskResult(TaskResultType.Failure, "无法找到该商品“{0}”.".FormatWith(_thing.Name));
-
-            if (role.FindMallButtonAndClick(_thing.Name))
-            {
-                
-               Delegater.WaitTrue(() => role.HasDialogButton("取消") ,()=>dm.Delay(1000));
+            },()=>dm.Delay(2000),10);
+            if (ret == false) 
+                return new TaskResult(TaskResultType.Failure, "无法找到该商品“{0}”.".FormatWith(_thing.Name));
+            role.FindMallButtonAndClick(_thing);
+            if (role.HasDialogBoard("购买物品"))
+            { 
                if (_useLB)
                    dm.MoveToClick(939, 574);
                role.FindDialogButtonAndClick("购买");
@@ -85,17 +76,12 @@ namespace DnTool.GameTask
                role.FindDialogButtonAndClick("确认");
             }
             _num--;
-            return _num<=0? TaskResult.Success : RunStep1(context); 
+            dm.Delay(2000);
+            return _num<=0? TaskResult.Finished : RunStep1(context); 
         }
 
         protected override int GetStepIndex(TaskContext context)
         {
-            IRole role = context.Role;
-           
-           //有是空腹 返回1
-            //快捷键 无 返回2
-            //防御》=20 返回3
-            //返回4
             return 1;
         }
     }

@@ -3,9 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DnTool.Utilities.Tasks
+namespace Utilities.Tasks
 {
-    class TaskRestartException : Exception
+    public class TaskRestartException : Exception
     {
+         public TaskRestartException()
+        {
+        }
+        public TaskRestartException(string message)
+            :base(message)
+        {
+        }
+        public TaskRestartException(string message, Exception inner) 
+            :base(message, inner)
+        {
+        }
     }
 }

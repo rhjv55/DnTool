@@ -133,11 +133,17 @@ namespace DnTool
                             if (pid > 0)
                             {
                                 Process p = Process.GetProcessById((int)pid);
-                                if (p.ProcessName == "DragonNest")
+                                if (p.ProcessName == "notepad")
                                 {
                                     //鼠标最后指向的句柄
                                     SoftContext.Role = new Role((int)this._hWndCurrent);
-                                    SoftContext.Role.Window.Dm.SetPath(AppDomain.CurrentDomain.BaseDirectory+"\\pic");
+                                    if(!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\resources"))
+                                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\resources");
+                                    SoftContext.Role.Window.Dm.SetPath(AppDomain.CurrentDomain.BaseDirectory+"\\resources");
+                                    if (!File.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\resources\\dnDict.txt"))
+                                        File.Create(AppDomain.CurrentDomain.BaseDirectory + "\\resources\\dnDict.txt");
+                                    SoftContext.Role.Window.Dm.SetDict(0,"dnDict.txt");
+                                    
                                 }
                                 else
                                 {

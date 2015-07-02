@@ -35,8 +35,7 @@ namespace DnTool.ViewModels
         
             /// 任务设置，可用属性为：.Thing .Num .UseLB
             context.Settings.Thing = thing;
-          
-            context.Settings.Num = Number;
+            context.Settings.Num = this._number;
             context.Settings.UseLB = this._useLB;
           
             TaskBase task = new BuyThingsTask(context);

@@ -5,7 +5,7 @@
         xmlns:uc="clr-namespace:DnTool.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         Title="DnTool V1.0" Height="630" Width="380" DataContext="{Binding Main,Source={StaticResource Locator}}">
-    
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding ClosedCommand}" />
@@ -77,11 +77,12 @@
 
 
 
-    
+
     <Grid>
+        <DockPanel>
+            
         
-        <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1">
-       
+            <Controls:MetroAnimatedSingleRowTabControl DockPanel.Dock="Top" Grid.Row="1" Height="575">
             <TabItem Header="瞬移">
                 <Grid>
                     <Canvas HorizontalAlignment="Left" Width="39" Height="34" Margin="22,47,0,0" VerticalAlignment="Top">
@@ -90,20 +91,17 @@
                     <uc:TeleportView></uc:TeleportView>
                 </Grid>
             </TabItem>
-            <TabItem Header="多开">
-                <StackPanel Orientation="Horizontal" Height="30" Grid.Row="2">
-                    <Button Width="80" Height="30" Content="多开" ToolTip="开一个窗口点一下按钮" Command="{Binding OpenCommand}"/>
+            <TabItem Header="工具">
+                <StackPanel>
+                 <Button Width="80" Height="30" Content="多开" ToolTip="开一个窗口点一下按钮" Command="{Binding OpenCommand}"/>
+                <uc:BuyView></uc:BuyView>
                 </StackPanel>
             </TabItem>
-            
-            <TabItem Header="商城">
-                <uc:BuyView></uc:BuyView>
-            </TabItem>
-            <TabItem Header="背包">
-
-            </TabItem>
+           
         </Controls:MetroAnimatedSingleRowTabControl>
-      
-
+            <StatusBar DockPanel.Dock="Bottom" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="380">
+                <Label Content="{Binding Message}"></Label>
+            </StatusBar>
+        </DockPanel>
     </Grid>
 </Controls:MetroWindow>

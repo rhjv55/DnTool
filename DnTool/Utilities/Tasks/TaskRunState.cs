@@ -8,7 +8,7 @@ namespace Utilities.Tasks
     public enum TaskRunState
     {
       
-        Prepare,
+        Initialize,
         Starting,
         Started,
         Pausing,

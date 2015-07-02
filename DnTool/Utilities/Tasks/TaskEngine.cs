@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Utilities.Dm;
 using Utilities.Log;
-using DnTool.Utilities.Tasks;
+
 
 namespace Utilities.Tasks
 {
@@ -227,17 +227,16 @@ namespace Utilities.Tasks
                 TaskStop();
                 Window.FlashWindow();
                 _workThread = null;
-                Logger.Error("任务“{0}”执行中断：{1}".FormatWith(_task.Name,ex.Message));
+                OutMessage("任务“{0}”执行中断：{1}".FormatWith(_task.Name,ex.Message));
             }
             if (result == null)
             {
                 return;
             }
 
-            if (result.ResultType == TaskResultType.Failure)
+            if (result.ResultType == TaskResultType.Success)
             {
-                Logger.Info("任务“{0}”执行失败：{1}".FormatWith(_task.Name,result.Message));
-                return;
+                Logger.Info("任务“{0}”执行完毕：{1}".FormatWith(_task.Name,result.Message));
             }
             if (result.ResultType == TaskResultType.Finished)
             {

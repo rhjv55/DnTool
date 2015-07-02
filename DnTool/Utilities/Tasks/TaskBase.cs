@@ -58,19 +58,19 @@ namespace Utilities.Tasks
             _context.StepIndex = GetStepIndex(_context);
 
             //循环执行每个步骤，出现步骤失败则返回任务失败
-                foreach (TaskStep taskStep in _context.TaskSteps)
+            foreach (TaskStep taskStep in _context.TaskSteps)
+            {
+                if (_context.StepIndex > taskStep.Order)
                 {
-                    if (_context.StepIndex > taskStep.Order)
-                    {
-                    continue;
-                    }
-                    result = taskStep.RunFunc(_context);
-                    if (result.ResultType != TaskResultType.Success)
-                    {
-                        return result;
-                    }
+                continue;
                 }
-                _context.StepIndex = 1;
+                result = taskStep.RunFunc(_context);
+                if (result.ResultType != TaskResultType.Success)
+                {
+                    return result;
+                }
+            }
+            _context.StepIndex = 1;
  
             return TaskResult.Finished;
         }

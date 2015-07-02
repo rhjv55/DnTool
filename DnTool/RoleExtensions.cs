@@ -15,6 +15,17 @@ namespace DnTool
     public static class RoleExtensions 
     {
         /// <summary>
+        /// 获取鼠标所指向控件的文本
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public static string GetMousePointContent(this IRole role)
+        {
+            DmPlugin dm = role.Window.Dm;
+            return dm.ReadString(role.Window.Hwnd,"[]+30",1,20);
+        }
+
+        /// <summary>
         /// 商城界面是否有某个物品
         /// </summary>
         /// <param name="role"></param>
@@ -26,10 +37,10 @@ namespace DnTool
             return dm.FindPicE(0, 0, role.Window.Width, role.Window.Height, name + ".bmp")==""?false:true;
         }
 
-        public static bool FindMallButtonAndClick(this IRole role, string name)
+        public static bool FindMallButtonAndClick(this IRole role, MallThing thing)
         {
             DmPlugin dm = role.Window.Dm;
-            return dm.FindPicE_LeftClick(0, 0, role.Window.Width,role.Window.Height, name + ".bmp",35,85)? true : false; 
+            return dm.FindPicE_LeftClick(0, 0, role.Window.Width,role.Window.Height, thing.Name + ".bmp",35,85)? true : false; 
 
         }
         /// <summary>
@@ -77,6 +88,111 @@ namespace DnTool
             return GetBagBlanks(1).Union(GetBagBlanks(2)).ToArray();
         }
 
+        public static MallThing GetShortcutThing(this IRole role,int num)
+        {
+            return null;
+        }
+        /// <summary>
+        /// 是否有任务的关键项目,任务名，文本关键字,物品名,npc名
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static bool HasTaskItem(this IRole role,params string[] args)
+        {
+            return true;
+        }
+      
+        /// <summary>
+        /// 是否有buff
+        /// </summary>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        public static bool HasBuffState(this IRole role)
+        {
+            return true;
+        }
+        /// <summary>
+        /// 是否有按钮
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool HasButton(this IRole role,string name)
+        {
+            return role.Window.Dm.FindStrE(0,0,2000,2000,"","",0.9)==""?true:false;
+        }
+
+        public static bool FindButtonAndClick(this IRole role, string name)
+        {
+            return true;
+        }
+        /// <summary>
+        /// 是否有对话框
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="boardName"></param>
+        /// <returns></returns>
+        public static bool HasDialogBoard(this IRole role,string boardName)
+        {
+            return true;
+        }
+        /// <summary>
+        /// 是否有对话框按钮
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool HasDialogButton(this IRole role,string name)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// 是否有对话框详细信息  Resources.Fsb_Color_纯红色
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="detail"></param>
+        /// <returns></returns>
+        public static bool HasDialogDetail(this IRole role, string detail,string color)
+        {
+            return true;
+        }
+        /// <summary>
+        /// 是否有没有按钮的对话框
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool HasNoButtonDialog(this IRole role, string name)
+        {
+            return true;
+        }
+        /// <summary>
+        /// 角色是否在坐标上
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool HasRoleInPoint(this IRole role, string name)
+        {
+            return true;
+        }
+        /// <summary>
+        /// 是否快捷栏有物品
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool HasShortcurThing(this IRole role, string name)
+        {
+            return true;
+        }
+
+        public static void CloseDialogBoard()
+        {
+            
+        }
         #region xxx
        
         public static void BagCleanup(this IRole role)
