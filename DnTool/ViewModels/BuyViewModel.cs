@@ -18,10 +18,15 @@ namespace DnTool.ViewModels
         public RelayCommand<MallThing> BuyCommand { get; set; }
         private void InitThings()
         {
-            this.Things.Add(new MallThing() { ID = 1, Name = "龙裔特别口袋", Description = "70龙玉,70纹章" ,CanUseLB=false,Value=30000});
-            this.Things.Add(new MallThing() { ID = 2, Name = "物品保护魔法药", Description = "强化+8至+12保护",CanUseLB=true,Value=100000});
+           
+            this.Things.Add(new MallThing() { ID = 1, Name = "物品保护魔法药", Description = "强化+9至+12保护",CanUseLB=true,Value=100000});
             this.Things.Add(new MallThing() { ID = 2, Name = "钻石潘多拉之心", Description = "随机获得各种物品", CanUseLB = true, Value = 40000 });
-            this.Things.Add(new MallThing() { ID = 2, Name = "柏林的感谢口袋", Description = "精髓阿尔泰钻石", CanUseLB = true, Value = 80000 });
+            this.Things.Add(new MallThing() { ID = 2, Name = "钻石潘多拉钥匙", Description = "打开钻石潘多拉之心", CanUseLB = true, Value = 1 });
+            this.Things.Add(new MallThing() { ID = 3, Name = "阿尔杰塔之泪", Description = "随机获得各种物品", CanUseLB = true, Value = 40000 });
+            this.Things.Add(new MallThing() { ID = 4, Name = "10000龙币商品卷", Description = "10000龙币", CanUseLB = true, Value = 80000 });
+            this.Things.Add(new MallThing() { ID = 5, Name = "柏林的感谢口袋", Description = "最高级阿尔泰丶最高级钻石丶生命的精髓各100个", CanUseLB = true, Value = 80000 });
+            this.Things.Add(new MallThing() { ID = 6, Name = "龙裔特别口袋", Description = "70龙玉,70纹章", CanUseLB = false, Value = 30000 });
+            this.Things.Add(new MallThing() { ID = 7, Name = "富饶护符箱子", Description = "护符金币获得加成", CanUseLB = true, Value = 80000 });
         }
         
         public BuyViewModel()

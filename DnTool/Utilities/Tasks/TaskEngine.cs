@@ -186,7 +186,7 @@ namespace Utilities.Tasks
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("任务执行失败，" + ex.Message);
+                    Logger.Error("发生异常，" + ex.Message);
                     TaskStop();
                     Window.FlashWindow();
                     _workThread = null;
@@ -202,7 +202,7 @@ namespace Utilities.Tasks
             bool flag = Delegater.WaitTrue(()=>Window.BindFullBackground(),
                // dm.BindWindow(Window.Hwnd,DmBindDisplay.dx,DmBindMouse.windows,DmBindKeypad.normal,0)==1?true:false,
                 ()=>dm.Delay(1000),10);
-            dm.Delay(1000);
+            dm.Delay(500);
             if (!flag)
                 throw new Exception(string.Format("窗口“{0}”绑定失败.", Window.Title));
             else
