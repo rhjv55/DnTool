@@ -27,9 +27,6 @@ namespace DnTool.Views
             this.DataContext = new BuyViewModel();
         }
        
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+     
     }
 }

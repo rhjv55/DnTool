@@ -80,8 +80,6 @@
 
     <Grid>
         <DockPanel>
-            
-        
             <Controls:MetroAnimatedSingleRowTabControl DockPanel.Dock="Top" Grid.Row="1" Height="575">
             <TabItem Header="瞬移">
                 <Grid>
@@ -92,16 +90,11 @@
                 </Grid>
             </TabItem>
             <TabItem Header="工具">
-                <StackPanel>
-                 <Button Width="80" Height="30" Content="多开" ToolTip="开一个窗口点一下按钮" Command="{Binding OpenCommand}"/>
                 <uc:BuyView></uc:BuyView>
-                </StackPanel>
             </TabItem>
            
         </Controls:MetroAnimatedSingleRowTabControl>
-            <StatusBar DockPanel.Dock="Bottom" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="380">
-                <Label Content="{Binding Message}"></Label>
-            </StatusBar>
+       
         </DockPanel>
     </Grid>
 </Controls:MetroWindow>

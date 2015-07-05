@@ -8,14 +8,36 @@
              Width="380" Height="630"
              d:DesignHeight="630" d:DesignWidth="380" Background="White">
     <Grid>
-        <ComboBox x:Name="things" HorizontalAlignment="Left" Margin="79,36,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding Things}" DisplayMemberPath="Name"/>
-        <Button Content="购买" Command="{Binding BuyCommand}" CommandParameter="{Binding SelectedItem,ElementName=things}" Click="Button_Click" HorizontalAlignment="Left" Margin="124,188,0,0" VerticalAlignment="Top" Width="75"/>
+        <ScrollViewer>
+            <StackPanel>
+            <Expander Header="游戏多开" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360">
+                <Grid>
+                    <Button Width="80" Height="30" Content="多开" ToolTip="点一下按钮开一个窗口" Command="{Binding OpenCommand}" Margin="129,0,139,0"/>
+                </Grid>
+            </Expander>
+                <Expander Header="商城购买" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360">
+                    <Grid>
+                        <Label Content="购买物品:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,15,0,0"/>
+                        <Label Content="购买数量:" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20,53,0,0"/>
+                        <Label Content="使用龙币:" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20,90,0,0"/>
+                        <ComboBox x:Name="things" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" ItemsSource="{Binding Things}" DisplayMemberPath="Name" Margin="102,12,0,0"/>
+                        <mah:NumericUpDown Value="{Binding Number, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Left"  Minimum="0" Maximum="100" Margin="102,53,0,0" Width="120" />
+                        <mah:ToggleSwitch IsChecked="{Binding UseLB, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding SelectedItem.CanUseLB, ElementName=things}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="131,84,0,0"/>
+                        <Button Content="购买" Command="{Binding BuyCommand}" CommandParameter="{Binding SelectedItem, ElementName=things}" HorizontalAlignment="Left" Margin="263,27,0,0" VerticalAlignment="Top" Width="75"/>
+                        <Button Content="停止" Command="{Binding StopCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="263,72,0,0"/>
+                    </Grid>
+                </Expander>
 
-        <mah:NumericUpDown Value="{Binding Number,UpdateSourceTrigger=PropertyChanged}" TextAlignment="Left"  Minimum="0" Maximum="100" Margin="79,87,181,517" ></mah:NumericUpDown>
-        <Label Content="购买物品:" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top"/>
-        <Label Content="购买数量:" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top"/>
-        <Label Content="使用龙币:" HorizontalAlignment="Left" Margin="10,136,0,0" VerticalAlignment="Top"/>
-        <mah:ToggleSwitch IsChecked="{Binding UseLB,UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding ElementName=things,Path=SelectedItem.CanUseLB}"  HorizontalAlignment="Left" Margin="108,130,0,0" VerticalAlignment="Top"/>
-     
+                <Expander Header="背包清理" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="360">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="57*"/>
+                    <ColumnDefinition Width="33*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+             </Expander>
+         </StackPanel>
+     </ScrollViewer>
     </Grid>
 </UserControl>

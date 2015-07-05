@@ -100,6 +100,9 @@
     </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="ReachFramework" />
+    <Reference Include="SimpleUpdater">
+      <HintPath>..\packages\fishlee.net.simpleupdater.4.2.0.0\lib\net45\SimpleUpdater.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -200,8 +203,6 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\TaskSettings\CaijiCaokuangViewModel.cs" />
-    <Compile Include="ViewModels\TaskSettings\YunsongWuziViewModel.cs" />
     <Compile Include="ViewModels\TeleportViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\BuyView.xaml.cs">
@@ -209,9 +210,6 @@
     </Compile>
     <Compile Include="Views\LoginFlyout.xaml.cs">
       <DependentUpon>LoginFlyout.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MultipleGame.xaml.cs">
-      <DependentUpon>MultipleGame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -240,10 +238,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LoginFlyout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MultipleGame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -287,8 +281,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="UserControls\" />
     <Folder Include="ValueConverters\" />
   </ItemGroup>
   <ItemGroup>
