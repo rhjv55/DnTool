@@ -15,6 +15,8 @@ namespace DnTool.ViewModels
 {
     public class BuyViewModel:NotifyPropertyChanged
     {
+
+        public RelayCommand DetectCommand { get; set; }
         public RelayCommand OpenCommand { get; set; }
         public RelayCommand StopCommand { get; set; }
         public RelayCommand<MallThing> BuyCommand { get; set; }
@@ -85,6 +87,24 @@ namespace DnTool.ViewModels
                     Debug.WriteLine(ex.Message);
                 }
             });
+
+
+            this.DetectCommand = new RelayCommand(() =>
+                {
+                   int hwnd = SoftContext.Role.Window.Hwnd;
+                   DmPlugin dm=SoftContext.Role.Window.Dm;
+                   int base_addr=dm.ReadInt(hwnd, "16cbc3c", 0);
+                   MemHelper memHelper = new MemHelper();
+                   for (int i = 0; i < 30; i++)
+                   {
+                       string a="[[16cbc3c]+"+Convert.ToString(0x488*i+0x2d4,16)+"]+58";
+                       string b="[[[16cbc3c]+"+Convert.ToString(0x488*i+0x2d4,16)+"]+58]+0";
+                       string temp = dm.ReadString(hwnd, a, 1, 20)+dm.ReadString(hwnd, b, 1, 20);
+                       Debug.WriteLine("地址：{0},i的值：{1},物品名字:{2}".FormatWith(Convert.ToString(base_addr + i * 0x488, 16),i,temp));
+                   }
+                 
+                }
+            );
         }
         private void Buy(MallThing thing)
         {

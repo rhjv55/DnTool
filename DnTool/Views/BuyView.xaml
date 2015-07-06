@@ -29,13 +29,9 @@
                 </Expander>
 
                 <Expander Header="背包清理" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="360">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="57*"/>
-                    <ColumnDefinition Width="33*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-            </Grid>
+                    <Grid>
+                        <Button Width="80" Height="30" Content="遍历" Command="{Binding DetectCommand}"/>
+                    </Grid>
              </Expander>
          </StackPanel>
      </ScrollViewer>

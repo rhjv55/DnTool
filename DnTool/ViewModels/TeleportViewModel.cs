@@ -152,7 +152,7 @@ namespace DnTool.ViewModels
             return float.Parse(BitConverter.ToSingle(BitConverter.GetBytes(val), 0).ToString("F1"));
         }
    
-        private bool Teleport(Point point)
+        public bool Teleport(Point point)
         {
             IRole role = SoftContext.Role;
             if (role == null)

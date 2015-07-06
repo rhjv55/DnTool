@@ -15,7 +15,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-
+    
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
             <Button Command="{Binding ExitLoginCommand}" Content="退出登录" />
@@ -79,6 +79,9 @@
 
 
     <Grid>
+   
+       
+       
         <DockPanel>
             <Controls:MetroAnimatedSingleRowTabControl DockPanel.Dock="Top" Grid.Row="1" Height="575">
             <TabItem Header="瞬移">

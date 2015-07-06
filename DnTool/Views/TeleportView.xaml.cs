@@ -46,7 +46,7 @@ namespace DnTool.Views
 
         public void MyKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            var viewmodel = this.DataContext as MainViewModel;
+            var viewmodel = this.DataContext as TeleportViewModel;
             int i = -1;
             if (e.KeyCode == System.Windows.Forms.Keys.NumPad0)
             {
@@ -106,19 +106,12 @@ namespace DnTool.Views
             }
             if (i == -1)
                 return;
-            //viewmodel.Move(viewmodel.CurrentHwnd, ((InfoViewModel)this.dg.Items[i]).CurrentPoint);
-            //this.dg.SelectedIndex = i;
+            viewmodel.Teleport((Models.Point)this.dg.Items[i]);
+            this.dg.SelectedIndex = i;
         }
 
-        private void ShowModifyView(object sender, RoutedEventArgs e)
-        {
 
-        }
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
     }
 
 

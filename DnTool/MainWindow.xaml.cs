@@ -31,7 +31,7 @@ namespace DnTool
            // this.SaveWindowPosition = true;
             this.LeftWindowCommandsOverlayBehavior = WindowCommandsOverlayBehavior.Never;
             this.RightWindowCommandsOverlayBehavior = WindowCommandsOverlayBehavior.Never;
-            this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
+           this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
           
             this.Flyouts1.Items.Add(new LoginFlyout());
             new SoftContext(this);
@@ -42,20 +42,7 @@ namespace DnTool
 
        
 
-        private void ShowSettings(object sender, RoutedEventArgs e)
-        {
-            this.ToggleFlyout(0);
-        }
-        private void ToggleFlyout(int index)
-        {
-            var flyout = this.Flyouts.Items[index] as Flyout;
-            if (flyout == null)
-            {
-                return;
-            }
-
-            flyout.IsOpen = !flyout.IsOpen;
-        }
+       
         private bool IsDragging = false;
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {

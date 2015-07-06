@@ -162,6 +162,7 @@
     <Compile Include="Utilities\HYX\HYXPlugin.cs" />
     <Compile Include="Utilities\HYX\NativeMethods.cs" />
     <Compile Include="Utilities\IDialogCoordinator.cs" />
+    <Compile Include="Utilities\MemHelper.cs" />
     <Compile Include="Utilities\Tasks\IRole.cs" />
     <Compile Include="Utilities\Tasks\NoOpTask.cs" />
     <Compile Include="Utilities\Tasks\ObjectUtils.cs" />
