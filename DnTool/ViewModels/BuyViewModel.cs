@@ -15,7 +15,9 @@ namespace DnTool.ViewModels
 {
     public class BuyViewModel:NotifyPropertyChanged
     {
+        ViewModelLocator Locator=new ViewModelLocator();
 
+        public RelayCommand ShuaHuoshanCommand { get; set; }
         public RelayCommand DetectCommand { get; set; }
         public RelayCommand OpenCommand { get; set; }
         public RelayCommand StopCommand { get; set; }
@@ -24,12 +26,12 @@ namespace DnTool.ViewModels
         {
             this.Things.Add(new MallThing() { ID = 1, Name = "物品保护魔法药", Description = "强化+9至+12保护",CanUseLB=true,Value=100000});
             this.Things.Add(new MallThing() { ID = 2, Name = "钻石潘多拉之心", Description = "随机获得各种物品", CanUseLB = true, Value = 40000 });
-            this.Things.Add(new MallThing() { ID = 2, Name = "钻石潘多拉钥匙", Description = "打开钻石潘多拉之心", CanUseLB = true, Value = 1 });
-            this.Things.Add(new MallThing() { ID = 3, Name = "阿尔杰塔之泪", Description = "随机获得各种物品", CanUseLB = true, Value = 40000 });
-            this.Things.Add(new MallThing() { ID = 4, Name = "10000龙币商品卷", Description = "10000龙币", CanUseLB = true, Value = 80000 });
-            this.Things.Add(new MallThing() { ID = 5, Name = "柏林的感谢口袋", Description = "最高级阿尔泰丶最高级钻石丶生命的精髓各100个", CanUseLB = true, Value = 80000 });
-            this.Things.Add(new MallThing() { ID = 6, Name = "龙裔特别口袋", Description = "70龙玉,70纹章", CanUseLB = false, Value = 30000 });
-            this.Things.Add(new MallThing() { ID = 7, Name = "富饶护符箱子", Description = "护符金币获得加成", CanUseLB = true, Value = 80000 });
+            this.Things.Add(new MallThing() { ID = 3, Name = "钻石潘多拉火种", Description = "打开钻石潘多拉之心", CanUseLB = true, Value = 1 });
+            this.Things.Add(new MallThing() { ID = 4, Name = "阿尔杰塔的礼物", Description = "随机获得各种物品", CanUseLB = false, Value = 328000 });
+            this.Things.Add(new MallThing() { ID = 5, Name = "10000龙币商品券", Description = "10000龙币", CanUseLB = true, Value = 100000 });
+            this.Things.Add(new MallThing() { ID = 6, Name = "柏林的感谢口袋", Description = "最高级阿尔泰丶最高级钻石丶生命的精髓各100个", CanUseLB = true, Value = 80000 });
+            this.Things.Add(new MallThing() { ID = 7, Name = "龙裔特别口袋", Description = "70龙玉,70纹章，女神的叹息", CanUseLB = true, Value = 30000 });
+            this.Things.Add(new MallThing() { ID = 8, Name = "装有富饶护符的箱子", Description = "额外金币加成", CanUseLB = false, Value = 60000 });
         }
         
         public BuyViewModel()
@@ -105,6 +107,21 @@ namespace DnTool.ViewModels
                  
                 }
             );
+
+            this.ShuaHuoshanCommand = new RelayCommand(() =>
+            {
+                TaskContext context = new TaskContext(SoftContext.Role);
+
+                ///// 任务设置，可用属性为：.Thing .Num .UseLB
+                //context.Settings.Thing = thing;
+                //context.Settings.Num = this._number;
+                //context.Settings.UseLB = this._useLB;
+
+                TaskBase task = new HuoshanchaoxueTask(context);
+                task.Name = "刷火山巢穴";
+
+                SoftContext.TaskEngine.Start(task);
+            });
         }
         private void Buy(MallThing thing)
         {

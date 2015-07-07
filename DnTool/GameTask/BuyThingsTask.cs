@@ -69,8 +69,9 @@ namespace DnTool.GameTask
             dm.Delay(500);
           //  if (role.HasDialogBoard("结算"))
            // { 
-              // if (_useLB)
-                //   dm.MoveToClick(939, 574);   
+            if (_useLB)
+                dm.MoveToClick(937, 572);
+            dm.Delay(500);
               // Delegater.WaitTrue(() => role.HasDialogButton("是"),()=>dm.MoveToClick(608,718));
               // Delegater.WaitTrue(() => !role.HasDialogButton("是"),()=>dm.MoveToClick(508,537));
                dm.MoveToClick(608,718);

@@ -33,7 +33,12 @@
                         <Button Width="80" Height="30" Content="遍历" Command="{Binding DetectCommand}"/>
                     </Grid>
              </Expander>
-         </StackPanel>
+                <Expander Header="刷火山巢穴" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="360">
+                    <Grid>
+                        <Button Width="80" Height="30" Content="开始" Command="{Binding ShuaHuoshanCommand}"/>
+                    </Grid>
+                </Expander>
+            </StackPanel>
      </ScrollViewer>
     </Grid>
 </UserControl>

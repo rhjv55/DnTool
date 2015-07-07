@@ -31,7 +31,7 @@ namespace DnTool
            // this.SaveWindowPosition = true;
             this.LeftWindowCommandsOverlayBehavior = WindowCommandsOverlayBehavior.Never;
             this.RightWindowCommandsOverlayBehavior = WindowCommandsOverlayBehavior.Never;
-           this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
+            this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
           
            // this.Flyouts1.Items.Add(new LoginFlyout());
            this.Flyouts1.Items.Add(new SettingsView());

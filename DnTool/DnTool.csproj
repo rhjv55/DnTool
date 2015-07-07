@@ -145,6 +145,7 @@
     </ApplicationDefinition>
     <Compile Include="Delegater.cs" />
     <Compile Include="GameTask\BuyThingsTask.cs" />
+    <Compile Include="GameTask\HuoshanchaoxueTask.cs" />
     <Compile Include="Models\Blank.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\MemoryAddress.cs" />
