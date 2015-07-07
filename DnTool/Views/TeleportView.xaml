@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="630" d:DesignWidth="380" Background="White" DataContext="{Binding Teleport,Source={StaticResource Locator}}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -33,16 +33,19 @@
             <Label Width="55" Foreground="Red" Content="{Binding CurrentPoint.Z}"></Label>
             <Button Margin="5,0,0,0" Content="保存" Command="{Binding AddCurrentPointCommand}"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" Margin="60,10,10,10" Grid.Row="1">
            
-            <Label Margin="40,0,0,0">选择坐标列表：</Label>
-            <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="140" 
+            <Label Margin="0,0,0,0">选择：</Label>
+            <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="120" Focusable="False"
                       ItemsSource="{Binding Files}" SelectedValue="{Binding SelectedValue}" DisplayMemberPath="Name" SelectedValuePath="Path"/>
-            </StackPanel>
+            <CheckBox x:Name="cbUseHotKey" Margin="10,0,0,0" IsChecked="{Binding UseHotKey}">使用热键</CheckBox>
+            <CheckBox Margin="10,0,0,0" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}">置顶</CheckBox>
+           
+        </StackPanel>
 
 
 
-        <DataGrid Grid.Row="2" x:Name="dg" HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="320"  VerticalAlignment="Top"  ItemsSource="{Binding Points}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
+        <DataGrid Grid.Row="2" Width="380" Focusable="False" x:Name="dg" HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="320"  VerticalAlignment="Top"  ItemsSource="{Binding Points}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
                            LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="False" SelectionMode="Single" CanUserResizeColumns="False">
                 <DataGrid.ContextMenu>
                     <ContextMenu StaysOpen="true">

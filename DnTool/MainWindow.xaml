@@ -18,7 +18,7 @@
     
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Command="{Binding ExitLoginCommand}" Content="退出登录" />
+            <Button Command="{Binding SettingsCommand}" Content="设置" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
 
@@ -86,10 +86,10 @@
             <Controls:MetroAnimatedSingleRowTabControl DockPanel.Dock="Top" Grid.Row="1" Height="575">
             <TabItem Header="瞬移">
                 <Grid>
-                    <Canvas HorizontalAlignment="Left" Width="39" Height="34" Margin="22,47,0,0" VerticalAlignment="Top">
-                        <Image x:Name="image1" MouseDown="Image_MouseDown" MouseUp="Image_MouseUp"/>
-                    </Canvas>
-                    <uc:TeleportView></uc:TeleportView>
+                        <uc:TeleportView/>
+                        <Canvas HorizontalAlignment="Left" Width="39" Height="34" Margin="10,55,0,0" VerticalAlignment="Top">
+                            <Image x:Name="image1" MouseDown="Image_MouseDown" MouseUp="Image_MouseUp"/>
+                        </Canvas>
                 </Grid>
             </TabItem>
             <TabItem Header="工具">

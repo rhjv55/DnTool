@@ -12,6 +12,10 @@ namespace DnTool.ViewModels
         ViewModelLocator Locator = new ViewModelLocator();
         public MainViewModel()
         {
+            this.SettingsCommand = new RelayCommand(() =>
+            {
+                Locator.Settings.IsOpen = true;
+            });
 
             this.ExitLoginCommand = new RelayCommand(()=>
             {
@@ -31,6 +35,7 @@ namespace DnTool.ViewModels
             });
         }
 
+        public RelayCommand SettingsCommand { get; set; }
         public RelayCommand ExitLoginCommand { get; set; }
         public RelayCommand ClosedCommand { get; set; }
         public RelayCommand LoadedCommand { get; set; }

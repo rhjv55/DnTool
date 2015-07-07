@@ -13,6 +13,8 @@ namespace DnTool.ViewModels
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
+            SimpleIoc.Default.Register<SettingsViewModel>();
+            SimpleIoc.Default.Register<TeleportViewModel>();
         }
 
         public MainViewModel Main
@@ -30,7 +32,20 @@ namespace DnTool.ViewModels
                 return ServiceLocator.Current.GetInstance<LoginViewModel>();
             }
         }
- 
+        public SettingsViewModel Settings
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<SettingsViewModel>();
+            }
+        }
+        public TeleportViewModel Teleport
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<TeleportViewModel>();
+            }
+        }
         public static void Cleanup()
         {
             

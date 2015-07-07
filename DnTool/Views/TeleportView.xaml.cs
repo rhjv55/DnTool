@@ -27,87 +27,73 @@ namespace DnTool.Views
         public TeleportView()
         {
             InitializeComponent();
-            this.DataContext = new TeleportViewModel();
             UserActivityHook choosesc = new UserActivityHook();
             choosesc.KeyDown += new System.Windows.Forms.KeyEventHandler(MyKeyDown);
         }
 
         private void DataGrid_LoadingRow(object sender, System.Windows.Controls.DataGridRowEventArgs e)
         {
-            if (e.Row.GetIndex() > 9)
+            if (Locator.Settings.CurrentOption.Equals("0"))
             {
-                e.Row.Header = "";
-                return;
+                if (e.Row.GetIndex() >= 12)
+                {
+                    e.Row.Header = "";
+                    return;
+                }
+                int row = e.Row.GetIndex();
+                if (row == 0) e.Row.Header = "F1";
+                if (row == 1) e.Row.Header = "F2";
+                if (row == 2) e.Row.Header = "F3";
+                if (row == 3) e.Row.Header = "F4";
+                if (row == 4) e.Row.Header = "F5";
+                if (row == 5) e.Row.Header = "F6";
+                if (row == 6) e.Row.Header = "F7";
+                if (row == 7) e.Row.Header = "F8";
+                if (row == 8) e.Row.Header = "F9";
+                if (row == 9) e.Row.Header = "F10";
+                if (row == 10) e.Row.Header = "F11";
+                if (row == 11) e.Row.Header = "F12";
+
             }
-            e.Row.Header = e.Row.GetIndex();
-
-            // Debug.WriteLine(e.Row.GetIndex()+1);
+            else
+            {
+                if (e.Row.GetIndex() > 9)
+                {
+                    e.Row.Header = "";
+                    return;
+                }
+                e.Row.Header = e.Row.GetIndex();
+            }
         }
-
+        ViewModelLocator Locator=new ViewModelLocator();
         public void MyKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             var viewmodel = this.DataContext as TeleportViewModel;
             int i = -1;
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad0)
+            if (Locator.Settings.CurrentOption.Equals("0"))
             {
-                i = 0;
-                Debug.WriteLine("执行热键" + 0);
+                if ((int)e.KeyCode >= 112 || (int)e.KeyCode <= 123)
+                    i = (int)e.KeyCode - 112;
             }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad1)
+            else
             {
-                i = 1;
-                Debug.WriteLine("执行热键" + 1);
+                if ((int)e.KeyCode >= 96 || (int)e.KeyCode <= 105)
+                    i = (int)e.KeyCode - 96;
             }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad2)
-            {
-                i = 2;
-                Debug.WriteLine("执行热键" + 2);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad3)
-            {
-                i = 3;
-                Debug.WriteLine("执行热键" + 3);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad4)
-            {
-                i = 4;
-                Debug.WriteLine("执行热键" + 4);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad5)
-            {
-                i = 5;
-                Debug.WriteLine("执行热键" + 5);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad6)
-            {
-                i = 6;
-                Debug.WriteLine("执行热键" + 6);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad7)
-            {
-                i = 7;
-                Debug.WriteLine("执行热键" + 7);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad8)
-            {
-                i = 8;
-                Debug.WriteLine("执行热键" + 8);
-            }
-            if (e.KeyCode == System.Windows.Forms.Keys.NumPad9)
-            {
-                i = 9;
-                Debug.WriteLine("执行热键" + 9);
-            }
+            if (i == -1)
+                return;
 
             if (this.dg.Items.Count <= i)
             {
                 this.dg.SelectedIndex = -1;
                 return;
             }
-            if (i == -1)
-                return;
-            viewmodel.Teleport((Models.Point)this.dg.Items[i]);
-            this.dg.SelectedIndex = i;
+           
+            if (this.cbUseHotKey.IsChecked == true&&SoftContext.Role!=null)
+            {
+                viewmodel.Teleport((Models.Point)this.dg.Items[i]);
+                this.dg.SelectedIndex = i;
+            }
         }
 
 

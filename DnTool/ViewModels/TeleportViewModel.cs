@@ -93,6 +93,7 @@ namespace DnTool.ViewModels
                     CurrentPoint.X = IntToFloat(dm.ReadInt(hwnd, "[1221740]+a5c", 0));
                     CurrentPoint.Y = IntToFloat(dm.ReadInt(hwnd, "[1221740]+a64", 0));
                     CurrentPoint.Z = IntToFloat(dm.ReadInt(hwnd, "[1221740]+a60", 0));
+                    
                 }
                 else
                 {
