@@ -305,10 +305,10 @@
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
     <Resource Include="Resources\Entypo-license.txt" />
-    <Content Include="Utilities\Plugin\dm.dll">
+    <Content Include="dm.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Utilities\Plugin\dmc.dll">
+    <Content Include="dmc.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

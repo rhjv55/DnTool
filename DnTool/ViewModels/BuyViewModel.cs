@@ -11,6 +11,7 @@ using Utilities.Tasks;
 using GalaSoft.MvvmLight.CommandWpf;
 using DnTool.GameTask;
 using Utilities.Log;
+using MahApps.Metro.Controls.Dialogs;
 namespace DnTool.ViewModels
 {
     public class BuyViewModel:NotifyPropertyChanged
@@ -90,40 +91,9 @@ namespace DnTool.ViewModels
                 }
             });
 
-
-            this.DetectCommand = new RelayCommand(() =>
-                {
-                   int hwnd = SoftContext.Role.Window.Hwnd;
-                   DmPlugin dm=SoftContext.Role.Window.Dm;
-                   int base_addr=dm.ReadInt(hwnd, "16cbc3c", 0);
-                   MemHelper memHelper = new MemHelper();
-                   for (int i = 0; i < 30; i++)
-                   {
-                       string a="[[16cbc3c]+"+Convert.ToString(0x488*i+0x2d4,16)+"]+58";
-                       string b="[[[16cbc3c]+"+Convert.ToString(0x488*i+0x2d4,16)+"]+58]+0";
-                       string temp = dm.ReadString(hwnd, a, 1, 20)+dm.ReadString(hwnd, b, 1, 20);
-                       Debug.WriteLine("地址：{0},i的值：{1},物品名字:{2}".FormatWith(Convert.ToString(base_addr + i * 0x488, 16),i,temp));
-                   }
-                 
-                }
-            );
-
-            this.ShuaHuoshanCommand = new RelayCommand(() =>
-            {
-                TaskContext context = new TaskContext(SoftContext.Role);
-
-                ///// 任务设置，可用属性为：.Thing .Num .UseLB
-                //context.Settings.Thing = thing;
-                //context.Settings.Num = this._number;
-                //context.Settings.UseLB = this._useLB;
-
-                TaskBase task = new HuoshanchaoxueTask(context);
-                task.Name = "刷火山巢穴";
-
-                SoftContext.TaskEngine.Start(task);
-            });
+          
         }
-        private void Buy(MallThing thing)
+        private async void Buy(MallThing thing)
         {
             TaskContext context = new TaskContext(SoftContext.Role);
         
@@ -131,10 +101,21 @@ namespace DnTool.ViewModels
             context.Settings.Thing = thing;
             context.Settings.Num = this._number;
             context.Settings.UseLB = this._useLB;
-          
+            
             TaskBase task = new BuyThingsTask(context);
             task.Name = "购买商城物品";
-      
+            int width = context.Role.Window.Width;
+            int height = context.Role.Window.Height;
+            if (width != 1152 || height != 864)
+            {
+                await SoftContext.MainWindow.ShowMessageAsync("购买失败", "请将游戏分辨率设为1152*864！");
+                return;
+            }
+            if(this._number<=0)
+            {
+                await SoftContext.MainWindow.ShowMessageAsync("购买失败", "请检查物品数量！");
+                return;
+            }
             SoftContext.TaskEngine.Start(task);
         }
 

@@ -27,10 +27,7 @@ namespace DnTool
             {
                 MessageBox.Show("发现了新版本：" + updater.Context.UpdateInfo.AppVersion);
             };
-            updater.NoUpdatesFound += (s, ex) =>
-            {
-                MessageBox.Show("没有新版本！");
-            };
+           
             updater.MinmumVersionRequired += (s, ex) =>
             {
                 MessageBox.Show("当前版本过低无法使用请到官网下载最新版本！");

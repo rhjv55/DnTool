@@ -15,7 +15,7 @@ namespace DnTool.ViewModels
         {
             this.Header = "设置";
             this.Position = Position.Right;
-            this.CurrentOption = "0";
+            this.CurrentOption = "1";
         }
         //public static void SetTheme(string name)
         //{

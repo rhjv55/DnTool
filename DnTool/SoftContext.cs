@@ -8,6 +8,7 @@ using MahApps.Metro.Controls;
 using System.Net.Http;
 using DnTool.ViewModels;
 using Utilities.Tasks;
+using MahApps.Metro.Controls.Dialogs;
 namespace DnTool
 {
     public class SoftContext
@@ -19,6 +20,7 @@ namespace DnTool
             HttpClient = new HttpClient();
             IsLogin = false;
             TaskEngine = new TaskEngine();
+            TaskEngine.OutMessage = new OutMessageHandler((title,message) => SoftContext.MainWindow.Dispatcher.Invoke(() => SoftContext.MainWindow.ShowMessageAsync(title, message)));
         }
         public static DmSystem DmSystem { get; set; }
         public static MetroWindow MainWindow { get; set; }

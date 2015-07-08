@@ -15,7 +15,7 @@ namespace Utilities.Tasks
   
      
     public delegate void TaskEventHandler(object sender,TaskEventArg e);
-    public delegate void OutMessageHandler(string message);
+    public delegate void OutMessageHandler(string title,string message);
     public class TaskEventArg:EventArgs
     {
         public TaskContext Context { get; set; }
@@ -230,7 +230,7 @@ namespace Utilities.Tasks
                 TaskStop();
                 Window.FlashWindow();
                 _workThread = null;
-                Logger.Error("任务“{0}”执行中断：{1}".FormatWith(_task.Name,ex.Message));
+                OutMessage("任务中断",ex.Message);
             }
             if (result == null)
             {
