@@ -16,26 +16,26 @@ namespace DnTool
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            //Updater.CheckUpdateSimple("http://127.0.0.1/path/{0}","update.xml");
+            //Updater.CheckUpdateSimple("http://qxw1099210298.my3w.com/updates/client/dn/{0}", "update_c.xml");
 
-            //var updater = Updater.CreateUpdaterInstance("http://127.0.0.1/path/{0}","update.xml");
-            //updater.Error += (s, ex) =>
-            //{
-            //    MessageBox.Show("更新发生错误："+updater.Context.Exception.Message);
-            //};
-            //updater.UpdatesFound += (s, ex) =>
-            //{
-            //    MessageBox.Show("发现了新版本：" + updater.Context.UpdateInfo.AppVersion);
-            //};
-            //updater.NoUpdatesFound += (s, ex) =>
-            //{
-            //    MessageBox.Show("没有新版本！");
-            //};
-            //updater.MinmumVersionRequired += (s, ex) =>
-            //{
-            //    MessageBox.Show("当前版本过低无法使用请到官网下载最新版本！");
-            //};
-            //Updater.CheckUpdateSimple();
+            var updater = Updater.CreateUpdaterInstance("http://qxw1099210298.my3w.com/updates/client/dn/{0}", "update_c.xml");
+            updater.Error += (s, ex) =>
+            {
+                MessageBox.Show("更新发生错误：" + updater.Context.Exception.Message);
+            };
+            updater.UpdatesFound += (s, ex) =>
+            {
+                MessageBox.Show("发现了新版本：" + updater.Context.UpdateInfo.AppVersion);
+            };
+            updater.NoUpdatesFound += (s, ex) =>
+            {
+                MessageBox.Show("没有新版本！");
+            };
+            updater.MinmumVersionRequired += (s, ex) =>
+            {
+                MessageBox.Show("当前版本过低无法使用请到官网下载最新版本！");
+            };
+            Updater.CheckUpdateSimple();
 
 
 
