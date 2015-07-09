@@ -11,6 +11,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls.Dialogs;
+using DnTool.Utilities;
 
 namespace DnTool
 {
@@ -22,22 +23,28 @@ namespace DnTool
         public MainWindow()
         {
             InitializeComponent();
-           // this.ShowTitleBar = false;
+            // this.ShowTitleBar = false;
             this.ShowIconOnTitleBar = true;
             this.ShowMinButton = true;
             this.ShowMaxRestoreButton = false;
             this.ShowCloseButton = true;
             this.ResizeMode = ResizeMode.CanMinimize;
-           // this.SaveWindowPosition = true;
+            // this.SaveWindowPosition = true;
             this.LeftWindowCommandsOverlayBehavior = WindowCommandsOverlayBehavior.Never;
             this.RightWindowCommandsOverlayBehavior = WindowCommandsOverlayBehavior.Never;
             this.image1.Source = EyeHelper.ChangeBitmapToImageSource(softwatcher.Properties.Resources.drag);
-          
-           // this.Flyouts1.Items.Add(new LoginFlyout());
-           this.Flyouts1.Items.Add(new SettingsView());
-            new SoftContext(this);
-        }
 
+            // this.Flyouts1.Items.Add(new LoginFlyout());
+            this.Flyouts1.Items.Add(new SettingsView());
+            new SoftContext(this);
+            try
+            {
+                this.Topmost = bool.Parse(INIHelper.IniReadValue("BaseConfig", "Topmost", AppDomain.CurrentDomain.BaseDirectory + "\\config.ini"));
+            }
+            catch 
+            {
+            }
+        }
 
        
 

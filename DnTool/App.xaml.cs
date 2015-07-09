@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using FSLib.App.SimpleUpdater;
+using Utilities.Log;
 
 namespace DnTool
 {
@@ -21,7 +22,7 @@ namespace DnTool
             var updater = Updater.CreateUpdaterInstance("http://qxw1099210298.my3w.com/updates/client/dn/{0}", "update_c.xml");
             updater.Error += (s, ex) =>
             {
-                MessageBox.Show("更新发生错误：" + updater.Context.Exception.Message);
+                Logger.Error("更新发生错误：" + updater.Context.Exception.Message);
             };
             updater.UpdatesFound += (s, ex) =>
             {

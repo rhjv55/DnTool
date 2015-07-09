@@ -4,7 +4,8 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:uc="clr-namespace:DnTool.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        Title="DnTool V1.0" Height="630" Width="380" DataContext="{Binding Main,Source={StaticResource Locator}}">
+        Title="DnTool V1.0" Height="630" Width="380" DataContext="{Binding Main,Source={StaticResource Locator}}"
+        >
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closed">

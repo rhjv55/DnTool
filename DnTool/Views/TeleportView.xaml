@@ -38,8 +38,8 @@
             <Label Margin="0,0,0,0">选择：</Label>
             <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="120" Focusable="False"
                       ItemsSource="{Binding Files}" SelectedValue="{Binding SelectedValue}" DisplayMemberPath="Name" SelectedValuePath="Path"/>
-            <CheckBox x:Name="cbUseHotKey" Margin="10,0,0,0" IsChecked="True">使用热键</CheckBox>
-            <CheckBox Margin="10,0,0,0" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}">置顶</CheckBox>
+            <CheckBox x:Name="cbUseHotKey" Checked="cbUseHotKey_Checked" Unchecked="cbUseHotKey_Unchecked" Margin="10,0,0,0">使用热键</CheckBox>
+            <CheckBox x:Name="cbTopmost" Margin="10,0,0,0" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}">置顶</CheckBox>
            
         </StackPanel>
 

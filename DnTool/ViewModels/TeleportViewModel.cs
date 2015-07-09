@@ -66,6 +66,8 @@ namespace DnTool.ViewModels
        
         public TeleportViewModel()
         {
+         
+
             this.CurrentPoint = new Point("当前坐标",0,0,0);
             this.NewPoint = new Point("添加坐标",0,0,0);
             this.Points = new ObservableCollection<Point>();

@@ -4,22 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=mah:MetroWindow}, Path=ActualWidth}"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:convert="clr-namespace:DnTool.ValueConverters"
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="630" d:DesignWidth="380"
              Theme="Accent"
              DataContext="{Binding Settings,Source={StaticResource Locator}}">
- 
-<Grid>
+    <Grid>
         <Grid.Resources>
-            <convert:HotKeyConverter x:Key="hkc"></convert:HotKeyConverter>
+                <convert:HotKeyConverter x:Key="hkc" ></convert:HotKeyConverter>
         </Grid.Resources>
-            <Label Content="主题设置：" HorizontalAlignment="Left" Margin="34,20,0,0" VerticalAlignment="Top" Width="64"/>
-        <ComboBox HorizontalAlignment="Left" Margin="115,20,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="主题设置：" HorizontalAlignment="Left" Margin="34,20,0,0" VerticalAlignment="Top" Width="64"/>
+        <ComboBox HorizontalAlignment="Left" Margin="115,20,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding AccentColors, Mode=OneWay}" SelectedItem="{Binding SelectedItem}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ChangeAccentCommand}" CommandParameter="{Binding SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="16" Height="16" StrokeThickness="1" Stroke="{Binding BorderColorBrush, Mode=OneWay}"
+                          Fill="{Binding ColorBrush, Mode=OneWay}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Name}" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
         <Label Content="热键设置：" HorizontalAlignment="Left" Margin="34,62,0,0" VerticalAlignment="Top"/>
         <RadioButton GroupName="hotkey" Content="F1-F12" IsChecked="{Binding CurrentOption,Mode=TwoWay,Converter={StaticResource hkc},ConverterParameter=0}" HorizontalAlignment="Left" Margin="115,69,0,0" VerticalAlignment="Top"/>
         <RadioButton GroupName="hotkey" Content="NumPad0-9" IsChecked="{Binding CurrentOption,Mode=TwoWay,Converter={StaticResource hkc},ConverterParameter=1}" HorizontalAlignment="Left" Margin="115,92,0,0" VerticalAlignment="Top"/>
-
     </Grid>
 </mah:Flyout>

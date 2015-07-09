@@ -70,6 +70,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <DocumentationFile>
+    </DocumentationFile>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
@@ -164,6 +169,7 @@
     <Compile Include="Utilities\HYX\HYXPlugin.cs" />
     <Compile Include="Utilities\HYX\NativeMethods.cs" />
     <Compile Include="Utilities\IDialogCoordinator.cs" />
+    <Compile Include="Utilities\INIHelper.cs" />
     <Compile Include="Utilities\MemHelper.cs" />
     <Compile Include="Utilities\Tasks\IRole.cs" />
     <Compile Include="Utilities\Tasks\NoOpTask.cs" />

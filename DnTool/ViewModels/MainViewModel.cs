@@ -27,6 +27,16 @@ namespace DnTool.ViewModels
             this.LoadedCommand = new RelayCommand(() =>
             {
                // WinIo.Initialize();
+                try
+                {
+                    string hotKey = INIHelper.IniReadValue("BaseConfig", "HotKey", AppDomain.CurrentDomain.BaseDirectory + "\\config.ini");
+                   
+                }
+                catch
+                {
+                   
+                }
+
             });
 
             this.ClosedCommand = new RelayCommand(() =>

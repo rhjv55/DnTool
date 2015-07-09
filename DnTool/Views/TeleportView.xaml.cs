@@ -1,4 +1,5 @@
-﻿using DnTool.Utilities.Hook;
+﻿using DnTool.Utilities;
+using DnTool.Utilities.Hook;
 using DnTool.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,13 @@ namespace DnTool.Views
             InitializeComponent();
             UserActivityHook choosesc = new UserActivityHook();
             choosesc.KeyDown += new System.Windows.Forms.KeyEventHandler(MyKeyDown);
+            try
+            {
+                this.cbUseHotKey.IsChecked = bool.Parse(INIHelper.IniReadValue("BaseConfig", "UseHotKey", AppDomain.CurrentDomain.BaseDirectory + "\\config.ini"));
+            }
+            catch
+            {
+            }
         }
 
         private void DataGrid_LoadingRow(object sender, System.Windows.Controls.DataGridRowEventArgs e)
@@ -94,6 +102,26 @@ namespace DnTool.Views
                 viewmodel.Teleport((Models.Point)this.dg.Items[i]);
                 this.dg.SelectedIndex = i;
             }
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            INIHelper.IniWriteValue("BaseConfig", "Topmost", "true", AppDomain.CurrentDomain.BaseDirectory + "\\config.ini");
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            INIHelper.IniWriteValue("BaseConfig", "Topmost", "false", AppDomain.CurrentDomain.BaseDirectory + "\\config.ini");
+        }
+
+        private void cbUseHotKey_Checked(object sender, RoutedEventArgs e)
+        {
+            INIHelper.IniWriteValue("BaseConfig", "UseHotKey", "true", AppDomain.CurrentDomain.BaseDirectory + "\\config.ini");
+        }
+
+        private void cbUseHotKey_Unchecked(object sender, RoutedEventArgs e)
+        {
+            INIHelper.IniWriteValue("BaseConfig", "UseHotKey", "false", AppDomain.CurrentDomain.BaseDirectory + "\\config.ini");
         }
 
 
