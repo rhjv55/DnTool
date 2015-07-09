@@ -7,6 +7,9 @@
              mc:Ignorable="d" 
              Width="380" Height="630"
              d:DesignHeight="630" d:DesignWidth="380" Background="White">
+    <UserControl.Resources>
+        
+    </UserControl.Resources>
     <Grid>
         <ScrollViewer>
             <StackPanel>
@@ -25,6 +28,28 @@
                         <mah:ToggleSwitch IsChecked="{Binding UseLB, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding SelectedItem.CanUseLB, ElementName=things}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="131,84,0,0"/>
                         <Button Content="购买" Command="{Binding BuyCommand}" CommandParameter="{Binding SelectedItem, ElementName=things}" HorizontalAlignment="Left" Margin="263,27,0,0" VerticalAlignment="Top" Width="75"/>
                         <Button Content="停止" Command="{Binding StopCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="263,72,0,0"/>
+                    </Grid>
+                </Expander>
+                <Expander Header="背包清理" IsExpanded="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360" Height="136">
+                    <Grid>
+
+                        <WrapPanel Margin="0,0,170,70">
+                            <Label Content="第" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <ComboBox HorizontalAlignment="Left"  VerticalAlignment="Top" Width="50" Height="15"/>
+                            <Label Content="页" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                            <ComboBox HorizontalAlignment="Left"  VerticalAlignment="Top" Width="50" Height="15"/>
+                            <Label Content="格" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                        </WrapPanel>
+                        <Label Content="至" Margin="66,31,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                        <WrapPanel Margin="0,60,170,10">
+                            <Label Content="第" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <ComboBox HorizontalAlignment="Left"  VerticalAlignment="Top" Width="50" Height="15"/>
+                            <Label Content="页" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                            <ComboBox HorizontalAlignment="Left"  VerticalAlignment="Top" Width="50" Height="15"/>
+                            <Label Content="格" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                        </WrapPanel>
+                        <Button Content="开始" HorizontalAlignment="Left" Margin="263,11,0,0" VerticalAlignment="Top" Width="75"/>
+                        <Button Content="停止" HorizontalAlignment="Left" Margin="263,60,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.24,0.643"/>
                     </Grid>
                 </Expander>
             </StackPanel>
