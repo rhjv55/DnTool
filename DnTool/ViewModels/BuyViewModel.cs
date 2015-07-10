@@ -18,6 +18,8 @@ namespace DnTool.ViewModels
     {
         ViewModelLocator Locator=new ViewModelLocator();
 
+        public RelayCommand BeginBagClearCommand { get; set; }
+        public RelayCommand StopBagClearCommand { get; set; }
         public RelayCommand ShuaHuoshanCommand { get; set; }
         public RelayCommand DetectCommand { get; set; }
         public RelayCommand OpenCommand { get; set; }
@@ -91,7 +93,28 @@ namespace DnTool.ViewModels
                 }
             });
 
-          
+            this.BeginBagClearCommand = new RelayCommand(() =>
+            {
+                TaskContext context = new TaskContext(SoftContext.Role);
+
+                /// 任务设置，可用属性为：.Thing .Num .UseLB
+                context.Settings.BeginPage = BeginPage;
+                context.Settings.BeginItem = BeginItem;
+                context.Settings.StopPage = StopPage;
+                context.Settings.StopItem=StopItem;
+
+                TaskBase task = new BuyThingsTask(context);
+                task.Name = "清理背包";
+                int width = context.Role.Window.Width;
+                int height = context.Role.Window.Height;
+                if (width != 1152 || height != 864)
+                {
+                    SoftContext.MainWindow.ShowMessageAsync("清理失败", "请将游戏分辨率设为1152*864！");
+                    return;
+                }
+               
+                SoftContext.TaskEngine.Start(task);
+            });
         }
         private async void Buy(MallThing thing)
         {
@@ -150,6 +173,49 @@ namespace DnTool.ViewModels
                 base.SetProperty(ref _useLB, value, () => this.UseLB);
             }
         }
+
+        private int _beginPage;
+
+        public int BeginPage
+        {
+            get { return _beginPage; }
+            set
+            {
+                base.SetProperty(ref _beginPage, value, () => this.BeginPage);
+            }
+        }
+        private int _beginItem;
+
+        public int BeginItem
+        {
+            get { return _beginItem; }
+            set
+            {
+                base.SetProperty(ref _beginItem, value, () => this.BeginItem);
+            }
+        }
+
+        private int _stopPage;
+
+        public int StopPage
+        {
+            get { return _stopPage; }
+            set
+            {
+                base.SetProperty(ref _stopPage, value, () => this.StopPage);
+            }
+        }
+        private int _stopItem;
+
+        public int StopItem
+        {
+            get { return _stopItem; }
+            set
+            {
+                base.SetProperty(ref _stopItem, value, () => this.StopItem);
+            }
+        }
+        
         
     }
 }

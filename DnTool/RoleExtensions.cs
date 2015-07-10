@@ -198,8 +198,64 @@ namespace DnTool
         }
         #region xxx
        
-        public static void BagCleanup(this IRole role)
+        /// <summary>
+        /// 清理指定页背包
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="page">背包页（1-5）</param>
+        /// <param name="begin">开始格数（1-30）</param>
+        /// <param name="stop">结束格数（1-30）</param>
+        public static void BagCleanup(this IRole role,int page,int begin,int stop)
         {
+            DmPlugin dm = role.Window.Dm;
+            dm.MoveToClick(111 + 22 * (page - 1), 222);  //点击背包页
+            dm.Delay(500);
+            //5-28格
+            for (int i = begin; i <= stop; i++)
+            {
+                dm.MoveToClick(111 + 22 * ((i-1) % 5), 222 + 33 * ((i-1)/5));  //点击格子
+                dm.MoveToClick(222, 222);                  //点击丢弃
+                dm.Delay(500);
+                dm.MoveToClick(333, 333);                   //点击确认
+                dm.Delay(1000);
+            }
+        }
+       /// <summary>
+       /// 清理背包，从第几页几格到几页几格
+       /// </summary>
+       /// <param name="role"></param>
+       /// <param name="beginPage">开始页数</param>
+       /// <param name="beginItem">开始格数</param>
+       /// <param name="stopPage">停止页数</param>
+       /// <param name="sotpItem">停止格数</param>
+        public static void BagCleanup(this IRole role,int beginPage,int beginItem,int stopPage,int sotpItem)
+        {
+            if (beginPage == stopPage)
+                role.BagCleanup(beginPage, beginItem, sotpItem);
+            if (beginPage < stopPage)
+            {
+                for (int i = beginPage; i <= stopPage; i++)
+                {
+                    if (i == stopPage)
+                        role.BagCleanup(i, 1, sotpItem);
+                    if (i == beginPage)
+                        role.BagCleanup(i, beginItem, 30);
+                    if (i < stopPage && i != beginPage)
+                        role.BagCleanup(i, 1, 30);
+                }
+            }
+
+        }
+        /// <summary>
+        /// 是否有打开面板
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="boardName"></param>
+        /// <returns></returns>
+        public static bool HasBoard(this IRole role,string boardName)
+        {
+            DmPlugin dm = role.Window.Dm;
+            return dm.FindStr(0, 0, role.Window.Width, role.Window.Height, boardName, "");
         }
         public static string GetBagPageName(MallThing thing)
         {
