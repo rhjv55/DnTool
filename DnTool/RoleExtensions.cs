@@ -159,7 +159,7 @@ namespace DnTool
         /// <returns></returns>
         public static bool HasDialogDetail(this IRole role, string detail,string color)
         {
-            return true;
+            return role.Window.Dm.FindStr(0,0,role.Window.Width,role.Window.Height,detail,color);
         }
         /// <summary>
         /// 是否有没有按钮的对话框
@@ -208,16 +208,26 @@ namespace DnTool
         public static void BagCleanup(this IRole role,int page,int begin,int stop)
         {
             DmPlugin dm = role.Window.Dm;
-            dm.MoveToClick(111 + 22 * (page - 1), 222);  //点击背包页
+            int hwnd = role.Window.Hwnd;
+            dm.MoveToClick(794 + 65 * (page - 1), 217);  //点击背包页
             dm.Delay(500);
             //5-28格
             for (int i = begin; i <= stop; i++)
             {
-                dm.MoveToClick(111 + 22 * ((i-1) % 5), 222 + 33 * ((i-1)/5));  //点击格子
-                dm.MoveToClick(222, 222);                  //点击丢弃
-                dm.Delay(500);
-                dm.MoveToClick(333, 333);                   //点击确认
-                dm.Delay(1000);
+                dm.MoveTo(800 + 65 * ((i - 1) % 5), 274 + 65 * ((i - 1) / 5));
+                int num = dm.ReadInt(hwnd, "[16cbc90]+314", 0);
+                if (num == 0)
+                    continue;
+                Debug.WriteLine(800 + 65 * ((i - 1) % 5) + "   " + (274 + 65 * ((i - 1) / 5)));
+                Delegater.WaitTrue(() => role.HasDialogDetail("破坏物品", "bebebe-414141"),
+                () => 
+                {
+                    dm.MoveToClick(800 + 65 * ((i - 1) % 5), 274 + 65 * ((i - 1) / 5));  //点击格子
+                    dm.Delay(200);
+                    dm.MoveToClick(748, 687);                  //点击丢弃
+                    dm.Delay(100);
+                });
+                dm.MoveToClick(574, 496);                   //点击确认
             }
         }
        /// <summary>
@@ -255,7 +265,7 @@ namespace DnTool
         public static bool HasBoard(this IRole role,string boardName)
         {
             DmPlugin dm = role.Window.Dm;
-            return dm.FindStr(0, 0, role.Window.Width, role.Window.Height, boardName, "");
+            return dm.FindStr(0, 0, role.Window.Width, role.Window.Height, boardName, "bebebe-414141");
         }
         public static string GetBagPageName(MallThing thing)
         {

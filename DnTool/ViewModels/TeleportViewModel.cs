@@ -19,6 +19,7 @@ namespace DnTool.ViewModels
     {
 
         #region 命令
+        public RelayCommand CreateCommand { get; set; }
         public RelayCommand AddCurrentPointCommand { get; set; }
         public RelayCommand AddNewPointCommand { get; set; }
         public RelayCommand<Point> TeleportCommand { get; set; }
@@ -81,8 +82,8 @@ namespace DnTool.ViewModels
             this.DeleteCommand = new RelayCommand<Point>((p)=>this.DeletePoint(p));
             this.TeleportCommand = new RelayCommand<Point>((p) =>this.Teleport(p));
             this.SaveListCommand = new RelayCommand(()=>this.SaveList());
-         
-            
+
+            this.CreateCommand = new RelayCommand(()=>this.Create());
 
             timer.Tick += (s, e) =>
             {
@@ -107,6 +108,11 @@ namespace DnTool.ViewModels
             };
             timer.Interval = TimeSpan.FromMilliseconds(500);
             timer.Start();
+        }
+
+        private void Create()
+        {
+           
         }
 
        
@@ -171,26 +177,45 @@ namespace DnTool.ViewModels
             {
                 if (role.Window.IsAlive)
                 {
-
-                    //if (point.X == null || point.Y == null || point.Z == null)
+                    string hwnds = dm.EnumWindowByProcess("DragonNest.exe", "", "DRAGONNEST", 2);
+                    List<int> hList=dm.GetHwnds(hwnds);
+                    foreach (var h in hList)
+                    {
+                        int a = dm.WriteFloat(h, "[1221740]+a5c", point.X);
+                        int b = dm.WriteFloat(h, "[1221740]+a64", point.Y);
+                        int c = dm.WriteFloat(h, "[1221740]+a60", point.Z);
+                        if (a == 1 && b == 1 && c == 1)
+                        {
+                            Debug.WriteLine("瞬移成功");
+                            //return true;
+                        }
+                        else
+                        {
+                            Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2}",a,b,c);
+                           // return false;
+                        }
+                        dm.WriteInt(h, "[1221740]+2320",0,131072);
+                        dm.Delay(200);
+                        dm.WriteInt(h, "[1221740]+2320", 0, 0);
+                        dm.Delay(100);
+                    }
+                    return true;
+                    //Debug.WriteLine(point.ToString());
+                    //int a = dm.WriteFloat(hwnd, "[1221740]+a5c", point.X);
+                    //int b = dm.WriteFloat(hwnd, "[1221740]+a64", point.Y);
+                    //int c = dm.WriteFloat(hwnd, "[1221740]+a60", point.Z);
+                    //if (a == 1 && b == 1 && c == 1)
                     //{
-                    //    Debug.WriteLine("坐标XYZ不能为null");
+                    //    Debug.WriteLine("瞬移成功");
+                    //    return true;
+                    //}
+                    //else
+                    //{
+                    //    Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2}",a,b,c);
                     //    return false;
                     //}
-                    Debug.WriteLine(point.ToString());
-                    int a = dm.WriteFloat(hwnd, "[1221740]+a5c", point.X);
-                    int b = dm.WriteFloat(hwnd, "[1221740]+a64", point.Y);
-                    int c = dm.WriteFloat(hwnd, "[1221740]+a60", point.Z);
-                    if (a == 1 && b == 1 && c == 1)
-                    {
-                        Debug.WriteLine("瞬移成功");
-                        return true;
-                    }
-                    else
-                    {
-                        Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2}",a,b,c);
-                        return false;
-                    }
+
+                    
                 }
                 else
                 {

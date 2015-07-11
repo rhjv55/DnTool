@@ -17,7 +17,7 @@ namespace DnTool.ViewModels
     public class BuyViewModel:NotifyPropertyChanged
     {
         ViewModelLocator Locator=new ViewModelLocator();
-
+     
         public RelayCommand BeginBagClearCommand { get; set; }
         public RelayCommand StopBagClearCommand { get; set; }
         public RelayCommand ShuaHuoshanCommand { get; set; }
@@ -103,7 +103,7 @@ namespace DnTool.ViewModels
                 context.Settings.StopPage = StopPage;
                 context.Settings.StopItem=StopItem;
 
-                TaskBase task = new BuyThingsTask(context);
+                TaskBase task = new BagClearTask(context);
                 task.Name = "清理背包";
                 int width = context.Role.Window.Width;
                 int height = context.Role.Window.Height;
@@ -114,6 +114,10 @@ namespace DnTool.ViewModels
                 }
                
                 SoftContext.TaskEngine.Start(task);
+            });
+            this.StopBagClearCommand = new RelayCommand(() =>
+            {
+                SoftContext.TaskEngine.Stop();
             });
         }
         private async void Buy(MallThing thing)

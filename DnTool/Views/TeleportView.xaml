@@ -21,8 +21,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+           
             <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
                 <Label>当前坐标:</Label>
                 <Label>X:</Label>
@@ -33,7 +34,8 @@
             <Label Width="55" Foreground="Red" Content="{Binding CurrentPoint.Z}"></Label>
             <Button Margin="5,0,0,0" Content="保存" Command="{Binding AddCurrentPointCommand}"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="60,10,10,10" Grid.Row="1">
+            
+        <StackPanel Orientation="Horizontal" Margin="60,10,10,10" Grid.Row="1">
            
             <Label Margin="0,0,0,0">选择：</Label>
             <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="120" Focusable="False"
@@ -86,7 +88,13 @@
             <TextBox Width="50" Margin="5,10,5,10" Text="{Binding NewPoint.Z}"/>
             <Button Margin="10" Content="添加" Command="{Binding AddNewPointCommand}"/>
             </StackPanel>
+        <StackPanel Orientation="Horizontal"  Grid.Row="4" Height="40">
 
-        </Grid>
+            <CheckBox Margin="10" Content="小号同时瞬移" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <CheckBox Margin="10" Content="瞬移后走一小段" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+        </StackPanel>
+       
+    </Grid>
    
 </UserControl>

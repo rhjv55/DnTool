@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnTool", "DnTool\DnTool.csproj", "{F8555F88-1BB9-4BD6-842A-CA680B293D90}"
 EndProject
@@ -19,8 +19,8 @@ Global
 		{F8555F88-1BB9-4BD6-842A-CA680B293D90}.Debug|x86.Build.0 = Debug|x86
 		{F8555F88-1BB9-4BD6-842A-CA680B293D90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8555F88-1BB9-4BD6-842A-CA680B293D90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8555F88-1BB9-4BD6-842A-CA680B293D90}.Release|x86.ActiveCfg = Release|x86
-		{F8555F88-1BB9-4BD6-842A-CA680B293D90}.Release|x86.Build.0 = Release|x86
+		{F8555F88-1BB9-4BD6-842A-CA680B293D90}.Release|x86.ActiveCfg = Debug|x86
+		{F8555F88-1BB9-4BD6-842A-CA680B293D90}.Release|x86.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
