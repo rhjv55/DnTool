@@ -24,7 +24,7 @@ namespace DnTool.Views
         public BuyView()
         {
             InitializeComponent();
-            this.DataContext = new BuyViewModel();
+            this.DataContext = new ToolsViewModel();
         }
        
      

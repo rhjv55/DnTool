@@ -153,6 +153,7 @@
     <Compile Include="GameTask\BagClearTask.cs" />
     <Compile Include="GameTask\BuyThingsTask.cs" />
     <Compile Include="GameTask\HuoshanchaoxueTask.cs" />
+    <Compile Include="GameTask\ZidongkaidanTask.cs" />
     <Compile Include="Models\Blank.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\MemoryAddress.cs" />
@@ -208,16 +209,17 @@
     <Compile Include="Utilities\WPF\NotifyPropertyChanged.cs" />
     <Compile Include="Utilities\MutexCloseHelper.cs" />
     <Compile Include="Utilities\WPF\SimpleCommand.cs" />
+    <Compile Include="ValueConverters\CanNullConverter.cs" />
     <Compile Include="ValueConverters\HotKeyConverter.cs" />
-    <Compile Include="ViewModels\BuyViewModel.cs" />
+    <Compile Include="ViewModels\ToolsViewModel.cs" />
     <Compile Include="ViewModels\FlyoutBaseViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\TeleportViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
-    <Compile Include="Views\BuyView.xaml.cs">
-      <DependentUpon>BuyView.xaml</DependentUpon>
+    <Compile Include="Views\ToolsView.xaml.cs">
+      <DependentUpon>ToolsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoginFlyout.xaml.cs">
       <DependentUpon>LoginFlyout.xaml</DependentUpon>
@@ -244,7 +246,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\BuyView.xaml">
+    <Page Include="Views\ToolsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

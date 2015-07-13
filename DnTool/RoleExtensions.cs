@@ -209,27 +209,69 @@ namespace DnTool
         {
             DmPlugin dm = role.Window.Dm;
             int hwnd = role.Window.Hwnd;
-            dm.MoveToClick(794 + 65 * (page - 1), 217);  //点击背包页
-            dm.Delay(500);
+            dm.MoveToClick(796 + 65 * (page - 1), 217);  //点击背包页
+            dm.Delay(100);
+            dm.MoveToClick(796 + 65 * (page - 1), 217);  //点击背包页
+            dm.Delay(300);
             //5-28格
             for (int i = begin; i <= stop; i++)
             {
                 dm.MoveTo(800 + 65 * ((i - 1) % 5), 274 + 65 * ((i - 1) / 5));
+                dm.Delay(200);
                 int num = dm.ReadInt(hwnd, "[16cbc90]+314", 0);
+                Debug.WriteLine("格子数量为:" + num);
                 if (num == 0)
                     continue;
+       
                 Debug.WriteLine(800 + 65 * ((i - 1) % 5) + "   " + (274 + 65 * ((i - 1) / 5)));
-                Delegater.WaitTrue(() => role.HasDialogDetail("破坏物品", "bebebe-414141"),
-                () => 
+                Delegater.WaitTrue(() => 
+                {
+                    dm.MoveTo(573,493);
+                    dm.Delay(100);
+                    string content=dm.ReadString(hwnd, "[16cbc90]+30",1,10);
+                  //  Debug.WriteLine(content);
+                    if (content.Contains("是"))
+                        return true;
+                    else
+                        return false;
+                },
+                () =>
                 {
                     dm.MoveToClick(800 + 65 * ((i - 1) % 5), 274 + 65 * ((i - 1) / 5));  //点击格子
-                    dm.Delay(200);
                     dm.MoveToClick(748, 687);                  //点击丢弃
-                    dm.Delay(100);
+                    dm.Delay(300);
                 });
                 dm.MoveToClick(574, 496);                   //点击确认
+                dm.Delay(500);
             }
         }
+         /// <summary>
+         /// 鼠标位置是否有指定控件文本
+         /// </summary>
+         /// <param name="role"></param>
+         /// <param name="x"></param>
+         /// <param name="y"></param>
+         /// <param name="text"></param>
+         /// <param name="isClick"></param>
+         /// <returns></returns>
+        public static bool FindControlTextAndClick(this IRole role, int x,int y,string text,bool isClick=false)
+        {
+            DmPlugin dm = role.Window.Dm;
+            int hwnd = role.Window.Hwnd;
+            
+            dm.MoveTo(x,y);
+            dm.Delay(200);
+            string content = dm.ReadString(hwnd, "[16cbc90]+30", 1, 10);
+            //  Debug.WriteLine(content);
+            if (content.Contains(text))
+            {
+                if (isClick)
+                    dm.LeftClick();
+                return true;
+            }
+            return false;     
+        }
+
        /// <summary>
        /// 清理背包，从第几页几格到几页几格
        /// </summary>

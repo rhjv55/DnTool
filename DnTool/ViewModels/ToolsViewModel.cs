@@ -14,10 +14,11 @@ using Utilities.Log;
 using MahApps.Metro.Controls.Dialogs;
 namespace DnTool.ViewModels
 {
-    public class BuyViewModel:NotifyPropertyChanged
+    public class ToolsViewModel:NotifyPropertyChanged
     {
         ViewModelLocator Locator=new ViewModelLocator();
-     
+
+        public RelayCommand AutoOpenEggCommand { get; set; }
         public RelayCommand BeginBagClearCommand { get; set; }
         public RelayCommand StopBagClearCommand { get; set; }
         public RelayCommand ShuaHuoshanCommand { get; set; }
@@ -37,7 +38,7 @@ namespace DnTool.ViewModels
             this.Things.Add(new MallThing() { ID = 8, Name = "装有富饶护符的箱子", Description = "额外金币加成", CanUseLB = false, Value = 60000 });
         }
         
-        public BuyViewModel()
+        public ToolsViewModel()
         {
             InitThings();
             this.BuyCommand = new RelayCommand<MallThing>(
@@ -113,6 +114,22 @@ namespace DnTool.ViewModels
                     return;
                 }
                
+                SoftContext.TaskEngine.Start(task);
+            },()=>SoftContext.Role!=null);
+            this.AutoOpenEggCommand = new RelayCommand(() =>
+            {
+                TaskContext context = new TaskContext(SoftContext.Role);
+
+                TaskBase task = new ZidongkaidanTask(context);
+                task.Name = "自动开蛋";
+                int width = context.Role.Window.Width;
+                int height = context.Role.Window.Height;
+                if (width != 1152 || height != 864)
+                {
+                    SoftContext.MainWindow.ShowMessageAsync("开蛋失败", "请将游戏分辨率设为1152*864！");
+                    return;
+                }
+
                 SoftContext.TaskEngine.Start(task);
             });
             this.StopBagClearCommand = new RelayCommand(() =>

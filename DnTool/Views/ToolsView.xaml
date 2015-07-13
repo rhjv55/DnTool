@@ -18,6 +18,11 @@
                     <Button Width="80" Height="30" Content="多开" ToolTip="点一下按钮开一个窗口" Command="{Binding OpenCommand}" Margin="129,0,139,0"/>
                 </Grid>
             </Expander>
+                <Expander Header="关卡开蛋" IsExpanded="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360">
+                    <Grid>
+                        <Button Width="80" Height="30" Content="开始" Command="{Binding AutoOpenEggCommand}" Margin="129,0,139,0"/>
+                    </Grid>
+                </Expander>
                 <Expander Header="商城购买(测试)" IsExpanded="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360">
                     <Grid>
                         <Label Content="购买物品:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,15,0,0"/>

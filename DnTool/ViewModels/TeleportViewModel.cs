@@ -11,7 +11,7 @@ using Utilities.Dm;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight.CommandWpf;
 using Utilities.Tasks;
-
+using MahApps.Metro.Controls.Dialogs;
 
 namespace DnTool.ViewModels
 {
@@ -19,16 +19,16 @@ namespace DnTool.ViewModels
     {
 
         #region 命令
+        public RelayCommand SetXiaohaoCommand { get; set; }
         public RelayCommand CreateCommand { get; set; }
         public RelayCommand AddCurrentPointCommand { get; set; }
         public RelayCommand AddNewPointCommand { get; set; }
         public RelayCommand<Point> TeleportCommand { get; set; }
         public RelayCommand<Point> DeleteCommand { get; set; }
         public RelayCommand ModifyCommand { get; set; }
-        public RelayCommand ImportListCommand { get; set; }
-        public RelayCommand SaveListCommand { get; set; }
-        public RelayCommand Redo { get; set; }
-        public RelayCommand Undo { get; set; }
+        public RelayCommand ImportCommand { get; set; }
+        public RelayCommand SaveCommand { get; set; }
+        public RelayCommand SaveAsCommand { get; set; }
         public RelayCommand ClearCommand { get; set; }
         public RelayCommand SelectionChangedCommand { get; set; }
         #endregion
@@ -47,6 +47,8 @@ namespace DnTool.ViewModels
             set 
             {
                 _selectedValue = value;
+                if (_selectedValue == null)
+                    return;
                 List<string> lines = FileOperateHelper.ReadFileLines(_selectedValue.ToString());
                 this.Points.Clear();
                 foreach (var line in lines)
@@ -81,8 +83,8 @@ namespace DnTool.ViewModels
             this.ClearCommand = new RelayCommand(() => this.Clear());
             this.DeleteCommand = new RelayCommand<Point>((p)=>this.DeletePoint(p));
             this.TeleportCommand = new RelayCommand<Point>((p) =>this.Teleport(p));
-            this.SaveListCommand = new RelayCommand(()=>this.SaveList());
-
+            this.SaveCommand = new RelayCommand(()=>this.SaveList());
+            this.SaveAsCommand = new RelayCommand(()=>this.SaveAs());
             this.CreateCommand = new RelayCommand(()=>this.Create());
 
             timer.Tick += (s, e) =>
@@ -110,12 +112,50 @@ namespace DnTool.ViewModels
             timer.Start();
         }
 
-        private void Create()
+        private void SaveAs()
         {
-           
+            //if (FileOperateHelper.IsExists(_selectedValue.ToString()))
+            //{
+            //    var result = System.Windows.MessageBox.Show("文件已存在是否覆盖？", "提示", System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
+            //    if (result == System.Windows.MessageBoxResult.No)
+            //        return;
+            //}
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            //dlg.FileName = "User.txt"; // Default file name
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+            dlg.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory + "data";
+
+            // Show save file dialog box
+            var result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                // Save document
+              //  this.txtPlace.Text = dlg.FileName;
+            }
+
         }
 
-       
+        private void Create()
+        {
+            this.SelectedIndex =-1;
+            this.Points.Clear();
+        }
+
+        private int _selectedIndex;
+
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set
+            {
+                base.SetProperty(ref _selectedIndex, value, () => this.SelectedIndex);
+            }
+        }
+        
+        
 
         private void SaveList()
         {
@@ -123,28 +163,7 @@ namespace DnTool.ViewModels
             {
                 if (_selectedValue == null)
                     return;
-                //if (FileOperateHelper.IsExists(_selectedValue.ToString()))
-                //{
-                //    var result=System.Windows.MessageBox.Show("文件已存在是否覆盖？","提示",System.Windows.MessageBoxButton.YesNo,System.Windows.MessageBoxImage.Question);
-                //    if (result == System.Windows.MessageBoxResult.No)
-                //        return;
-                //}
-                //Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
-                //dlg.FileName = "User.txt"; // Default file name
-                //dlg.DefaultExt = ".txt"; // Default file extension
-                //dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
-                //dlg.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory+"\\data";
-
-                //// Show save file dialog box
-                //Nullable<bool> result = dlg.ShowDialog();
-
-                //// Process save file dialog box results
-                //if (result == true)
-                //{
-                //    // Save document
-                //    this.txtPlace.Text = dlg.FileName;
-                //}
-
+               
                 string content = "";
                 foreach (var p in Points)
                 {
@@ -153,7 +172,7 @@ namespace DnTool.ViewModels
                 FileOperateHelper.WriteFile(_selectedValue.ToString(), content,true);
             }catch(Exception ex)
             {
-                System.Windows.MessageBox.Show(ex.Message);
+                SoftContext.MainWindow.ShowMessageAsync("保存失败",ex.Message);
             }
         }
         private float IntToFloat(int val)

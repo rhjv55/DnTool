@@ -14,87 +14,86 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    
+
     <Grid>
-                <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-           
-            <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
-                <Label>当前坐标:</Label>
-                <Label>X:</Label>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="10" Grid.Row="0">
+            <Label>当前坐标:</Label>
+            <Label>X:</Label>
             <Label Width="55" Foreground="Red" Content="{Binding CurrentPoint.X}"></Label>
-                <Label>Y:</Label>
+            <Label>Y:</Label>
             <Label Width="55" Foreground="Red" Content="{Binding CurrentPoint.Y}"></Label>
-                <Label>Z:</Label>
+            <Label>Z:</Label>
             <Label Width="55" Foreground="Red" Content="{Binding CurrentPoint.Z}"></Label>
             <Button Margin="5,0,0,0" Content="保存" Command="{Binding AddCurrentPointCommand}"/>
-            </StackPanel>
-            
+        </StackPanel>
+
         <StackPanel Orientation="Horizontal" Margin="60,10,10,10" Grid.Row="1">
-           
+
             <Label Margin="0,0,0,0">选择：</Label>
             <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="120" Focusable="False"
-                      ItemsSource="{Binding Files}" SelectedValue="{Binding SelectedValue}" DisplayMemberPath="Name" SelectedValuePath="Path"/>
+                      ItemsSource="{Binding Files}" SelectedValue="{Binding SelectedValue}" DisplayMemberPath="Name" SelectedValuePath="Path" SelectedIndex="{Binding SelectedIndex}"/>
             <CheckBox x:Name="cbUseHotKey" Checked="cbUseHotKey_Checked" Unchecked="cbUseHotKey_Unchecked" Margin="10,0,0,0">使用热键</CheckBox>
             <CheckBox x:Name="cbTopmost" Margin="10,0,0,0" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Topmost,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}">置顶</CheckBox>
-           
+
         </StackPanel>
 
 
 
         <DataGrid Grid.Row="2" Width="380" Focusable="False" x:Name="dg" HeadersVisibility="All" DockPanel.Dock="Right" HorizontalAlignment="Left" Height="320"  VerticalAlignment="Top"  ItemsSource="{Binding Points}" HorizontalScrollBarVisibility="Disabled"  AutoGenerateColumns="False"
                            LoadingRow="DataGrid_LoadingRow"  CanUserSortColumns="False" CanUserAddRows="False" IsReadOnly="False" SelectionMode="Single" CanUserResizeColumns="False">
-                <DataGrid.ContextMenu>
-                    <ContextMenu StaysOpen="true">
-                        <MenuItem Header="新建"  Command="{Binding CreateCommand}"/>
-                        <MenuItem Header="删除"  Command="{Binding DeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>
-                        <MenuItem Header="清空"  Command="{Binding ClearCommand}"/>
-                        <MenuItem Header="保存"  Command="{Binding SaveListCommand}"/>
-                        <MenuItem Header="另存为"  Command="{Binding SaveListCommand}"/>
-                        <MenuItem Header="导入列表"  Command="{Binding ImportListCommand}"/>
-                       
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-                <DataGrid.Columns>
-                    <!--<DataGridTextColumn Header="ID" Width="35" Binding="{Binding ItemIndex}"/>-->
-                    <DataGridTextColumn Header="坐标名" Width="110" Binding="{Binding Name}" Foreground="Black"/>
+            <DataGrid.ContextMenu>
+                <ContextMenu StaysOpen="true">
+                    <MenuItem Header="新建"  Command="{Binding CreateCommand}"/>
+                    <MenuItem Header="删除"  Command="{Binding DeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"/>
+                    <MenuItem Header="清空"  Command="{Binding ClearCommand}"/>
+                    <MenuItem Header="保存"  Command="{Binding SaveCommand}"/>
+                    <MenuItem Header="另存为"  Command="{Binding SaveAsCommand}"/>
+                    <MenuItem Header="导入列表"  Command="{Binding ImportCommand}"/>
+
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <!--<DataGridTextColumn Header="ID" Width="35" Binding="{Binding ItemIndex}"/>-->
+                <DataGridTextColumn Header="坐标名" Width="110" Binding="{Binding Name}" Foreground="Black"/>
                 <DataGridTextColumn Header="X" Width="65" Binding="{Binding X}" Foreground="Black"/>
                 <DataGridTextColumn Header="Y" Width="65" Binding="{Binding Y}" Foreground="Black"/>
                 <DataGridTextColumn Header="Z" Width="65" Binding="{Binding Z}" Foreground="Black"/>
-                    <DataGridTemplateColumn Width="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                <DataGridTemplateColumn Width="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
                             <ToggleButton Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.TeleportCommand}" CommandParameter="{Binding SelectedItem,ElementName=dg}">
-                                    <Rectangle Width="20" Height="15">
-                                        <Rectangle.Fill>
-                                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_right}" />
-                                        </Rectangle.Fill>
-                                    </Rectangle>
-                                </ToggleButton>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="3">
+                                <Rectangle Width="20" Height="15">
+                                    <Rectangle.Fill>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_arrow_right}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </ToggleButton>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="3">
             <TextBox Width="100" Margin="5,10,5,10" Text="{Binding NewPoint.Name}"/>
             <TextBox Width="50" Margin="5,10,5,10" Text="{Binding NewPoint.X}"/>
             <TextBox Width="50" Margin="5,10,5,10" Text="{Binding NewPoint.Y}"/>
             <TextBox Width="50" Margin="5,10,5,10" Text="{Binding NewPoint.Z}"/>
             <Button Margin="10" Content="添加" Command="{Binding AddNewPointCommand}"/>
-            </StackPanel>
+        </StackPanel>
         <StackPanel Orientation="Horizontal"  Grid.Row="4" Height="40">
-
-            <CheckBox Margin="10" Content="小号同时瞬移" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <CheckBox Margin="10" Content="瞬移后走一小段" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <CheckBox Margin="10,10,10,0" Content="小号同时瞬移" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Button Content="设置" Command="{Binding SetXiaohaoCommand}" Width="75" Height="30" Margin="5"/>
 
         </StackPanel>
-       
+
     </Grid>
-   
+
 </UserControl>
