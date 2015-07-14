@@ -28,7 +28,14 @@
                         <Label Content="购买物品:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,15,0,0"/>
                         <Label Content="购买数量:" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20,53,0,0"/>
                         <Label Content="使用龙币:" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20,90,0,0"/>
-                        <ComboBox x:Name="things" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" ItemsSource="{Binding Things}" DisplayMemberPath="Name" Margin="102,12,0,0"/>
+                        <ComboBox x:Name="things" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" 
+                                  ItemsSource="{Binding Things}" DisplayMemberPath="Name" Margin="102,12,0,0">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ComboBoxItem}">
+                                    <Setter Property="ToolTip" Value="{Binding Description}"></Setter>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
                         <mah:NumericUpDown Value="{Binding Number, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Left"  Minimum="0" Maximum="100" Margin="102,53,0,0" Width="120" />
                         <mah:ToggleSwitch IsChecked="{Binding UseLB, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding SelectedItem.CanUseLB, ElementName=things}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="131,84,0,0"/>
                         <Button Content="购买" Command="{Binding BuyCommand}" CommandParameter="{Binding SelectedItem, ElementName=things}" HorizontalAlignment="Left" Margin="263,27,0,0" VerticalAlignment="Top" Width="75"/>

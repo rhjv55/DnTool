@@ -12,6 +12,7 @@ using System.Windows.Threading;
 using GalaSoft.MvvmLight.CommandWpf;
 using Utilities.Tasks;
 using MahApps.Metro.Controls.Dialogs;
+using System.Windows.Forms;
 
 namespace DnTool.ViewModels
 {
@@ -75,8 +76,7 @@ namespace DnTool.ViewModels
             this.NewPoint = new Point("添加坐标",0,0,0);
             this.Points = new ObservableCollection<Point>();
             this.Files = new ObservableCollection<File>();
-            List<string> list = FileOperateHelper.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\data", "*.txt");
-            list.ForEach(x => Files.Add(new File() { Path = x, Name = System.IO.Path.GetFileNameWithoutExtension(x) }));
+            UpdateFiles();
 
             this.AddCurrentPointCommand = new RelayCommand(() => this.AddPoint(CurrentPoint));
             this.AddNewPointCommand = new RelayCommand(() => this.AddPoint(NewPoint));
@@ -86,7 +86,11 @@ namespace DnTool.ViewModels
             this.SaveCommand = new RelayCommand(()=>this.SaveList());
             this.SaveAsCommand = new RelayCommand(()=>this.SaveAs());
             this.CreateCommand = new RelayCommand(()=>this.Create());
-
+            this.ImportCommand = new RelayCommand(()=>this.Import());
+            this.SetXiaohaoCommand = new RelayCommand(() =>
+            {
+                new ViewModelLocator().SetXiaohao.IsOpen = true;
+            });
             timer.Tick += (s, e) =>
             {
                 if (SoftContext.Role == null)
@@ -112,6 +116,52 @@ namespace DnTool.ViewModels
             timer.Start();
         }
 
+        private void Import()
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            //dlg.FileName = "User.txt"; // Default file name
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+            if (!System.IO.Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "data"))
+                System.IO.Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "data");
+            dlg.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory + "data";
+
+            // Show save file dialog box
+            var result = dlg.ShowDialog();
+
+            // Process save file dialog box results
+            if (result == true)
+            {
+                try
+                {
+                    this.SelectedIndex = -1;
+                    List<string> lines = FileOperateHelper.ReadFileLines(dlg.FileName);
+                    this.Points.Clear();
+                    foreach (var line in lines)
+                    {
+                        string[] temp = line.Split('#');
+                        if (temp.Count() != 4)
+                        {
+                            Debug.WriteLine("路径:" + _selectedValue + ",格式不对");
+                            Debug.WriteLine(line);
+                            continue;
+                        }
+                        this.Points.Add(new Point(temp[0], float.Parse(temp[1]), float.Parse(temp[2]), float.Parse(temp[3])));
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    SoftContext.MainWindow.ShowMessageAsync("导入失败", ex.Message);
+                }
+            }
+        }
+        private void UpdateFiles()
+        {
+            Files.Clear();
+            List<string> list = FileOperateHelper.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "\\data", "*.txt");
+            list.ForEach(x => Files.Add(new File() { Path = x, Name = System.IO.Path.GetFileNameWithoutExtension(x) }));
+        }
         private void SaveAs()
         {
             //if (FileOperateHelper.IsExists(_selectedValue.ToString()))
@@ -124,6 +174,8 @@ namespace DnTool.ViewModels
             //dlg.FileName = "User.txt"; // Default file name
             dlg.DefaultExt = ".txt"; // Default file extension
             dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+            if (!System.IO.Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "data"))
+                System.IO.Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "data");
             dlg.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory + "data";
 
             // Show save file dialog box
@@ -132,8 +184,20 @@ namespace DnTool.ViewModels
             // Process save file dialog box results
             if (result == true)
             {
-                // Save document
-              //  this.txtPlace.Text = dlg.FileName;
+                try
+                {
+                    string content = "";
+                    foreach (var p in Points)
+                    {
+                        content += p.Name + "#" + p.X + "#" + p.Y + "#" + p.Z + "\r\n";
+                    }
+                    FileOperateHelper.WriteFile(dlg.FileName, content, true);
+                    UpdateFiles();
+                }
+                catch (Exception ex)
+                {
+                    SoftContext.MainWindow.ShowMessageAsync("保存失败", ex.Message);
+                }
             }
 
         }
@@ -162,7 +226,10 @@ namespace DnTool.ViewModels
             try
             {
                 if (_selectedValue == null)
+                {
+                    SaveAs();
                     return;
+                }
                
                 string content = "";
                 foreach (var p in Points)
@@ -170,6 +237,7 @@ namespace DnTool.ViewModels
                     content += p.Name + "#" + p.X + "#" + p.Y + "#" + p.Z + "\r\n";
                 }
                 FileOperateHelper.WriteFile(_selectedValue.ToString(), content,true);
+                SoftContext.MainWindow.ShowMessageAsync("保存成功", "路径："+_selectedValue.ToString());
             }catch(Exception ex)
             {
                 SoftContext.MainWindow.ShowMessageAsync("保存失败",ex.Message);
@@ -196,49 +264,36 @@ namespace DnTool.ViewModels
             {
                 if (role.Window.IsAlive)
                 {
-                    string hwnds = dm.EnumWindowByProcess("DragonNest.exe", "", "DRAGONNEST", 2);
-                    List<int> hList=dm.GetHwnds(hwnds);
-                    foreach (var h in hList)
+                    ObservableCollection<RoleInfo> roleList = new ViewModelLocator().SetXiaohao.GameRoleList;
+                    foreach (var roleInfo in roleList)
                     {
-                        int a = dm.WriteFloat(h, "[1221740]+a5c", point.X);
-                        int b = dm.WriteFloat(h, "[1221740]+a64", point.Y);
-                        int c = dm.WriteFloat(h, "[1221740]+a60", point.Z);
-                        if (a == 1 && b == 1 && c == 1)
+                        if (dm.GetWindowState(roleInfo.Hwnd, 0) != 1)  //判断窗口是否存在
+                            continue;
+                        if (roleInfo.IsTogether)                       //如果一起瞬移则写内存
                         {
-                            Debug.WriteLine("瞬移成功");
-                            //return true;
+                            int a = dm.WriteFloat(roleInfo.Hwnd, "[1221740]+a5c", point.X);
+                            int b = dm.WriteFloat(roleInfo.Hwnd, "[1221740]+a64", point.Y);
+                            int c = dm.WriteFloat(roleInfo.Hwnd, "[1221740]+a60", point.Z);
+                            if (a == 1 && b == 1 && c == 1)
+                                Debug.WriteLine("瞬移成功");
+                            else
+                                Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2},句柄：{3}", a, b, c,roleInfo.Hwnd);
                         }
-                        else
+                        if (roleInfo.IsMove)                         //如果移动则写内存
                         {
-                            Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2}",a,b,c);
-                           // return false;
+                            dm.WriteInt(roleInfo.Hwnd, "[1221740]+2320", 0, 131072);
+                            dm.Delay(200);
+                            dm.WriteInt(roleInfo.Hwnd, "[1221740]+2320", 0, 0);
+                            dm.Delay(100);
                         }
-                        dm.WriteInt(h, "[1221740]+2320",0,131072);
-                        dm.Delay(200);
-                        dm.WriteInt(h, "[1221740]+2320", 0, 0);
-                        dm.Delay(100);
-                    }
-                    return true;
-                    //Debug.WriteLine(point.ToString());
-                    //int a = dm.WriteFloat(hwnd, "[1221740]+a5c", point.X);
-                    //int b = dm.WriteFloat(hwnd, "[1221740]+a64", point.Y);
-                    //int c = dm.WriteFloat(hwnd, "[1221740]+a60", point.Z);
-                    //if (a == 1 && b == 1 && c == 1)
-                    //{
-                    //    Debug.WriteLine("瞬移成功");
-                    //    return true;
-                    //}
-                    //else
-                    //{
-                    //    Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2}",a,b,c);
-                    //    return false;
-                    //}
 
-                    
+                    }
+                  
+                    return true;
                 }
                 else
                 {
-                    Debug.WriteLine("窗口不存在:" + hwnd);
+                    SoftContext.MainWindow.ShowMessageAsync("瞬移失败","窗口不存在:" + hwnd);
                     return false;
                 }
             }

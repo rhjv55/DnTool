@@ -14,6 +14,8 @@ namespace Utilities.Tasks
     {
         public TaskContext(IRole role)
         {
+            if (role == null)
+                throw new Exception("角色不能为null");
            Role = role;
 
            Settings = new ExpandoObject();

@@ -36,6 +36,7 @@ namespace DnTool
 
             // this.Flyouts1.Items.Add(new LoginFlyout());
             this.Flyouts1.Items.Add(new SettingsView());
+            this.Flyouts1.Items.Add(new SetXiaohaoFlyout());
             new SoftContext(this);
             try
             {
@@ -128,7 +129,7 @@ namespace DnTool
                             if (pid > 0)
                             {
                                 Process p = Process.GetProcessById((int)pid);
-                                if (p.ProcessName == "DragonNest")
+                                if (p.ProcessName == "DragonNest") 
                                 {
                                     //鼠标最后指向的句柄
                                     SoftContext.Role = new Role((int)this._hWndCurrent);

@@ -15,6 +15,7 @@ namespace DnTool.ViewModels
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
             SimpleIoc.Default.Register<TeleportViewModel>();
+            SimpleIoc.Default.Register<GameRoleListViewModel>();
         }
 
         public MainViewModel Main
@@ -44,6 +45,13 @@ namespace DnTool.ViewModels
             get
             {
                 return ServiceLocator.Current.GetInstance<TeleportViewModel>();
+            }
+        }
+        public GameRoleListViewModel SetXiaohao
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<GameRoleListViewModel>();
             }
         }
         public static void Cleanup()

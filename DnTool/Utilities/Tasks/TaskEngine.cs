@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Utilities.Dm;
 using Utilities.Log;
-
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Utilities.Tasks
 {
@@ -181,12 +181,12 @@ namespace Utilities.Tasks
                 }
                 catch (ThreadAbortException ex)
                 {
-                    Logger.Error("线程结束异常："+ex.Message);
+                    SoftContext.MainWindow.ShowMessageAsync("线程结束异常", ex.Message);
                     TaskStop();
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error("发生异常，" + ex.Message);
+                    SoftContext.MainWindow.ShowMessageAsync("发生异常", ex.Message);
                     TaskStop();
                     Window.FlashWindow();
                     _workThread = null;
@@ -199,6 +199,10 @@ namespace Utilities.Tasks
         {
             TaskRunState = TaskRunState.Started;
             DmPlugin dm = Window.Dm;
+            if (Window.Width != 1152 || Window.Height != 864)
+            {
+                throw new Exception("请将游戏分辨率设为1152*864！");
+            }
             bool flag = Delegater.WaitTrue(()=>Window.BindFullBackground(),
                // dm.BindWindow(Window.Hwnd,DmBindDisplay.dx,DmBindMouse.windows,DmBindKeypad.normal,0)==1?true:false,
                 ()=>dm.Delay(1000),10);

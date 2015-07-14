@@ -58,6 +58,7 @@ namespace DnTool.ViewModels
                     {
                         if (all.Length == 0)
                         {
+                            SoftContext.MainWindow.ShowMessageAsync("多开失败", "没有找到游戏进程"); 
                             return;
                         }
                         foreach (Process process in all)
@@ -78,14 +79,14 @@ namespace DnTool.ViewModels
                                 else
                                 {
                                     MutexCloseHelper.CloseHandle(ipHandle);
-                                    Debug.WriteLine("进程[" + handle.ProcessID + "]的互斥体句柄关闭成功");
+                                    SoftContext.MainWindow.ShowMessageAsync("多开成功", "进程[" + handle.ProcessID + "]的互斥体句柄关闭成功"); 
                                 }
                             }
                         }
                     }
                     else
                     {
-                        // richTextBox1.AppendText("没有找到运行的程序" + Environment.NewLine);
+                        SoftContext.MainWindow.ShowMessageAsync("多开失败", "没有找到游戏进程"); 
                     }
                 }
                 catch (Exception ex)
@@ -122,16 +123,8 @@ namespace DnTool.ViewModels
 
                 TaskBase task = new ZidongkaidanTask(context);
                 task.Name = "自动开蛋";
-                int width = context.Role.Window.Width;
-                int height = context.Role.Window.Height;
-                if (width != 1152 || height != 864)
-                {
-                    SoftContext.MainWindow.ShowMessageAsync("开蛋失败", "请将游戏分辨率设为1152*864！");
-                    return;
-                }
-
                 SoftContext.TaskEngine.Start(task);
-            });
+            },()=>SoftContext.Role!=null);
             this.StopBagClearCommand = new RelayCommand(() =>
             {
                 SoftContext.TaskEngine.Stop();
@@ -148,13 +141,6 @@ namespace DnTool.ViewModels
             
             TaskBase task = new BuyThingsTask(context);
             task.Name = "购买商城物品";
-            int width = context.Role.Window.Width;
-            int height = context.Role.Window.Height;
-            if (width != 1152 || height != 864)
-            {
-                await SoftContext.MainWindow.ShowMessageAsync("购买失败", "请将游戏分辨率设为1152*864！");
-                return;
-            }
             if(this._number<=0)
             {
                 await SoftContext.MainWindow.ShowMessageAsync("购买失败", "请检查物品数量！");

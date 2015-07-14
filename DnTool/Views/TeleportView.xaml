@@ -82,15 +82,95 @@
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="3">
-            <TextBox Width="100" Margin="5,10,5,10" Text="{Binding NewPoint.Name}"/>
-            <TextBox Width="50" Margin="5,10,5,10" Text="{Binding NewPoint.X}"/>
-            <TextBox Width="50" Margin="5,10,5,10" Text="{Binding NewPoint.Y}"/>
-            <TextBox Width="50" Margin="5,10,5,10" Text="{Binding NewPoint.Z}"/>
+            <TextBox Width="100" Margin="5,10,5,10" Text="{Binding NewPoint.Name}">
+                <TextBox.Resources>
+                    <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
+                        <VisualBrush.Visual>
+                            <TextBlock FontStyle="Italic" Text="坐标名字"/>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </TextBox.Resources>
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                            </Trigger>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <TextBox Width="50" Margin="5,10,5,10" Text="{Binding NewPoint.X}">
+                    <TextBox.Resources>
+                        <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
+                            <VisualBrush.Visual>
+                                <TextBlock FontStyle="Italic" Text="X坐标"/>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </TextBox.Resources>
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="{x:Null}">
+                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="">
+                                    <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
+            <TextBox Width="50" Margin="5,10,5,10" Text="{Binding NewPoint.Y}">
+                <TextBox.Resources>
+                    <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
+                        <VisualBrush.Visual>
+                            <TextBlock FontStyle="Italic" Text="Y坐标"/>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </TextBox.Resources>
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                            </Trigger>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <TextBox Width="50" Margin="5,10,5,10" Text="{Binding NewPoint.Z}">
+                <TextBox.Resources>
+                    <VisualBrush x:Key="HelpBrush" TileMode="None" Opacity="0.5" Stretch="None" AlignmentX="Left">
+                        <VisualBrush.Visual>
+                            <TextBlock FontStyle="Italic" Text="Z坐标"/>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </TextBox.Resources>
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                            </Trigger>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Background" Value="{StaticResource HelpBrush}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
             <Button Margin="10" Content="添加" Command="{Binding AddNewPointCommand}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal"  Grid.Row="4" Height="40">
-            <CheckBox Margin="10,10,10,0" Content="小号同时瞬移" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Button Content="设置" Command="{Binding SetXiaohaoCommand}" Width="75" Height="30" Margin="5"/>
+           
+            <Button Content="多开瞬移设置" Command="{Binding SetXiaohaoCommand}" Width="110" Height="30" Margin="5"/>
 
         </StackPanel>
 

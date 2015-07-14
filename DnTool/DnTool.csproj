@@ -76,6 +76,9 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>leaf.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
     <Reference Include="GalaSoft.MvvmLight">
@@ -166,18 +169,12 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SoftContext.cs" />
     <Compile Include="Utilities\AnyRadixConvert.cs" />
-    <Compile Include="Utilities\DialogCoordinator.cs" />
-    <Compile Include="Utilities\DialogParticipation.cs" />
     <Compile Include="Utilities\HYX\HYXPlugin.cs" />
     <Compile Include="Utilities\HYX\NativeMethods.cs" />
-    <Compile Include="Utilities\IDialogCoordinator.cs" />
     <Compile Include="Utilities\INIHelper.cs" />
     <Compile Include="Utilities\MemHelper.cs" />
     <Compile Include="Utilities\Tasks\IRole.cs" />
-    <Compile Include="Utilities\Tasks\NoOpTask.cs" />
-    <Compile Include="Utilities\Tasks\ObjectUtils.cs" />
     <Compile Include="Utilities\Tasks\TaskBase.cs" />
-    <Compile Include="Utilities\Tasks\TaskBuilder.cs" />
     <Compile Include="Utilities\Tasks\TaskContext.cs" />
     <Compile Include="Utilities\Tasks\TaskEngine.cs" />
     <Compile Include="Utilities\Tasks\TaskInterruptException.cs" />
@@ -186,7 +183,6 @@
     <Compile Include="Utilities\Tasks\TaskRunState.cs" />
     <Compile Include="Utilities\Tasks\TaskStep.cs" />
     <Compile Include="Utilities\UtilExtensions.cs" />
-    <Compile Include="Utilities\CommandManagerHelper.cs" />
     <Compile Include="Utilities\DataGridViewModelBase.cs" />
     <Compile Include="Utilities\Dm\DmBindDisplay.cs" />
     <Compile Include="Utilities\Dm\DmBindKeypad.cs" />
@@ -204,13 +200,12 @@
     <Compile Include="Utilities\Keypad\VKKey.cs" />
     <Compile Include="Utilities\Keypad\WinIo.cs" />
     <Compile Include="Utilities\Log\Logger.cs" />
-    <Compile Include="Utilities\Memory64Helper.cs" />
-    <Compile Include="Utilities\MemoryHelper.cs" />
     <Compile Include="Utilities\WPF\NotifyPropertyChanged.cs" />
     <Compile Include="Utilities\MutexCloseHelper.cs" />
     <Compile Include="Utilities\WPF\SimpleCommand.cs" />
     <Compile Include="ValueConverters\CanNullConverter.cs" />
     <Compile Include="ValueConverters\HotKeyConverter.cs" />
+    <Compile Include="ViewModels\GameRoleListViewModel.cs" />
     <Compile Include="ViewModels\ToolsViewModel.cs" />
     <Compile Include="ViewModels\FlyoutBaseViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -218,6 +213,9 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\TeleportViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\GameRoleListFlyout.xaml.cs">
+      <DependentUpon>GameRoleListFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ToolsView.xaml.cs">
       <DependentUpon>ToolsView.xaml</DependentUpon>
     </Compile>
@@ -245,6 +243,10 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GameRoleListFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ToolsView.xaml">
       <SubType>Designer</SubType>
@@ -312,6 +314,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="leaf.ico" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
     <Resource Include="Resources\Entypo-license.txt" />
     <Content Include="dm.dll">
