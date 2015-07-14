@@ -15,7 +15,7 @@ namespace DnTool.ViewModels
         {
             this.Header = "角色列表";
             this.Position = Position.Right;
-            
+            this.OpendEvent +=(s,e)=>UpdateGameRoleList();
         }
 
         private void UpdateGameRoleList()
@@ -23,7 +23,11 @@ namespace DnTool.ViewModels
             if (SoftContext.Role == null)
                 return;
             DmPlugin dm = SoftContext.Role.Window.Dm;
-
+            var tempList = new ObservableCollection<RoleInfo>();
+            foreach (var item in this._gameRoleList)
+            {
+                tempList.Add(item);
+            }
             this._gameRoleList.Clear();
 
             string hwnds = dm.EnumWindowByProcess("DragonNest.exe", "", "DRAGONNEST", 2);
@@ -31,13 +35,24 @@ namespace DnTool.ViewModels
             foreach (var h in hList)
             {
                 RoleInfo roleInfo = new RoleInfo();
-                roleInfo.ID = 1;
-                roleInfo.Name = dm.ReadString(h,"[170112]+111",1,10);
-                roleInfo.Occupation = dm.ReadString(h,"[1170172]+222",1,10);
-                roleInfo.IsTogether = false;
-                roleInfo.IsMove = false;
+                roleInfo.ID = this._gameRoleList.Count+1;
+                roleInfo.PID = dm.GetWindowProcessId(h);
+                roleInfo.Occupation = dm.ReadString(h, "[1221740]+e50", 1, 10);
                 roleInfo.Hwnd = h;
-                roleInfo.Delay = 0;
+
+                var info=tempList.FirstOrDefault(x=>x.Hwnd==h);
+                if (info == null)
+                {
+                    roleInfo.IsTogether = false;
+                    roleInfo.IsMove = false;
+                    roleInfo.Delay = 0;
+                }
+                else
+                {
+                    roleInfo.IsTogether = info.IsTogether;
+                     roleInfo.IsMove = info.IsMove;
+                     roleInfo.Delay = info.Delay;
+                }
                 this._gameRoleList.Add(roleInfo);
             }
         }
@@ -55,7 +70,7 @@ namespace DnTool.ViewModels
     public class RoleInfo
     {
         public int ID { get; set; }
-        public string Name { get; set; }
+        public int  PID { get; set; }
         public string Occupation { get; set; }
         public bool IsTogether { get; set; }
         public bool IsMove { get; set; }

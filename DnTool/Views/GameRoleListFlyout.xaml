@@ -59,18 +59,35 @@
                 <GridView ColumnHeaderContainerStyle="{StaticResource CustomGridViewColumnHeader}">
                     <GridViewColumn DisplayMemberBinding="{Binding ID}" Width="30"
                                     Header="ID" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Width="100"
-                                    Header="角色名" />
+                    <GridViewColumn DisplayMemberBinding="{Binding PID}" Width="70"
+                                    Header="PID" />
                     <GridViewColumn DisplayMemberBinding="{Binding Occupation}" Width="70"
                                     Header="职业" />
-                    <GridViewColumn DisplayMemberBinding="{Binding IsTogether}" Width="60"
-                                    Header="瞬移" />
-                    <GridViewColumn DisplayMemberBinding="{Binding IsMove}" Width="60"
-                                    Header="移动" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Delay}" Width="60"
-                                    Header="延时" />
+                        <GridViewColumn Header="瞬移" Width="50">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsTogether}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
 
-                </GridView>
+                        <GridViewColumn Header="移动" Width="50">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding IsMove}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                       </GridViewColumn>
+                        <GridViewColumn Header="延时" Width="80">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Delay}"></TextBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+
+                    </GridView>
             </ListView.View>
         </ListView>
         </StackPanel>
