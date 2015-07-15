@@ -43,9 +43,7 @@
     
     <Grid>
         <StackPanel>
-        <ToolBar Height="30">
-                <Button Content="刷新"></Button>
-        </ToolBar>
+        
         <ListView x:Name="roleList"
                   Style="{StaticResource VirtualisedMetroListView}"
                   Height="220"
