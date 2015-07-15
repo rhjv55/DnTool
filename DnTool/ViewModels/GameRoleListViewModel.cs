@@ -34,6 +34,8 @@ namespace DnTool.ViewModels
             List<int> hList = dm.GetHwnds(hwnds);
             foreach (var h in hList)
             {
+                if (SoftContext.Role.Window.Hwnd == h)
+                    continue;
                 RoleInfo roleInfo = new RoleInfo();
                 roleInfo.ID = this._gameRoleList.Count+1;
                 roleInfo.PID = dm.GetWindowProcessId(h);

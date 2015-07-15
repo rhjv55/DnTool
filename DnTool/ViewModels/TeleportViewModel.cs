@@ -264,6 +264,14 @@ namespace DnTool.ViewModels
             {
                 if (role.Window.IsAlive)
                 {
+                    int a1 = dm.WriteFloat(hwnd, "[1221740]+a5c", point.X);
+                    int b1 = dm.WriteFloat(hwnd, "[1221740]+a64", point.Y);
+                    int c1 = dm.WriteFloat(hwnd, "[1221740]+a60", point.Z);
+                    if (a1 == 1 && b1 == 1 && c1 == 1)
+                        Debug.WriteLine("瞬移成功");
+                    else
+                        Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2},句柄：{3}", a1, b1, c1, hwnd);
+
                     ObservableCollection<RoleInfo> roleList = new ViewModelLocator().SetXiaohao.GameRoleList;
                     foreach (var roleInfo in roleList)
                     {
