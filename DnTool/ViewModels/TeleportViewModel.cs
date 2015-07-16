@@ -264,39 +264,33 @@ namespace DnTool.ViewModels
             {
                 if (role.Window.IsAlive)
                 {
-                    int a1 = dm.WriteFloat(hwnd, "[1221740]+a5c", point.X);
-                    int b1 = dm.WriteFloat(hwnd, "[1221740]+a64", point.Y);
-                    int c1 = dm.WriteFloat(hwnd, "[1221740]+a60", point.Z);
-                    if (a1 == 1 && b1 == 1 && c1 == 1)
-                        Debug.WriteLine("瞬移成功");
-                    else
-                        Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2},句柄：{3}", a1, b1, c1, hwnd);
+                    this.TeleportByHwnd(dm,hwnd,point);      //大号瞬移
 
                     ObservableCollection<RoleInfo> roleList = new ViewModelLocator().SetXiaohao.GameRoleList;
-                    foreach (var roleInfo in roleList)
+                    var obj = new Object();
+                    Parallel.ForEach(roleList, (roleInfo) =>
                     {
-                        if (dm.GetWindowState(roleInfo.Hwnd, 0) != 1)  //判断窗口是否存在
-                            continue;
-                        if (roleInfo.IsTogether)                       //如果一起瞬移则写内存
-                        {
-                            int a = dm.WriteFloat(roleInfo.Hwnd, "[1221740]+a5c", point.X);
-                            int b = dm.WriteFloat(roleInfo.Hwnd, "[1221740]+a64", point.Y);
-                            int c = dm.WriteFloat(roleInfo.Hwnd, "[1221740]+a60", point.Z);
-                            if (a == 1 && b == 1 && c == 1)
-                                Debug.WriteLine("瞬移成功");
-                            else
-                                Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2},句柄：{3}", a, b, c,roleInfo.Hwnd);
+                       // lock(obj)
+                       // { 
+                            dm.Delay(dm.RanNumber(0,100));
+                            if (dm.GetWindowState(roleInfo.Hwnd, 0) != 1)  //判断窗口是否存在
+                                return;
+                            if (roleInfo.Delay > 0)
+                                dm.Delay(roleInfo.Delay*1000);
+                            if(roleInfo.IsTogether)
+                            {
+                                this.TeleportByHwnd(dm,roleInfo.Hwnd,point);
+                            }
+                            if (roleInfo.IsMove)                         //如果移动则写内存
+                            {
+                                dm.WriteInt(roleInfo.Hwnd, "[1221740]+2320", 0, 131072);
+                                dm.Delay(200);
+                                dm.WriteInt(roleInfo.Hwnd, "[1221740]+2320", 0, 0);
+                                dm.Delay(100);
+                          //  }
                         }
-                        if (roleInfo.IsMove)                         //如果移动则写内存
-                        {
-                            dm.WriteInt(roleInfo.Hwnd, "[1221740]+2320", 0, 131072);
-                            dm.Delay(200);
-                            dm.WriteInt(roleInfo.Hwnd, "[1221740]+2320", 0, 0);
-                            dm.Delay(100);
-                        }
+                    });
 
-                    }
-                  
                     return true;
                 }
                 else
@@ -304,6 +298,26 @@ namespace DnTool.ViewModels
                     SoftContext.MainWindow.ShowMessageAsync("瞬移失败","窗口不存在:" + hwnd);
                     return false;
                 }
+            }
+        }
+        /// <summary>
+        /// 指定窗口句柄瞬移
+        /// </summary>
+        /// <param name="dm"></param>
+        /// <param name="hwnd"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        private bool TeleportByHwnd(DmPlugin dm,int hwnd,Point point)
+        {
+            int a = dm.WriteFloat(hwnd, "[1221740]+a5c", point.X);
+            int b = dm.WriteFloat(hwnd, "[1221740]+a64", point.Y);
+            int c = dm.WriteFloat(hwnd, "[1221740]+a60", point.Z);
+            if (a == 1 && b == 1 && c == 1)
+                return true;
+            else
+            {
+                Debug.WriteLine("瞬移失败，写入X:{0}，Y:{1}，Z:{2},句柄：{3}", a, b, c, hwnd);
+                return false;
             }
         }
 
