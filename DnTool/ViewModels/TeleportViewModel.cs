@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Utilities.Dm;
 using System.Windows.Threading;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using Utilities.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Forms;
@@ -267,30 +267,26 @@ namespace DnTool.ViewModels
                     this.TeleportByHwnd(dm,hwnd,point);      //大号瞬移
 
                     ObservableCollection<RoleInfo> roleList = new ViewModelLocator().SetXiaohao.GameRoleList;
-                    var obj = new Object();
-                    Parallel.ForEach(roleList, (roleInfo) =>
-                    {
-                       // lock(obj)
-                       // { 
-                            dm.Delay(dm.RanNumber(0,100));
-                            if (dm.GetWindowState(roleInfo.Hwnd, 0) != 1)  //判断窗口是否存在
-                                return;
-                            if (roleInfo.Delay > 0)
-                                dm.Delay(roleInfo.Delay*1000);
-                            if(roleInfo.IsTogether)
-                            {
-                                this.TeleportByHwnd(dm,roleInfo.Hwnd,point);
-                            }
-                            if (roleInfo.IsMove)                         //如果移动则写内存
-                            {
-                                dm.WriteInt(roleInfo.Hwnd, "[1221740]+2320", 0, 131072);
-                                dm.Delay(200);
-                                dm.WriteInt(roleInfo.Hwnd, "[1221740]+2320", 0, 0);
-                                dm.Delay(100);
-                          //  }
+                    foreach (var roleInfo in roleList)
+	                {
+                        if (dm.GetWindowState(roleInfo.Hwnd, 0) != 1)  //判断窗口是否存在
+                            continue;
+                        if (roleInfo.IsTogether)
+                        {
+                            this.TeleportByHwnd(dm, roleInfo.Hwnd, point);
                         }
-                    });
+                        if (roleInfo.IsMove)                         //如果移动则写内存
+                        {
+                            dm.WriteInt(roleInfo.Hwnd, "[1221740]+2320", 0, 131072);
+                            dm.Delay(200);
+                            dm.WriteInt(roleInfo.Hwnd, "[1221740]+2320", 0, 0);
+                            dm.Delay(100);
+                        }
 
+	                }
+                 
+                           
+                           
                     return true;
                 }
                 else

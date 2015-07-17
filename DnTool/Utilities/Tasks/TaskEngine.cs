@@ -38,6 +38,7 @@ namespace Utilities.Tasks
         private TaskBase _task;
         private TaskEventArg _taskEventArg;
         private Thread _workThread;
+
         public OutMessageHandler OutMessage;
         public DmWindow Window { get; set; }
         public string CurrentTask { get{return _task.Name;}}
@@ -101,7 +102,7 @@ namespace Utilities.Tasks
            
             if (_task == null)
             {
-                Logger.Info("当前无任务，无法暂停！");
+                SoftContext.MainWindow.ShowMessageAsync("暂停失败","当前无任务，无法暂停！");
                 return;
             }
             if (!CheckTaskRunState(TaskRunState.Pausing))
@@ -113,14 +114,14 @@ namespace Utilities.Tasks
             
             _workThread.Suspend();
             TaskRunState = TaskRunState.Paused;
-            Logger.Info("任务线程已暂停.");
+            SoftContext.MainWindow.ShowMessageAsync("暂停成功","任务线程已暂停.");
          
         }
         public void Continue()
         {
             if (_task == null)
             {
-                Logger.Info("当前无任务，无法继续！");  
+                SoftContext.MainWindow.ShowMessageAsync("继续失败","当前无任务，无法继续！");  
             }
             if (!CheckTaskRunState(TaskRunState.Continuing)) 
             {
@@ -130,13 +131,13 @@ namespace Utilities.Tasks
             TaskRunState = TaskRunState.Continuing;
             _workThread.Resume();
             TaskRunState = TaskRunState.Continued;
-            Logger.Info("任务线程已恢复.");
+            SoftContext.MainWindow.ShowMessageAsync("继续成功","任务线程已恢复.");
         }
         public void Stop()
         {
             if (_task==null)
             {
-                Logger.Info("当前无任务，无法停止！");
+                SoftContext.MainWindow.ShowMessageAsync("停止失败","当前无任务，无法停止！");
                 return;
             }
             if (!CheckTaskRunState(TaskRunState.Stopping))  //任务正在停止则返回
@@ -161,7 +162,7 @@ namespace Utilities.Tasks
                 _workThread = null;
                   
             }
-            Logger.Info("任务已停止："+_task.Name);
+            SoftContext.MainWindow.ShowMessageAsync("停止成功","任务已停止：" + _task.Name);
             TaskRunState = TaskRunState.Stopped;
         }
 
@@ -234,7 +235,7 @@ namespace Utilities.Tasks
                 TaskStop();
                 Window.FlashWindow();
                 _workThread = null;
-                OutMessage("任务中断",ex.Message);
+                SoftContext.MainWindow.ShowMessageAsync("任务中断", ex.Message);
             }
             if (result == null)
             {
@@ -243,11 +244,11 @@ namespace Utilities.Tasks
 
             if (result.ResultType == TaskResultType.Success)
             {
-                Logger.Info("任务“{0}”执行完毕：{1}".FormatWith(_task.Name,result.Message));
+               SoftContext.MainWindow.ShowMessageAsync("任务完成","任务“{0}”执行完毕：{1}".FormatWith(_task.Name,result.Message));
             }
             if (result.ResultType == TaskResultType.Finished)
             {
-                Logger.Info("任务“{0}”执行结束,{1}".FormatWith(_task.Name,result.Message));
+                SoftContext.MainWindow.ShowMessageAsync("任务完成","任务“{0}”执行结束,{1}".FormatWith(_task.Name, result.Message));
             }
         }
         private void TaskStop()

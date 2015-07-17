@@ -9,7 +9,7 @@ using MahApps.Metro.Controls;
 using DnTool.Utilities;
 using System.Windows.Media;
 using System.Windows.Input;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 
 namespace DnTool.ViewModels
 {

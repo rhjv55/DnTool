@@ -8,7 +8,7 @@ using Utilities.Dm;
 using System.Diagnostics;
 using DnTool.Models;
 using Utilities.Tasks;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using DnTool.GameTask;
 using Utilities.Log;
 using MahApps.Metro.Controls.Dialogs;
@@ -107,14 +107,6 @@ namespace DnTool.ViewModels
 
                 TaskBase task = new BagClearTask(context);
                 task.Name = "清理背包";
-                int width = context.Role.Window.Width;
-                int height = context.Role.Window.Height;
-                if (width != 1152 || height != 864)
-                {
-                    SoftContext.MainWindow.ShowMessageAsync("清理失败", "请将游戏分辨率设为1152*864！");
-                    return;
-                }
-               
                 SoftContext.TaskEngine.Start(task);
             },()=>SoftContext.Role!=null);
             this.AutoOpenEggCommand = new RelayCommand(() =>

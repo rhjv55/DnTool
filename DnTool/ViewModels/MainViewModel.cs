@@ -3,7 +3,7 @@ using DnTool.Utilities;
 using Utilities.Dm;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 namespace DnTool.ViewModels
 {
     public class MainViewModel:NotifyPropertyChanged

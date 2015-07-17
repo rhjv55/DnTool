@@ -9,7 +9,7 @@ using Utilities.Dm;
 using Utilities.Log;
 using MahApps.Metro.Controls.Dialogs;
 using System.Net.Http;
-using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 
 
