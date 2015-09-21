@@ -19,21 +19,21 @@ namespace DnTool
         {
             //Updater.CheckUpdateSimple("http://qxw1099210298.my3w.com/updates/client/dn/{0}", "update_c.xml");
 
-            var updater = Updater.CreateUpdaterInstance("http://qxw1099210298.my3w.com/updates/client/dn/{0}", "update_c.xml");
-            updater.Error += (s, ex) =>
-            {
-                Logger.Error("更新发生错误：" + updater.Context.Exception.Message);
-            };
-            updater.UpdatesFound += (s, ex) =>
-            {
-                MessageBox.Show("发现了新版本：" + updater.Context.UpdateInfo.AppVersion);
-            };
+            //var updater = Updater.CreateUpdaterInstance("http://qxw1099210298.my3w.com/updates/client/dn/{0}", "update_c.xml");
+            //updater.Error += (s, ex) =>
+            //{
+            //    Logger.Error("更新发生错误：" + updater.Context.Exception.Message);
+            //};
+            //updater.UpdatesFound += (s, ex) =>
+            //{
+            //    MessageBox.Show("发现了新版本：" + updater.Context.UpdateInfo.AppVersion);
+            //};
            
-            updater.MinmumVersionRequired += (s, ex) =>
-            {
-                MessageBox.Show("当前版本过低无法使用请到官网下载最新版本！");
-            };
-            Updater.CheckUpdateSimple();
+            //updater.MinmumVersionRequired += (s, ex) =>
+            //{
+            //    MessageBox.Show("当前版本过低无法使用请到官网下载最新版本！");
+            //};
+            //Updater.CheckUpdateSimple();
 
 
 

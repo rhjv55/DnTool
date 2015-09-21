@@ -18,12 +18,12 @@
                     <Button Width="80" Height="30" Content="多开" ToolTip="点一下按钮开一个窗口" Command="{Binding OpenCommand}" Margin="129,0,139,0"/>
                 </Grid>
             </Expander>
-                <Expander Visibility="Hidden" Header="关卡开蛋" IsExpanded="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360">
+                <!--<Expander  Header="关卡开蛋" IsExpanded="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360">
                     <Grid>
                         <Button Width="80" Height="30" Content="开始" Command="{Binding AutoOpenEggCommand}" Margin="129,0,139,0"/>
                     </Grid>
-                </Expander>
-                <Expander Visibility="Hidden" Header="商城购买(测试)" IsExpanded="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360">
+                </Expander>-->
+                <Expander  Header="商城购买" IsExpanded="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360">
                     <Grid>
                         <Label Content="购买物品:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,15,0,0"/>
                         <Label Content="购买数量:" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="20,53,0,0"/>
@@ -36,13 +36,13 @@
                                 </Style>
                             </ComboBox.ItemContainerStyle>
                         </ComboBox>
-                        <mah:NumericUpDown Value="{Binding Number, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Left"  Minimum="0" Maximum="100" Margin="102,53,0,0" Width="120" />
+                        <mah:NumericUpDown Value="{Binding Number, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Left"  Minimum="0" Maximum="500" Margin="102,53,0,0" Width="120" />
                         <mah:ToggleSwitch IsChecked="{Binding UseLB, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding SelectedItem.CanUseLB, ElementName=things}"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="131,84,0,0"/>
                         <Button Content="购买" Command="{Binding BuyCommand}" CommandParameter="{Binding SelectedItem, ElementName=things}" HorizontalAlignment="Left" Margin="263,27,0,0" VerticalAlignment="Top" Width="75"/>
                         <Button Content="停止" Command="{Binding StopCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="263,72,0,0"/>
                     </Grid>
                 </Expander>
-                <Expander Visibility="Hidden" Header="背包清理" IsExpanded="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360" Height="136">
+                <Expander  Header="背包清理" IsExpanded="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="360" Height="136">
                     <Grid>
 
                         <WrapPanel Margin="0,0,152,70">

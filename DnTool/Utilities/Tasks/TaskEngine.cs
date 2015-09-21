@@ -182,12 +182,12 @@ namespace Utilities.Tasks
                 }
                 catch (ThreadAbortException ex)
                 {
-                    SoftContext.MainWindow.ShowMessageAsync("线程结束异常", ex.Message);
+                   // SoftContext.MainWindow.ShowMessageAsync("线程结束异常", ex.Message);
                     TaskStop();
                 }
                 catch (Exception ex)
                 {
-                    SoftContext.MainWindow.ShowMessageAsync("发生异常", ex.Message);
+                   // SoftContext.MainWindow.ShowMessageAsync("发生异常", ex.Message);
                     TaskStop();
                     Window.FlashWindow();
                     _workThread = null;

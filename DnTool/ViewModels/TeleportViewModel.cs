@@ -247,6 +247,10 @@ namespace DnTool.ViewModels
         {
             return float.Parse(BitConverter.ToSingle(BitConverter.GetBytes(val), 0).ToString("F1"));
         }
+        public bool TeleportCurrentPoint()
+        {
+            return this.Teleport(this.CurrentPoint);
+        }
    
         public bool Teleport(Point point)
         {

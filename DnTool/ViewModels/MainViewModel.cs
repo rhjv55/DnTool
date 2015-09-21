@@ -12,6 +12,7 @@ namespace DnTool.ViewModels
         ViewModelLocator Locator = new ViewModelLocator();
         public MainViewModel()
         {
+           
             this.SettingsCommand = new RelayCommand(() =>
             {
                 Locator.Settings.IsOpen = true;

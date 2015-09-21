@@ -6,7 +6,7 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         Title="DnTool V1.0" Height="630" Width="380" DataContext="{Binding Main,Source={StaticResource Locator}}"
         >
-
+ 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding ClosedCommand}" />
@@ -19,7 +19,22 @@
     
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Command="{Binding SettingsCommand}" Content="设置" />
+
+            <Button Cursor="Hand" x:Name="NewsButton" Command="{Binding SettingsCommand}">
+                <StackPanel Orientation="Horizontal" >
+                    <Rectangle Width="14"
+                               Height="14"
+                               Fill="{Binding RelativeSource={RelativeSource AncestorType=Button},
+                                              Path=Foreground}">
+                        <Rectangle.OpacityMask >
+                            <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_settings}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0"
+                               VerticalAlignment="Center"
+                               Text="设置"/>
+                </StackPanel>
+            </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
 

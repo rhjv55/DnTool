@@ -77,6 +77,10 @@ namespace DnTool.Views
         public void MyKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             var viewmodel = this.DataContext as TeleportViewModel;
+            if((int)e.KeyCode==81)
+            {
+                viewmodel.Teleport(viewmodel.CurrentPoint);
+            }
             int i = -1;
             if (Locator.Settings.CurrentOption.Equals("0"))
             {
