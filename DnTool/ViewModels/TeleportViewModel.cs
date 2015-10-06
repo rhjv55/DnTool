@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight.Command;
 using Utilities.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Forms;
+using DnTool.Utilities.MyPlugin;
 
 namespace DnTool.ViewModels
 {
@@ -90,6 +91,11 @@ namespace DnTool.ViewModels
             this.SetXiaohaoCommand = new RelayCommand(() =>
             {
                 new ViewModelLocator().SetXiaohao.IsOpen = true;
+                HPlugin p = new HPlugin();
+                byte[] data = p.ReadData(4668, "0014E204", 10);
+                p.WriteInt(4668, "0014E204", 0, 1000);
+                MessageBox.Show("读取数据："+BitConverter.ToInt32(data,0).ToString());
+               
             });
             timer.Tick += (s, e) =>
             {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MahApps.Metro.Controls;
 using System.Collections.ObjectModel;
-using DnTool.Utilities.HYX;
+
 using Utilities.Dm;
 namespace DnTool.ViewModels
 {

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.ComponentModel;
+using DnTool.Utilities.API;
 
 namespace DnTool
 {
@@ -39,7 +40,7 @@ namespace DnTool
 
 
         [DllImport("kernel32.dll")]
-        public static extern IntPtr OpenProcess(ProcessAccessFlags dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);
+        public static extern IntPtr OpenProcess(Win32API.ProcessAccessFlags dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);
         [DllImport("kernel32.dll")]
         public static extern int CloseHandle(IntPtr hObject);
         [DllImport("kernel32.dll", SetLastError = true)]
@@ -59,20 +60,7 @@ namespace DnTool
             ObjectHandleInformation = 4
         }
 
-        [Flags]
-        public enum ProcessAccessFlags : uint
-        {
-            All = 0x001F0FFF,
-            Terminate = 0x00000001,
-            CreateThread = 0x00000002,
-            VMOperation = 0x00000008,
-            VMRead = 0x00000010,
-            VMWrite = 0x00000020,
-            DupHandle = 0x00000040,
-            SetInformation = 0x00000200,
-            QueryInformation = 0x00000400,
-            Synchronize = 0x00100000
-        }
+       
 
         [StructLayout(LayoutKind.Sequential)]
         public struct OBJECT_BASIC_INFORMATION
@@ -166,7 +154,7 @@ namespace DnTool
         public static string getObjectTypeName(MutexCloseHelper.SYSTEM_HANDLE_INFORMATION shHandle, Process process, out IntPtr ipHandle)
         {
 
-            IntPtr m_ipProcessHwnd = MutexCloseHelper.OpenProcess(MutexCloseHelper.ProcessAccessFlags.All, false, process.Id);
+            IntPtr m_ipProcessHwnd = MutexCloseHelper.OpenProcess(Win32API.ProcessAccessFlags.All, false, process.Id);
             ipHandle = IntPtr.Zero;
             var objBasic = new MutexCloseHelper.OBJECT_BASIC_INFORMATION();
             IntPtr ipBasic = IntPtr.Zero;
@@ -214,7 +202,7 @@ namespace DnTool
         public static string getObjectName(MutexCloseHelper.SYSTEM_HANDLE_INFORMATION shHandle, Process process, out IntPtr ipHandle)
         {
 
-            IntPtr m_ipProcessHwnd = MutexCloseHelper.OpenProcess(MutexCloseHelper.ProcessAccessFlags.All, false, process.Id);
+            IntPtr m_ipProcessHwnd = MutexCloseHelper.OpenProcess(Win32API.ProcessAccessFlags.All, false, process.Id);
             ipHandle = IntPtr.Zero;
             var objBasic = new MutexCloseHelper.OBJECT_BASIC_INFORMATION();
             IntPtr ipBasic = IntPtr.Zero;

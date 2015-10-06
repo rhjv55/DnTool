@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace DnTool.Utilities.HYX
+namespace DnTool.Utilities.MyPlugin
 {
-    public class HYXPlugin
+    public partial class HPlugin
     {
-        public HYXPlugin()
+        public HPlugin()
         {
            
         }
@@ -15,7 +15,7 @@ namespace DnTool.Utilities.HYX
         /// </summary>
         /// <param name="ProssName">进程名,区分大小写，不需要带上进程后缀</param>
         /// <returns></returns>
-        public static List<IntPtr> EnumWindowByProcessName(string ProssName)
+        public List<IntPtr> EnumWindowByProcessName(string ProssName)
         {
             List<IntPtr> list = new List<IntPtr>();
             try
