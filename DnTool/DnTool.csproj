@@ -188,6 +188,12 @@
     <Compile Include="Utilities\MyPlugin\HPlugin.Mouse.cs" />
     <Compile Include="Utilities\MyPlugin\HPlugin.System.cs" />
     <Compile Include="Utilities\MyPlugin\HPlugin.Window.cs" />
+    <Compile Include="Utilities\MyPlugin\IKeypad.cs" />
+    <Compile Include="Utilities\MyPlugin\IMouse.cs" />
+    <Compile Include="Utilities\MyPlugin\KeypadByWinIO.cs" />
+    <Compile Include="Utilities\MyPlugin\Keys.cs" />
+    <Compile Include="Utilities\MyPlugin\MouseByEvent.cs" />
+    <Compile Include="Utilities\MyPlugin\MouseByWinIO.cs" />
     <Compile Include="Utilities\MyPlugin\NativeMethods.cs" />
     <Compile Include="Utilities\INIHelper.cs" />
     <Compile Include="Utilities\MemHelper.cs" />
@@ -218,8 +224,7 @@
     <Compile Include="Utilities\FileOperateHelper.cs" />
     <Compile Include="Utilities\Hook\UserActivityHook.cs" />
     <Compile Include="Utilities\HotKey.cs" />
-    <Compile Include="Utilities\Keypad\VKKey.cs" />
-    <Compile Include="Utilities\Keypad\WinIo.cs" />
+    <Compile Include="Utilities\MyPlugin\WinIo.cs" />
     <Compile Include="Utilities\Log\Logger.cs" />
     <Compile Include="Utilities\WPF\NotifyPropertyChanged.cs" />
     <Compile Include="Utilities\MutexCloseHelper.cs" />
@@ -311,6 +316,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="WinIo32.sys">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="WinIo64.sys">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
@@ -335,6 +346,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="WinIo32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="WinIo64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="Resources\WindowsIcons-license.txt" />
     <Resource Include="leaf.ico" />

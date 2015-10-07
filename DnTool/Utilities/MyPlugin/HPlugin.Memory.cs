@@ -300,7 +300,7 @@ namespace DnTool.Utilities.MyPlugin
 		bool[] subindex = new bool[MAX_PATH]; //标记"-"号的位置:true,默认是"+":false
 		char[,] offsetaddrstr=new char[MAX_PATH,16]; //存储偏移地址
 		int[] offsetaddr = new int[MAX_PATH]; //存储指针
-
+          
 		int len = strs.Length;          
 		if (len < 1)
 		{

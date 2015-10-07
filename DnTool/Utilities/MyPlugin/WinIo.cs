@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DnTool.Utilities.Keypad
+namespace DnTool.Utilities.MyPlugin
 {
     public class WinIo  
-    {  
-        public const int KBC_KEY_CMD = 0x64;  
-        public const int KBC_KEY_DATA = 0x60;  
+    {
+        public const int KBC_KEY_CMD = 0x64;  //输入键盘按下消息的端口
+        public const int KBC_KEY_DATA = 0x60;  //输入键盘弹起消息的端口
           
         [DllImport("WinIo32.dll")]  
         public static extern bool InitializeWinIo();  
@@ -41,24 +42,30 @@ namespace DnTool.Utilities.Keypad
   
         private static bool IsInitialize { get; set; }  
   
-        public static void Initialize()  
+        public static bool Initialize()  
         {
-            //if (InitializeWinIo())
-            //{
-            //    KBCWait4IBE();
-            //    IsInitialize = true;
-            //}
-            //else
-            //    System.Windows.Forms.MessageBox.Show("WinIo Initialize failed");  
-  
+            if (InitializeWinIo())
+            {
+                KBCWait4IBE();
+                IsInitialize = true;
+                Debug.WriteLine("WinIO初始化成功！");
+            }
+            else
+            {
+                IsInitialize = false;
+                Debug.WriteLine("WinIO初始化失败！");
+            }
+            return IsInitialize;
         }  
         public static void Shutdown()  
         {  
             if (IsInitialize)  
                 ShutdownWinIo();  
             IsInitialize = false;  
-        }  
-        ///Wait for Buffer gets empty  
+        }
+        /// <summary>
+        /// 等待键盘缓冲区为空
+        /// </summary>
         private static void KBCWait4IBE()  
         {  
             int dwVal = 0;  
@@ -69,9 +76,9 @@ namespace DnTool.Utilities.Keypad
             while ((dwVal & 0x2) > 0);  
         }  
         /// key down  
-        public static void MykeyDown(VKKey vKeyCoad)  
+        public static void MykeyDown(Keys vKeyCoad)  
         {  
-            if (!IsInitialize) return;  
+            if (!IsInitialize) return;  //未初始化直接返回
   
             int btScancode = 0;  
             btScancode = MapVirtualKey((uint)vKeyCoad, 0);  
@@ -85,7 +92,7 @@ namespace DnTool.Utilities.Keypad
             SetPortVal(KBC_KEY_DATA, (IntPtr)btScancode, 1);  
         }  
         /// Key up  
-        public static void MykeyUp(VKKey vKeyCoad)  
+        public static void MykeyUp(Keys vKeyCoad)  
         {  
             if (!IsInitialize) return;  
   

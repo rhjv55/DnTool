@@ -92,9 +92,13 @@ namespace DnTool.ViewModels
             {
                 new ViewModelLocator().SetXiaohao.IsOpen = true;
                 HPlugin p = new HPlugin();
-                byte[] data = p.ReadData(4668, "0014E204", 10);
-                p.WriteInt(4668, "0014E204", 0, 1000);
-                MessageBox.Show("读取数据："+BitConverter.ToInt32(data,0).ToString());
+                DmPlugin dm = new DmPlugin();
+                dm.MoveTo(100,100);
+                dm.LeftClick();
+                p.KeyPress11(DnTool.Utilities.MyPlugin.Keys.K);
+                //byte[] data = p.ReadData(4668, "0014E204", 10);
+                //p.WriteInt(4668, "0014E204", 0, 1000);
+                //MessageBox.Show("读取数据："+BitConverter.ToInt32(data,0).ToString());
                
             });
             timer.Tick += (s, e) =>
