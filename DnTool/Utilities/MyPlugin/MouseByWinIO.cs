@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace DnTool.Utilities.MyPlugin
 {
@@ -10,42 +11,59 @@ namespace DnTool.Utilities.MyPlugin
 
         public bool LeftClick()
         {
-            throw new NotImplementedException();
+            WinIo.MyMouseKey(9,0,0,0);
+            Thread.Sleep(100);
+            WinIo.MyMouseKey(8, 0, 0, 0);
+            return true;
         }
 
         public bool RightClick()
         {
-            throw new NotImplementedException();
+            WinIo.MyMouseKey(10, 0, 0, 0);
+            Thread.Sleep(100);
+            WinIo.MyMouseKey(8, 0, 0, 0);
+            return true;
         }
 
         public bool RightDown()
         {
-            throw new NotImplementedException();
+            WinIo.MyMouseKey(10, 0, 0, 0);
+            return true;
         }
 
         public bool RightUp()
         {
-            throw new NotImplementedException();
+            WinIo.MyMouseKey(8, 0, 0, 0);
+            return true;
         }
 
         public bool MiddleClick()
         {
-            throw new NotImplementedException();
+            WinIo.MyMouseKey(12, 0, 0, 0);
+            Thread.Sleep(100);
+            WinIo.MyMouseKey(8, 0, 0, 0);
+            return true;
         }
 
         public bool MiddleDown()
         {
-            throw new NotImplementedException();
+            WinIo.MyMouseKey(12, 0, 0, 0);
+            return true;
         }
 
         public bool MiddleUp()
         {
-            throw new NotImplementedException();
+            WinIo.MyMouseKey(8, 0, 0, 0);
+            return true;
         }
 
         public bool MoveTo(int x, int y)
         {
-            throw new NotImplementedException();
+         // MyMouseKey 40, 0,(255 xor 5),0   '下移5象素
+//MyMouseKey 24,(255 xor 5), 0, 0  '左移5象素
+//MyMouseKey 8, 5, 0, 0            '右移5象素
+            WinIo.MyMouseKey(8,0,100,0);
+            return true;
         }
 
         public bool WheelDown()

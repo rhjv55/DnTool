@@ -7,10 +7,11 @@ namespace DnTool.Utilities.MyPlugin
 {
     public partial class HPlugin
     {
+        IMouse m = new MouseByWinIO();
 
         public bool LeftClick()
         {
-            throw new NotImplementedException();
+            return m.LeftClick();
         }
 
         public bool RightClick()

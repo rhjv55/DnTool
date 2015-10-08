@@ -106,6 +106,8 @@ namespace DnTool.ViewModels
                 p.KeyDown(DnTool.Utilities.MyPlugin.Keys.N);
                 p.KeyUp(DnTool.Utilities.MyPlugin.Keys.N);
                 p.KeyUp(DnTool.Utilities.MyPlugin.Keys.M);
+
+                p.LeftClick();
                 //byte[] data = p.ReadData(4668, "0014E204", 10);
                 //p.WriteInt(4668, "0014E204", 0, 1000);
                 //MessageBox.Show("读取数据："+BitConverter.ToInt32(data,0).ToString());

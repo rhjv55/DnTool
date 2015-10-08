@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 
 namespace DnTool.Utilities.MyPlugin
 {
+    /// <summary>
+    /// win7 64位下加载winio64.sys需要数字签名cmd->bcdedit /set testsigning on
+    /// </summary>
     public class WinIo  
     {
         public const int KBC_KEY_CMD = 0x64;  //输入键盘按下消息的端口
         public const int KBC_KEY_DATA = 0x60;  //输入键盘弹起消息的端口
-          
+
         [DllImport("WinIo32.dll")]  
         public static extern bool InitializeWinIo();  
   
@@ -46,8 +49,9 @@ namespace DnTool.Utilities.MyPlugin
         {
             if (IsInitialize == true)
             {
-                return true;
+               
                 Debug.WriteLine("已经初始化！");
+                return true;
             }
             if (InitializeWinIo())
             {
@@ -145,27 +149,24 @@ namespace DnTool.Utilities.MyPlugin
 //' 鼠标下移(MouseFun=40)。MyMouseY为移动距离，最大为1，最小为255。MyMouseX、MyMouseZ 为0
 //' 鼠标左移(MouseFun=24)。MyMouseX为移动距离，最大为1，最小为255。MyMouseY、MyMouseZ 为0
 //' 鼠标右移(MouseFun=8)。MyMouseX为移动距离，最大为255，最小为1。MyMouseY、MyMouseZ 为0
-        public static void MyMouseKey(int fun,int x,int y,int z)
+        public static void MyMouseKey(int MouseFun, int MyMouseX, int MyMouseY, int MyMouseZ)
         {
-            KBCWait4IBE();      //'等待缓冲区为空
+            KBCWait4IBE();                               //'等待缓冲区为空
             SetPortVal(100, (IntPtr)211, 1);             //'发送鼠标写入命令
             KBCWait4IBE();
-            SetPortVal(96, (IntPtr)fun, 1);               //'发送鼠标动作命令
-
-//KBCWait4IBE();    
-//SetPortVal 100, 211, 1                // '发送鼠标写入命令
-//KBCWait4IBE       
-//SetPortVal 96, MyMouseX, 1               //  '发送鼠标动作命令
-
-//KBCWait4IBE();     
-//SetPortVal 100, 211, 1                 //'发送鼠标写入命令
-//KBCWait4IBE();     
-//SetPortVal 96, MyMouseY, 1               //  '发送鼠标动作命令
-
-//KBCWait4IBE();     
-//SetPortVal 100, 211, 1                // '发送鼠标写入命令
-//KBCWait4IBE();    
-//SetPortVal 96, MyMouseZ, 1               //  '发送鼠标动作命令
+            SetPortVal(96, (IntPtr)MouseFun, 1);         //'发送鼠标动作命令
+            KBCWait4IBE();
+            SetPortVal(100, (IntPtr)211, 1);             // '发送鼠标写入命令
+            KBCWait4IBE();
+            SetPortVal(96, (IntPtr)MyMouseX, 1);         //  '发送鼠标动作命令
+            KBCWait4IBE();     
+            SetPortVal(100, (IntPtr)211, 1);             // '发送鼠标写入命令
+            KBCWait4IBE();
+            SetPortVal(96, (IntPtr)MyMouseY, 1);         //  '发送鼠标动作命令
+            KBCWait4IBE();  
+            SetPortVal(100, (IntPtr)211, 1);             // '发送鼠标写入命令
+            KBCWait4IBE();
+            SetPortVal(96, (IntPtr)MyMouseZ, 1);         //  '发送鼠标动作命令
         }
     }  
 
