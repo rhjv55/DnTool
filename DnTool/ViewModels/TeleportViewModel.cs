@@ -90,12 +90,22 @@ namespace DnTool.ViewModels
             this.ImportCommand = new RelayCommand(()=>this.Import());
             this.SetXiaohaoCommand = new RelayCommand(() =>
             {
-                new ViewModelLocator().SetXiaohao.IsOpen = true;
+               // new ViewModelLocator().SetXiaohao.IsOpen = true;
                 HPlugin p = new HPlugin();
                 DmPlugin dm = new DmPlugin();
                 dm.MoveTo(100,100);
                 dm.LeftClick();
-                p.KeyPress11(DnTool.Utilities.MyPlugin.Keys.K);
+                p.KeyPress(DnTool.Utilities.MyPlugin.Keys.K);
+                p.KeyPress(DnTool.Utilities.MyPlugin.Keys.K);
+                p.KeyPress(DnTool.Utilities.MyPlugin.Keys.A);
+                p.KeyPress(DnTool.Utilities.MyPlugin.Keys.B);
+                p.KeyPress(DnTool.Utilities.MyPlugin.Keys.C);
+                p.KeyDown(DnTool.Utilities.MyPlugin.Keys.D);
+                p.KeyUp(DnTool.Utilities.MyPlugin.Keys.D);
+                p.KeyDown(DnTool.Utilities.MyPlugin.Keys.M);
+                p.KeyDown(DnTool.Utilities.MyPlugin.Keys.N);
+                p.KeyUp(DnTool.Utilities.MyPlugin.Keys.N);
+                p.KeyUp(DnTool.Utilities.MyPlugin.Keys.M);
                 //byte[] data = p.ReadData(4668, "0014E204", 10);
                 //p.WriteInt(4668, "0014E204", 0, 1000);
                 //MessageBox.Show("读取数据："+BitConverter.ToInt32(data,0).ToString());

@@ -7,20 +7,6 @@ namespace DnTool.Utilities.MyPlugin
 {
     public partial class HPlugin
     {
-        public bool KeyDown(Keys k)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool KeyUp(Keys k)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool KeyPress(Keys k)
-        {
-            throw new NotImplementedException();
-        }
 
         public bool LeftClick()
         {
@@ -72,9 +58,5 @@ namespace DnTool.Utilities.MyPlugin
             throw new NotImplementedException();
         }
 
-        public int WaitKey(Keys k, int time)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

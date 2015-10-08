@@ -7,11 +7,19 @@ namespace DnTool.Utilities.MyPlugin
 {
     public partial class HPlugin
     {
-       
-        public bool KeyPress11(Keys k)
+        IKeypad kp = new KeypadByWinIO();
+        public bool KeyPress(Keys k)
         {
-            IKeypad kp = new KeypadByWinIO();
             return kp.KeyPress(k);
+        }
+
+        public bool KeyDown(Keys k)
+        {
+            return kp.KeyDown(k);
+        }
+        public bool KeyUp(Keys k)
+        {
+            return kp.KeyUp(k);
         }
     }
 }

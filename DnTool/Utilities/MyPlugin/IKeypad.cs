@@ -11,5 +11,6 @@ namespace DnTool.Utilities.MyPlugin
         bool KeyUp(Keys k);
         bool KeyPress(Keys k);
         int WaitKey(Keys k, int time);
+        
     }
 }
