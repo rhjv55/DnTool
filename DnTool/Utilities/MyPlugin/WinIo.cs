@@ -140,33 +140,33 @@ namespace DnTool.Utilities.MyPlugin
             KBCWait4IBE();  
             SetPortVal(KBC_KEY_DATA, (IntPtr)(btScancode | 0x80), 1);// 'write in io  
         }  
-//        ' 左键按下(MouseFun=9)。MyMouseX、MyMouseY、MyMouseZ 为0
-//' 右键按下(MouseFun=10)。MyMouseX、MyMouseY、MyMouseZ 为0
-//' 中键按下(MouseFun=12)。MyMouseX、MyMouseY、MyMouseZ 为0
-//' 任意键放开(MouseFun=8)。MyMouseX、MyMouseY、MyMouseZ 为0
-//' ------------------------------------
-//' 鼠标上移(MouseFun=8)。MyMouseY为移动距离，最大为255，最小为1。MyMouseX、MyMouseZ 为0
-//' 鼠标下移(MouseFun=40)。MyMouseY为移动距离，最大为1，最小为255。MyMouseX、MyMouseZ 为0
-//' 鼠标左移(MouseFun=24)。MyMouseX为移动距离，最大为1，最小为255。MyMouseY、MyMouseZ 为0
-//' 鼠标右移(MouseFun=8)。MyMouseX为移动距离，最大为255，最小为1。MyMouseY、MyMouseZ 为0
+        //' 左键按下(MouseFun=9)。MyMouseX、MyMouseY、MyMouseZ 为0
+        //' 右键按下(MouseFun=10)。MyMouseX、MyMouseY、MyMouseZ 为0
+        //' 中键按下(MouseFun=12)。MyMouseX、MyMouseY、MyMouseZ 为0
+        //' 任意键放开(MouseFun=8)。MyMouseX、MyMouseY、MyMouseZ 为0
+        //' ------------------------------------
+        //' 鼠标上移(MouseFun=8)。MyMouseY为移动距离，最大为255，最小为1。MyMouseX、MyMouseZ 为0
+        //' 鼠标下移(MouseFun=40)。MyMouseY为移动距离，最大为1，最小为255。MyMouseX、MyMouseZ 为0
+        //' 鼠标左移(MouseFun=24)。MyMouseX为移动距离，最大为1，最小为255。MyMouseY、MyMouseZ 为0
+        //' 鼠标右移(MouseFun=8)。MyMouseX为移动距离，最大为255，最小为1。MyMouseY、MyMouseZ 为0
         public static void MyMouseKey(int MouseFun, int MyMouseX, int MyMouseY, int MyMouseZ)
         {
             KBCWait4IBE();                               //'等待缓冲区为空
-            SetPortVal(100, (IntPtr)211, 1);             //'发送鼠标写入命令
+            SetPortVal(KBC_KEY_CMD, (IntPtr)211, 1);             //'发送鼠标写入命令
             KBCWait4IBE();
-            SetPortVal(96, (IntPtr)MouseFun, 1);         //'发送鼠标动作命令
+            SetPortVal(KBC_KEY_DATA, (IntPtr)MouseFun, 1);         //'发送鼠标动作命令
             KBCWait4IBE();
-            SetPortVal(100, (IntPtr)211, 1);             // '发送鼠标写入命令
+            SetPortVal(KBC_KEY_CMD, (IntPtr)211, 1);             // '发送鼠标写入命令
             KBCWait4IBE();
-            SetPortVal(96, (IntPtr)MyMouseX, 1);         //  '发送鼠标动作命令
-            KBCWait4IBE();     
-            SetPortVal(100, (IntPtr)211, 1);             // '发送鼠标写入命令
+            SetPortVal(KBC_KEY_DATA, (IntPtr)MyMouseX, 1);         //  '发送鼠标动作命令
             KBCWait4IBE();
-            SetPortVal(96, (IntPtr)MyMouseY, 1);         //  '发送鼠标动作命令
-            KBCWait4IBE();  
-            SetPortVal(100, (IntPtr)211, 1);             // '发送鼠标写入命令
+            SetPortVal(KBC_KEY_CMD, (IntPtr)211, 1);             // '发送鼠标写入命令
             KBCWait4IBE();
-            SetPortVal(96, (IntPtr)MyMouseZ, 1);         //  '发送鼠标动作命令
+            SetPortVal(KBC_KEY_DATA, (IntPtr)MyMouseY, 1);         //  '发送鼠标动作命令
+            KBCWait4IBE();
+            SetPortVal(KBC_KEY_CMD, (IntPtr)211, 1);             // '发送鼠标写入命令
+            KBCWait4IBE();
+            SetPortVal(KBC_KEY_DATA, (IntPtr)MyMouseZ, 1);         //  '发送鼠标动作命令
         }
     }  
 

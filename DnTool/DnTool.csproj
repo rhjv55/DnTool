@@ -199,7 +199,7 @@
     <Compile Include="Utilities\MemHelper.cs" />
     <Compile Include="Utilities\API\Win32API.Advapi32.cs" />
     <Compile Include="Utilities\API\Win32API.Kernel32.cs" />
-    <Compile Include="Utilities\API\Win32API.Users.cs" />
+    <Compile Include="Utilities\API\Win32API.User32.cs" />
     <Compile Include="Utilities\Tasks\IRole.cs" />
     <Compile Include="Utilities\Tasks\TaskBase.cs" />
     <Compile Include="Utilities\Tasks\TaskContext.cs" />

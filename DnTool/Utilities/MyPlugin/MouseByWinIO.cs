@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DnTool.Utilities.API;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -59,10 +61,44 @@ namespace DnTool.Utilities.MyPlugin
 
         public bool MoveTo(int x, int y)
         {
-         // MyMouseKey 40, 0,(255 xor 5),0   '下移5象素
-//MyMouseKey 24,(255 xor 5), 0, 0  '左移5象素
-//MyMouseKey 8, 5, 0, 0            '右移5象素
-            WinIo.MyMouseKey(8,0,100,0);
+            Point point = new Point();
+            bool ret = Win32API.GetCursorPos(out point);
+            if (ret == false)
+                return false;
+            int a = point.X - x;
+            int b = point.Y - y;
+            if (a > 0)
+            {
+                while(point.X-x!=0)
+                {
+                    point.X = point.X - 1;
+                    WinIo.MyMouseKey(24, point.X, 0, 0);
+                }
+            }
+            if (a < 0)
+            {
+                while (point.X - x != 0)
+                {
+                    point.X = point.X - 1;
+                    WinIo.MyMouseKey(24, point.X, 0, 0); //向左移
+                }
+            }
+            if (b > 0)
+            {
+                while (point.Y - y != 0)
+                {
+                    point.X = point.X - 1;
+                    WinIo.MyMouseKey(24, point.X, 0, 0);
+                }
+            }
+            if (b < 0)
+            {
+                while (y - point.Y != 0)
+                {
+                    point.Y += 1;
+                    WinIo.MyMouseKey(40, point.Y, 0, 0);  //向下移
+                }
+            }
             return true;
         }
 
