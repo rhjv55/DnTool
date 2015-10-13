@@ -190,9 +190,14 @@
     <Compile Include="Utilities\MyPlugin\HPlugin.Window.cs" />
     <Compile Include="Utilities\MyPlugin\IKeypad.cs" />
     <Compile Include="Utilities\MyPlugin\IMouse.cs" />
+    <Compile Include="Utilities\MyPlugin\KeypadByEvent.cs" />
+    <Compile Include="Utilities\MyPlugin\KeypadByInput.cs" />
+    <Compile Include="Utilities\MyPlugin\KeypadByMsg.cs" />
     <Compile Include="Utilities\MyPlugin\KeypadByWinIO.cs" />
     <Compile Include="Utilities\MyPlugin\Keys.cs" />
     <Compile Include="Utilities\MyPlugin\MouseByEvent.cs" />
+    <Compile Include="Utilities\MyPlugin\MouseByInput.cs" />
+    <Compile Include="Utilities\MyPlugin\MouseByMsg.cs" />
     <Compile Include="Utilities\MyPlugin\MouseByWinIO.cs" />
     <Compile Include="Utilities\MyPlugin\NativeMethods.cs" />
     <Compile Include="Utilities\INIHelper.cs" />
