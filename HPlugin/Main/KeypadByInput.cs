@@ -2,31 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WindowsInput;
 
-namespace DnTool.Utilities.MyPlugin
+
+namespace IPlugin.Main
 {
     public class KeypadByInput:IKeypad
     {
-        public bool KeyDown(Keys k)
+        public bool KeyDown(VirtualKeyCode k)
         {
             InputSimulator.SimulateKeyDown((VirtualKeyCode)k);
             return true;
         }
 
-        public bool KeyUp(Keys k)
+        public bool KeyUp(VirtualKeyCode k)
         {
             InputSimulator.SimulateKeyUp((VirtualKeyCode)k);
             return true;
         }
 
-        public bool KeyPress(Keys k)
+        public bool KeyPress(VirtualKeyCode k)
         {
             InputSimulator.SimulateKeyPress((VirtualKeyCode)k);
             return true;
         }
 
-        public int WaitKey(Keys k, int time)
+        public int WaitKey(VirtualKeyCode k, int time)
         {
             throw new NotImplementedException();
         }

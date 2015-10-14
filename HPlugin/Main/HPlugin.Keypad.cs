@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DnTool.Utilities.MyPlugin
+namespace IPlugin.Main
 {
     public partial class HPlugin
     {
         IKeypad kp;
-        public bool KeyPress(Keys k)
+        public bool KeyPress(VirtualKeyCode k)
         {
             return kp.KeyPress(k);
         }
 
-        public bool KeyDown(Keys k)
+        public bool KeyDown(VirtualKeyCode k)
         {
             return kp.KeyDown(k);
         }
-        public bool KeyUp(Keys k)
+        public bool KeyUp(VirtualKeyCode k)
         {
             return kp.KeyUp(k);
         }

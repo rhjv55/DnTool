@@ -181,6 +181,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SoftContext.cs" />
     <Compile Include="Utilities\AnyRadixConvert.cs" />
+    <Compile Include="Utilities\MyPlugin\HPlugin.Binding.cs" />
     <Compile Include="Utilities\MyPlugin\HPlugin.Display.cs" />
     <Compile Include="Utilities\MyPlugin\HPlugin.Keypad.cs" />
     <Compile Include="Utilities\MyPlugin\HPlugin.Main.cs" />
@@ -332,7 +333,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\InputSimulator\InputSimulator.csproj">
+      <Project>{3549cd6f-80f8-450f-b99e-cf0a736b1f2a}</Project>
+      <Name>InputSimulator</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>

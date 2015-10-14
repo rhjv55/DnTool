@@ -9,7 +9,7 @@ namespace DnTool.Utilities.MyPlugin
 {
     public partial class HPlugin
     {
-        IMouse m = new MouseByWinIO();
+        IMouse m;
 
         public bool LeftClick()
         {

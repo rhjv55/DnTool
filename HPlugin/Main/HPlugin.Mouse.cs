@@ -1,30 +1,34 @@
-﻿using System;
+﻿using IPlugin.API;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace DnTool.Utilities.MyPlugin
+namespace IPlugin.Main
 {
-    public class MouseByMsg:IMouse
+    public partial class HPlugin
     {
+        IMouse m;
+
         public bool LeftClick()
         {
-            throw new NotImplementedException();
+            return m.LeftClick();
         }
 
         public bool RightClick()
         {
-            throw new NotImplementedException();
+            return m.RightClick();
         }
 
         public bool RightDown()
         {
-            throw new NotImplementedException();
+            return m.RightDown();
         }
 
         public bool RightUp()
         {
-            throw new NotImplementedException();
+            return m.RightUp();
         }
 
         public bool MiddleClick()
@@ -44,7 +48,7 @@ namespace DnTool.Utilities.MyPlugin
 
         public bool MoveTo(int x, int y)
         {
-            throw new NotImplementedException();
+            return m.MoveTo(x, y);
         }
 
         public bool WheelDown()
@@ -55,6 +59,15 @@ namespace DnTool.Utilities.MyPlugin
         public bool WheelUp()
         {
             throw new NotImplementedException();
+        }
+
+        public bool GetCursorPos(out int x,out int y)
+        {
+            Point point = new Point();
+            bool ret= Win32API.GetCursorPos(out point);
+            x = point.X;
+            y = point.Y;
+            return ret;
         }
     }
 }

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{12AA9686-86B7-47CE-A985-3F27CC773A4F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HPlugin</RootNamespace>
+    <AssemblyName>HPlugin</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\Win32API.Advapi32.cs" />
+    <Compile Include="API\Win32API.Kernel32.cs" />
+    <Compile Include="API\Win32API.User32.cs" />
+    <Compile Include="Main\HPlugin.Binding.cs" />
+    <Compile Include="Main\HPlugin.Display.cs" />
+    <Compile Include="Main\HPlugin.Keypad.cs" />
+    <Compile Include="Main\HPlugin.Main.cs" />
+    <Compile Include="Main\HPlugin.Memory.cs" />
+    <Compile Include="Main\HPlugin.Mouse.cs" />
+    <Compile Include="Main\HPlugin.System.cs" />
+    <Compile Include="Main\HPlugin.Window.cs" />
+    <Compile Include="Main\IKeypad.cs" />
+    <Compile Include="Main\IMouse.cs" />
+    <Compile Include="Main\InputSimulator.cs" />
+    <Compile Include="Main\KeypadByEvent.cs" />
+    <Compile Include="Main\KeypadByInput.cs" />
+    <Compile Include="Main\KeypadByMsg.cs" />
+    <Compile Include="Main\KeypadByWinIO.cs" />
+    <Compile Include="Main\VirtualKeyCode.cs" />
+    <Compile Include="Main\MouseByEvent.cs" />
+    <Compile Include="Main\MouseByInput.cs" />
+    <Compile Include="Main\MouseByMsg.cs" />
+    <Compile Include="Main\MouseByWinIO.cs" />
+    <Compile Include="Main\NativeMethods.cs" />
+    <Compile Include="Main\WinIo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

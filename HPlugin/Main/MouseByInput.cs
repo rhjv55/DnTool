@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DnTool.Utilities.MyPlugin
+
+namespace IPlugin.Main
 {
-    public class MouseByMsg:IMouse
+    public class MouseByInput:IMouse
     {
         public bool LeftClick()
         {
-            throw new NotImplementedException();
+            InputSimulator.SimulateLeftClick();
+            return true;
         }
 
         public bool RightClick()

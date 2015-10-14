@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DnTool.Utilities.MyPlugin
+namespace IPlugin.Main
 {
-    public class KeypadByEvent:IKeypad
+    public class KeypadByMsg:IKeypad
     {
-        public bool KeyDown(Keys k)
+        public bool KeyDown(VirtualKeyCode k)
         {
             throw new NotImplementedException();
         }
 
-        public bool KeyUp(Keys k)
+        public bool KeyUp(VirtualKeyCode k)
         {
             throw new NotImplementedException();
         }
 
-        public bool KeyPress(Keys k)
+        public bool KeyPress(VirtualKeyCode k)
         {
             throw new NotImplementedException();
         }
 
-        public int WaitKey(Keys k, int time)
+        public int WaitKey(VirtualKeyCode k, int time)
         {
             throw new NotImplementedException();
         }
