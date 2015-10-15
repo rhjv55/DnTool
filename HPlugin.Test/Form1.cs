@@ -22,7 +22,7 @@ namespace HPlugin.Test
         private void button1_Click(object sender, EventArgs e)
         {
             IPlugin.Main.HPlugin p = new IPlugin.Main.HPlugin();
-            p.BindWindow(0,"","event","input",0);
+            p.BindWindow(0,"","event","event",0);
 
           //  p.KeyPress(VirtualKeyCode.LWin);
            // p.MoveTo(2000,2000);
@@ -33,16 +33,26 @@ namespace HPlugin.Test
           //  p.Delay(1000);
             p.MoveTo(500, 500);
             GetCurrentPos();
-            p.MoveTo(10, 10);
-            GetCurrentPos();
-            p.MoveTo(120, 300);
-            GetCurrentPos();
-            p.MoveTo(590, 500);
-            GetCurrentPos();
-            p.MoveTo(1700, 300);
-            GetCurrentPos();
-            p.MoveTo(2000, 2000);
-            GetCurrentPos();
+            p.LeftClick();
+            p.KeyPress(VirtualKeyCode.CapsLock);
+            p.KeyPress(VirtualKeyCode.E);
+            p.KeyPress(VirtualKeyCode.A);
+            p.KeyPress(VirtualKeyCode.A);
+          
+
+           
+
+
+            //p.MoveTo(10, 10);
+            //GetCurrentPos();
+            //p.MoveTo(120, 300);
+            //GetCurrentPos();
+            //p.MoveTo(590, 500);
+            //GetCurrentPos();
+            //p.MoveTo(1700, 300);
+            //GetCurrentPos();
+            //p.MoveTo(2000, 2000);
+            //GetCurrentPos();
             //p.LeftClick();
             //p.WheelDown();
             //p.WheelDown();
