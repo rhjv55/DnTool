@@ -16,47 +16,58 @@ namespace IPlugin.Main
 
         public bool RightClick()
         {
-            throw new NotImplementedException();
+            return InputSimulator.SimulateRightClick();
         }
 
         public bool RightDown()
         {
-            throw new NotImplementedException();
+            return InputSimulator.SimulateRightDown();
         }
 
         public bool RightUp()
         {
-            throw new NotImplementedException();
+            return InputSimulator.SimulateRightUp();
         }
 
         public bool MiddleClick()
         {
-            throw new NotImplementedException();
+            return InputSimulator.SimulateMiddleClick();
         }
 
         public bool MiddleDown()
         {
-            throw new NotImplementedException();
+            return InputSimulator.SimulateMiddleDown();
         }
 
         public bool MiddleUp()
         {
-            throw new NotImplementedException();
+            return InputSimulator.SimulateMiddleUp();
         }
 
         public bool MoveTo(int x, int y)
         {
-            throw new NotImplementedException();
+            return InputSimulator.SimulateMoveTo(x,y);
         }
 
         public bool WheelDown()
         {
-            throw new NotImplementedException();
+            return InputSimulator.SimulateWheel(-120);
         }
 
         public bool WheelUp()
         {
-            throw new NotImplementedException();
+            return InputSimulator.SimulateWheel(120);
+        }
+
+
+        public bool LeftDown()
+        {
+            return InputSimulator.SimulateLeftDown();
+        }
+
+        public bool LeftUp()
+        {
+            return InputSimulator.SimulateLeftUp();
         }
     }
 }

@@ -334,12 +334,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\InputSimulator\InputSimulator.csproj">
-      <Project>{3549cd6f-80f8-450f-b99e-cf0a736b1f2a}</Project>
-      <Name>InputSimulator</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 和 x64%29</ProductName>

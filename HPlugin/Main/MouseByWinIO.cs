@@ -111,5 +111,16 @@ namespace IPlugin.Main
         {
             throw new NotImplementedException();
         }
+
+
+        public bool LeftDown()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool LeftUp()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

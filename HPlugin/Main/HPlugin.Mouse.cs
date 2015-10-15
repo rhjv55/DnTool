@@ -53,12 +53,14 @@ namespace IPlugin.Main
 
         public bool WheelDown()
         {
-            throw new NotImplementedException();
+            Delay(50);
+            return m.WheelDown();
         }
 
         public bool WheelUp()
         {
-            throw new NotImplementedException();
+            Delay(50);
+            return m.WheelUp();
         }
 
         public bool GetCursorPos(out int x,out int y)

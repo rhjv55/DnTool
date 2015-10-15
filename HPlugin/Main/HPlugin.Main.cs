@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
 namespace IPlugin.Main
 {
@@ -35,7 +36,10 @@ namespace IPlugin.Main
             return list;
         }
 
- 
+        public void Delay(int time)
+        {
+            Thread.Sleep(time);
+        }
     
     }
 }

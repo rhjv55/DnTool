@@ -8,6 +8,8 @@ namespace IPlugin.Main
     public interface IMouse
     {
         bool LeftClick();
+        bool LeftDown();
+        bool LeftUp();
         bool RightClick();
         bool RightDown();
         bool RightUp();

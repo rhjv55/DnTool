@@ -78,9 +78,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HPlugin\HPlugin.csproj">
+    <ProjectReference Include="..\HPlugin\IPlugin.csproj">
       <Project>{12aa9686-86b7-47ce-a985-3f27cc773a4f}</Project>
-      <Name>HPlugin</Name>
+      <Name>IPlugin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
