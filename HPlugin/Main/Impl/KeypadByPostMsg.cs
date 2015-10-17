@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IPlugin.API;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -17,9 +18,12 @@ namespace IPlugin.Main
         [DllImport("user32.dll", SetLastError = true)]
         static extern bool PostMessage(int hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
+        [DllImport("user32.dll")]
+        public static extern int MapVirtualKey(uint Ucode, uint uMapType);  
 
         public bool KeyDown(VirtualKeyCode k)
         {
+            
             return PostMessage(_hwnd,0,(IntPtr)0,(IntPtr)0);
         }
 
