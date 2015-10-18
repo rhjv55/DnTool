@@ -22,23 +22,23 @@ namespace HPlugin.Test
         private void button1_Click(object sender, EventArgs e)
         {
             IPlugin.Main.HPlugin p = new IPlugin.Main.HPlugin();
-            p.BindWindow(0,"","event","event",0);
+            p.BindWindow(592236, "", "sendmsg", "sendmsg", 0);
 
           //  p.KeyPress(VirtualKeyCode.LWin);
            // p.MoveTo(2000,2000);
            // p.Delay(500);
            // GetCurrentPos();
-            p.Delay(500);
-           // p.RightClick();
-          //  p.Delay(1000);
-            p.MoveTo(500, 500);
-            GetCurrentPos();
+          //  p.Delay(500);
+          // // p.RightClick();
+          ////  p.Delay(1000);
+          //  p.MoveTo(500, 500);
+          //  GetCurrentPos();
             p.LeftClick();
-            p.KeyPress(VirtualKeyCode.CapsLock);
-            p.KeyPress(VirtualKeyCode.E);
-            p.KeyPress(VirtualKeyCode.A);
-            p.KeyPress(VirtualKeyCode.A);
-          
+            //p.KeyPress(VirtualKeyCode.CapsLock);
+            //p.KeyPress(VirtualKeyCode.E);
+            //p.KeyPress(VirtualKeyCode.A);
+            //p.KeyPress(VirtualKeyCode.A);
+            p.RightClick();
 
            
 

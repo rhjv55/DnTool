@@ -23,8 +23,11 @@ namespace IPlugin.Main
                 case "input":
                     m = new MouseByInput();
                     break;
-                case "msg":
-                    m = new MouseByMsg();
+                case "sendmsg":
+                    m = new MouseBySendMsg(hwnd);
+                    break;
+                case "postmsg":
+                    m = new MouseByPostMsg(hwnd);
                     break;
                 case "winio":
                     m = new MouseByWinIO();
@@ -38,8 +41,11 @@ namespace IPlugin.Main
                 case "input":
                    kp=new KeypadByInput() ;
                    break;
-                case "msg":
-                   kp=new KeypadByMsg() ;
+                case "sendmsg":
+                   kp=new KeypadBySendMsg(hwnd) ;
+                   break;
+                case "postmsg":
+                   kp = new KeypadByPostMsg(hwnd);
                    break;
                 case "winio":
                    kp=new KeypadByWinIO() ;

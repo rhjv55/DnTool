@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IPlugin.API;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -8,51 +9,63 @@ namespace IPlugin.Main
 {
     public class MouseBySendMsg:IMouse
     {
+        private int _hwnd;
+        public MouseBySendMsg(int hwnd)
+        {
+            _hwnd = hwnd;
+        }
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+        static extern bool SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         public bool LeftClick()
         {
-            throw new NotImplementedException();
+            var a = SendMessage((IntPtr)_hwnd, Win32API.WM_LBUTTONDOWN, 0, 0);
+            var b = SendMessage((IntPtr)_hwnd, Win32API.WM_LBUTTONUP, 0, 0);
+            return a && b;
         }
 
         public bool LeftDown()
         {
-            throw new NotImplementedException();
+            return SendMessage((IntPtr)_hwnd, Win32API.WM_LBUTTONDOWN, 0, 0);
         }
 
         public bool LeftUp()
         {
-            throw new NotImplementedException();
+            return SendMessage((IntPtr)_hwnd, Win32API.WM_LBUTTONUP, 0, 0);
         }
 
         public bool RightClick()
         {
-            throw new NotImplementedException();
+            var a = SendMessage((IntPtr)_hwnd, Win32API.WM_RBUTTONDOWN, 0, 0);
+            var b = SendMessage((IntPtr)_hwnd, Win32API.WM_RBUTTONUP, 0, 0);
+            return a && b;
         }
 
         public bool RightDown()
         {
-            throw new NotImplementedException();
+            return SendMessage((IntPtr)_hwnd, Win32API.WM_RBUTTONDOWN, 0, 0);
         }
 
         public bool RightUp()
         {
-            throw new NotImplementedException();
+            return SendMessage((IntPtr)_hwnd, Win32API.WM_RBUTTONUP, 0, 0);
         }
 
         public bool MiddleClick()
         {
-            throw new NotImplementedException();
+            var a = SendMessage((IntPtr)_hwnd, Win32API.WM_MBUTTONDOWN, 0, 0);
+            var b = SendMessage((IntPtr)_hwnd, Win32API.WM_MBUTTONUP, 0, 0);
+            return a && b;
         }
 
         public bool MiddleDown()
         {
-            throw new NotImplementedException();
+            return SendMessage((IntPtr)_hwnd, Win32API.WM_MBUTTONDOWN, 0, 0);
         }
 
         public bool MiddleUp()
         {
-            throw new NotImplementedException();
+            return SendMessage((IntPtr)_hwnd, Win32API.WM_MBUTTONUP, 0, 0);
         }
 
         public bool MoveTo(int x, int y)

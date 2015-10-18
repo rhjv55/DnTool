@@ -5,8 +5,14 @@ using System.Text;
 
 namespace IPlugin.Main
 {
-    public class MouseByMsg:IMouse
+    public class MouseByPostMsg:IMouse
     {
+        private int _hwnd;
+
+        public MouseByPostMsg(int hwnd)
+        {
+            this._hwnd = hwnd;
+        }
         public bool LeftClick()
         {
             throw new NotImplementedException();
