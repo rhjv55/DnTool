@@ -33,17 +33,17 @@ namespace IPlugin.Main
 
         public bool MiddleClick()
         {
-            throw new NotImplementedException();
+            return m.MiddleClick();
         }
 
         public bool MiddleDown()
         {
-            throw new NotImplementedException();
+            return m.MiddleDown();
         }
 
         public bool MiddleUp()
         {
-            throw new NotImplementedException();
+            return m.MiddleUp();
         }
 
         public bool MoveTo(int x, int y)

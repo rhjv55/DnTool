@@ -16,25 +16,24 @@ namespace IPlugin.Main
         }
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll", SetLastError = true)]
-        static extern bool PostMessage(int hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+        static extern bool PostMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
         [DllImport("user32.dll")]
-        public static extern int MapVirtualKey(uint Ucode, uint uMapType);  
+        public static extern int MapVirtualKey(uint Ucode, uint uMapType);
 
         public bool KeyDown(VirtualKeyCode k)
         {
-            
-            return PostMessage(_hwnd,0,(IntPtr)0,(IntPtr)0);
+            return PostMessage((IntPtr)_hwnd, Win32API.WM_KEYDOWN, (int)k, 0);
         }
 
         public bool KeyUp(VirtualKeyCode k)
         {
-            throw new NotImplementedException();
+            return PostMessage((IntPtr)_hwnd, Win32API.WM_KEYUP, (int)k, 0);
         }
 
         public bool KeyPress(VirtualKeyCode k)
         {
-            throw new NotImplementedException();
+            return PostMessage((IntPtr)_hwnd, Win32API.WM_CHAR, (int)k, 0);
         }
 
         public int WaitKey(VirtualKeyCode k, int time)

@@ -22,8 +22,8 @@ namespace HPlugin.Test
         private void button1_Click(object sender, EventArgs e)
         {
             IPlugin.Main.HPlugin p = new IPlugin.Main.HPlugin();
-            p.BindWindow(592236, "", "sendmsg", "sendmsg", 0);
-
+            p.BindWindow(591876, "", "postmsg", "postmsg", 0);
+            
           //  p.KeyPress(VirtualKeyCode.LWin);
            // p.MoveTo(2000,2000);
            // p.Delay(500);
@@ -31,13 +31,14 @@ namespace HPlugin.Test
           //  p.Delay(500);
           // // p.RightClick();
           ////  p.Delay(1000);
-          //  p.MoveTo(500, 500);
+            p.MoveTo(157, 148);
           //  GetCurrentPos();
-            p.LeftClick();
-            //p.KeyPress(VirtualKeyCode.CapsLock);
-            //p.KeyPress(VirtualKeyCode.E);
-            //p.KeyPress(VirtualKeyCode.A);
-            //p.KeyPress(VirtualKeyCode.A);
+           // p.LeftClick();
+            p.KeyPress(VirtualKeyCode.CapsLock);
+            p.KeyPress(VirtualKeyCode.E);
+            p.KeyPress(VirtualKeyCode.A);
+            p.KeyPress(VirtualKeyCode.A);
+
             p.RightClick();
 
            
@@ -59,12 +60,13 @@ namespace HPlugin.Test
             //p.WheelDown();
             //p.WheelDown();
 
+            p.WheelDown();
+            p.Delay(100);
             //p.WheelDown();
             //p.WheelDown();
             //p.WheelDown();
             //p.WheelDown();
-            //p.WheelDown();
-            //p.WheelUp();
+            p.WheelUp();
             //p.WheelUp();
             //p.WheelUp();
             //p.WheelUp();

@@ -70,17 +70,21 @@ namespace IPlugin.Main
 
         public bool MoveTo(int x, int y)
         {
-            throw new NotImplementedException();
+            return SendMessage((IntPtr)_hwnd, Win32API.WM_MOUSEMOVE, 0, MakeLParam(y,x));
         }
 
         public bool WheelDown()
         {
-            throw new NotImplementedException();
+            return SendMessage((IntPtr)_hwnd, Win32API.WM_MOUSEWHEEL, -120, 0);
         }
 
         public bool WheelUp()
         {
-            throw new NotImplementedException();
+            return SendMessage((IntPtr)_hwnd, Win32API.WM_MOUSEWHEEL, 120, 0);
+        }
+        private int MakeLParam(int LoWord, int HiWord)
+        {
+            return ((HiWord << 16) | (LoWord & 0xffff));
         }
     }
 }

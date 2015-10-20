@@ -13,7 +13,6 @@ using GalaSoft.MvvmLight.Command;
 using Utilities.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Forms;
-using DnTool.Utilities.MyPlugin;
 
 namespace DnTool.ViewModels
 {
@@ -90,46 +89,7 @@ namespace DnTool.ViewModels
             this.ImportCommand = new RelayCommand(()=>this.Import());
             this.SetXiaohaoCommand = new RelayCommand(() =>
             {
-               // new ViewModelLocator().SetXiaohao.IsOpen = true;
-                HPlugin p = new HPlugin();
-                DmPlugin dm = new DmPlugin();
-                p.BindWindow(0,"","winio","winio",0);
-
-                p.KeyPress(DnTool.Utilities.MyPlugin.Keys.K);
-              // dm.MoveTo(81,40);
-               // dm.LeftClick();
-                //p.KeyPress(DnTool.Utilities.MyPlugin.Keys.K);
-                //p.KeyPress(DnTool.Utilities.MyPlugin.Keys.K);
-                //p.KeyPress(DnTool.Utilities.MyPlugin.Keys.A);
-                //p.KeyPress(DnTool.Utilities.MyPlugin.Keys.B);
-                //p.KeyPress(DnTool.Utilities.MyPlugin.Keys.C);
-                //p.KeyDown(DnTool.Utilities.MyPlugin.Keys.D);
-                //p.KeyUp(DnTool.Utilities.MyPlugin.Keys.D);
-                //p.KeyDown(DnTool.Utilities.MyPlugin.Keys.M);
-                //p.KeyDown(DnTool.Utilities.MyPlugin.Keys.N);
-                //p.KeyUp(DnTool.Utilities.MyPlugin.Keys.N);
-                //p.KeyUp(DnTool.Utilities.MyPlugin.Keys.M);
-               // int x, y;
-               // dm.GetCursorPos(out x,out y);
-               // Debug.WriteLine("当前鼠标位置：" + x + " , " + y);
-               // dm.Delay(100);
-               //p.MoveTo(100,100);
-               //dm.Delay(100);
-               //int a, b,c,d;
-               //dm.GetCursorPos(out a, out b);
-               //p.GetCursorPos(out c, out d);
-               //Debug.WriteLine("移动后鼠标位置：" + a + " , " + b);
-               //Debug.WriteLine("2222222移动后鼠标位置：" + c + " , " + d );
-               //Debug.WriteLine("两者相差："+(x-a)+"  "+(y-b));
-              //  p.RightDown();
-               // p.LeftClick();
-                //dm.Delay(10000);
-               // p.RightUp();
-               // p.RightClick();
-                //byte[] data = p.ReadData(4668, "0014E204", 10);
-                //p.WriteInt(4668, "0014E204", 0, 1000);
-                //MessageBox.Show("读取数据："+BitConverter.ToInt32(data,0).ToString());
-               
+                new ViewModelLocator().SetXiaohao.IsOpen = true;
             });
             timer.Tick += (s, e) =>
             {
