@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using IPlugin.API;
@@ -21,6 +23,7 @@ namespace IPlugin.Main
 
         public enum OSFlags : int
         {
+           UnnotOs,
            Windows_XP,//5.1
            WindowsXP_Professional_x64_Edition,//5.2
            Windows_Server_2003,//5.2
@@ -41,44 +44,50 @@ namespace IPlugin.Main
         /// 获取系统版本
         /// </summary>
         /// <returns></returns>
-        public int GetOSVersion()
+        public int GetOsVersion()
         {
-            Win32API.OSVERSIONINFO osvi = new Win32API.OSVERSIONINFO();
-            osvi.dwOSVersionInfoSize = (uint)Marshal.SizeOf(typeof(Win32API.OSVERSIONINFO));
-
-            if (Win32API.GetVersionEx(ref osvi))
+            var osvi = new Win32API.OSVERSIONINFO
             {
-                switch (osvi.dwMajorVersion) //判断主版本号 
-                {
-                    case 5:
-                        if (osvi.dwMinorVersion == 1)
-                            return 1; //xp
-                        if (osvi.dwMinorVersion == 2)
-                        {
-                            if (Win32API.GetSystemMetrics(Win32API.SystemMetric.SM_SERVERR2) == 0)
-                                return 2;//2003
-                            else
-                                return 3;//2003r2
-                        }
-                        break;
-                    case 6:
-                        switch (osvi.dwMinorVersion)
-                        {
-                            case 0:
-                                if (osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION)/*VER_NT_WORKSTATION是桌面系统 */
-                                    return 4; //VISTA
-                                else
-                                    return 5; //服务器版本 win2008
-                            case 1:
-                                if (osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION)
-                                    return 6;//win7
-                                else
-                                    return 7;//win2008r2
-                        }
-                        break;
-                    default:
-                        return 0;
-                }
+                dwOSVersionInfoSize = (uint) Marshal.SizeOf(typeof (Win32API.OSVERSIONINFO))
+            };
+
+            if (!Win32API.GetVersionEx(ref osvi)) return -1;
+
+            const int MaxPath = 260;
+            StringBuilder sb = new StringBuilder(MaxPath);
+            int ret=Win32API.SHGetFolderPath(IntPtr.Zero, (int)Win32API.SpecialFolderCSIDL.CSIDL_SYSTEM, IntPtr.Zero, Win32API.SHGFP_TYPE.SHGFP_TYPE_CURRENT, sb);
+
+            if (ret != 0) return -1;
+            
+            string path = Path.Combine(sb.ToString(), "kernel32.dll");
+            FileVersionInfo info=FileVersionInfo.GetVersionInfo(path);
+            var nMajorVersion = info.ProductMajorPart;
+            var nMinorVersion = info.ProductMinorPart;
+            var nBuildVersion = info.ProductBuildPart;
+            var nReviVersion = info.ProductPrivatePart;
+
+            switch (nMajorVersion) //判断主版本号 
+            {
+                case 5:
+                    switch (nMinorVersion)
+                    {
+                        case 1:
+                            return (int) OSFlags.Windows_XP; 
+                        case 2:
+                            return Win32API.GetSystemMetrics(Win32API.SystemMetric.SM_SERVERR2) != 0 ? 3 : 2;
+                    }
+                    break;
+                case 6:
+                    switch (osvi.dwMinorVersion)
+                    {
+                        case 0:
+                            return osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION ? 4 : 5;
+                        case 1:
+                            return osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION ? 6 : 7;
+                    }
+                    break;
+                default:
+                    return 0;
             }
             return -1;
 

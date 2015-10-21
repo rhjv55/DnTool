@@ -44,6 +44,7 @@
     <Compile Include="API\Win32API.Advapi32.cs" />
     <Compile Include="API\Win32API.Kernel32.cs" />
     <Compile Include="API\Win32API.Message.cs" />
+    <Compile Include="API\Win32API.Shell32.cs" />
     <Compile Include="API\Win32API.User32.cs" />
     <Compile Include="Main\HPlugin.Binding.cs" />
     <Compile Include="Main\HPlugin.Display.cs" />

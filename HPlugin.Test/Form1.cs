@@ -24,7 +24,7 @@ namespace HPlugin.Test
             IPlugin.Main.HPlugin p = new IPlugin.Main.HPlugin();
             p.BindWindow(591876, "", "postmsg", "postmsg", 0);
 
-            Show(() => p.GetSystemVersion());
+            Show(() => p.GetOsVersion());
             
         }
         public void GetCurrentPos()
