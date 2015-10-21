@@ -145,5 +145,124 @@ namespace IPlugin.API
 
         [DllImport("kernel32.dll")]
         public static extern uint GetTickCount();
+
+        [DllImport("kernel32.dll", SetLastError = false)]
+        public static extern void GetSystemInfo(out SYSTEM_INFO Info);
+
+        [StructLayout(LayoutKind.Explicit)]
+        public struct SYSTEM_INFO_UNION
+        {
+            [FieldOffset(0)]
+            public UInt32 OemId;
+            [FieldOffset(0)]
+            public UInt16 ProcessorArchitecture;
+            [FieldOffset(2)]
+            public UInt16 Reserved;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct SYSTEM_INFO
+        {
+            public SYSTEM_INFO_UNION CpuInfo;
+            /// <summary>
+            /// 分页大小
+            /// </summary>
+            public UInt32 PageSize;
+            /// <summary>
+            /// 最小寻址空间
+            /// </summary>
+            public UInt32 MinimumApplicationAddress;
+            /// <summary>
+            /// 最大寻址空间
+            /// </summary>
+            public UInt32 MaximumApplicationAddress;
+            /// <summary>
+            /// 处理器掩码; 0..31 表示不同的处理器
+            /// </summary>
+            public UInt32 ActiveProcessorMask;
+            /// <summary>
+            /// 处理器数目
+            /// </summary>
+            public UInt32 NumberOfProcessors;
+            /// <summary>
+            /// 处理器类型
+            /// </summary>
+            public UInt32 ProcessorType;
+            /// <summary>
+            /// 虚拟内存空间的粒度
+            /// </summary>
+            public UInt32 AllocationGranularity;
+            /// <summary>
+            /// 处理器等级
+            /// </summary>
+            public UInt16 ProcessorLevel;
+            /// <summary>
+            /// 处理器版本
+            /// </summary>
+            public UInt16 ProcessorRevision;
+        }
+
+        [DllImport("kernel32")]
+        public static extern bool GetVersionEx(ref OSVERSIONINFO osvi);
+        public struct OSVERSIONINFO
+        {
+            /// <summary>
+            /// 初始化为结构的大小
+            /// </summary>
+            public uint dwOSVersionInfoSize;
+            /// <summary>
+            /// 系统主版本号
+            /// </summary>
+            public uint dwMajorVersion;   //受程序兼容性影响
+            /// <summary>
+            /// 系统次版本号
+            /// </summary>
+            public uint dwMinorVersion;
+            /// <summary>
+            /// 系统构建号
+            /// </summary>
+            public uint dwBuildNumber;
+            /// <summary>
+            /// 系统支持的平台
+            /// </summary>
+            public uint dwPlatformId;
+            /// <summary>
+            /// 系统补丁包的名称
+            /// </summary>
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+            public string szCSDVersion;
+            /// <summary>
+            /// 系统补丁包的主版本
+            /// </summary>
+            public Int16 wServicePackMajor;
+            /// <summary>
+            /// 系统补丁包的次版本
+            /// </summary>
+            public Int16 wServicePackMinor;
+            /// <summary>
+            /// 标识系统上的程序组
+            /// </summary>
+            public Int16 wSuiteMask;
+            /// <summary>
+            /// 标识系统类型
+            /// </summary>
+            public ProductTypeFlags wProductType;  //不受兼容性影响，工作站不能变成服务器
+            /// <summary>
+            /// 保留,未使用
+            /// </summary>
+            public Byte wReserved;
+        }
+
+        public enum ProductTypeFlags:byte
+        {
+            VER_NT_DOMAIN_CONTROLLER=0x2,
+            VER_NT_SERVER = 0x3,  //Note that a server that is also a domain controller is reported as VER_NT_DOMAIN_CONTROLLER, not VER_NT_SERVER.
+            VER_NT_WORKSTATION=0x1
+        }
+        [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
+        public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr GetModuleHandle(string lpModuleName);
     }
 }

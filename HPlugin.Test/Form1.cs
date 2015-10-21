@@ -23,69 +23,20 @@ namespace HPlugin.Test
         {
             IPlugin.Main.HPlugin p = new IPlugin.Main.HPlugin();
             p.BindWindow(591876, "", "postmsg", "postmsg", 0);
+
+            Show(() => p.GetSystemVersion());
             
-          //  p.KeyPress(VirtualKeyCode.LWin);
-           // p.MoveTo(2000,2000);
-           // p.Delay(500);
-           // GetCurrentPos();
-          //  p.Delay(500);
-          // // p.RightClick();
-          ////  p.Delay(1000);
-            p.MoveTo(157, 148);
-          //  GetCurrentPos();
-           // p.LeftClick();
-            p.KeyPress(VirtualKeyCode.CapsLock);
-            p.KeyPress(VirtualKeyCode.E);
-            p.KeyPress(VirtualKeyCode.A);
-            p.KeyPress(VirtualKeyCode.A);
-
-            p.RightClick();
-
-           
-
-
-            //p.MoveTo(10, 10);
-            //GetCurrentPos();
-            //p.MoveTo(120, 300);
-            //GetCurrentPos();
-            //p.MoveTo(590, 500);
-            //GetCurrentPos();
-            //p.MoveTo(1700, 300);
-            //GetCurrentPos();
-            //p.MoveTo(2000, 2000);
-            //GetCurrentPos();
-            //p.LeftClick();
-            //p.WheelDown();
-            //p.WheelDown();
-            //p.WheelDown();
-            //p.WheelDown();
-
-            p.WheelDown();
-            p.Delay(100);
-            //p.WheelDown();
-            //p.WheelDown();
-            //p.WheelDown();
-            //p.WheelDown();
-            p.WheelUp();
-            //p.WheelUp();
-            //p.WheelUp();
-            //p.WheelUp();
-            //p.WheelUp();
-            //p.WheelUp();
-
-            //p.WheelUp();
-            //p.WheelUp();
-
-            //p.WheelUp();
-            //p.Delay(50);
-            //p.RightClick();
-           
         }
         public void GetCurrentPos()
         {
             int x, y;
             new IPlugin.Main.HPlugin().GetCursorPos(out x,out y);
             Debug.WriteLine("当前坐标："+x + " " + y);
+        }
+        public void Show(Func<object> fun)
+        {
+            object ret = fun();
+            MessageBox.Show(ret.ToString());
         }
     }
 }
