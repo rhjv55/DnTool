@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnTool", "DnTool\DnTool.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPlugin", "HPlugin\IPlugin.csproj", "{12AA9686-86B7-47CE-A985-3F27CC773A4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HPlugin.Test", "HPlugin.Test\HPlugin.Test.csproj", "{EF677220-25B5-4381-AC43-A62C6CF4B0F7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,17 +40,6 @@ Global
 		{12AA9686-86B7-47CE-A985-3F27CC773A4F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{12AA9686-86B7-47CE-A985-3F27CC773A4F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{12AA9686-86B7-47CE-A985-3F27CC773A4F}.Release|x86.ActiveCfg = Release|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Debug|x86.Build.0 = Debug|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{EF677220-25B5-4381-AC43-A62C6CF4B0F7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

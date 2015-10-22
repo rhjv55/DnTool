@@ -30,5 +30,19 @@ namespace IPlugin.Main
         {
             throw new NotImplementedException();
         }
+    //        int length = wcslen(strs);
+    //for (int i = 0; i < length; ++i)
+    //{
+    //    INPUT   keyin;
+    //    keyin.type=INPUT_KEYBOARD;
+    //    keyin.ki.wVk=0;
+    //    keyin.ki.wScan=strs[i];
+    //    keyin.ki.time=100;
+    //    keyin.ki.dwFlags=KEYEVENTF_UNICODE;
+    //    keyin.ki.dwExtraInfo=GetMessageExtraInfo();
+    //    ::SendInput(1,  &keyin, sizeof(INPUT));
+    //    Sleep(delays);
+    //}
+    //return true;
     }
 }

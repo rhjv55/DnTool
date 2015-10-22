@@ -23,11 +23,11 @@ namespace IPlugin.Main
 
         public enum OSFlags : int
         {
-           UnnotOs,
+           UnknownOs,
            Windows_XP,//5.1
-           WindowsXP_Professional_x64_Edition,//5.2
+           //WindowsXP_Professional_x64_Edition,//5.2
            Windows_Server_2003,//5.2
-           Windows_Home_Server,//5.2
+           //Windows_Home_Server,//5.2
            Windows_Server_2003_R2,//5.2
            Windows_Vista,//6.0
            Windows_Server_2008,//6.0
@@ -37,7 +37,7 @@ namespace IPlugin.Main
            Windows_8,//6.2
            Windows_Server_2012_R2,//6.3
            Windows_8_1,//6.3
-           Windows_Server_2016_Technical_Preview,//10.0
+          // Windows_Server_2016_Technical_Preview,//10.0
            Windows_10//10.0
         }
         /// <summary>
@@ -69,28 +69,51 @@ namespace IPlugin.Main
             switch (nMajorVersion) //判断主版本号 
             {
                 case 5:
-                    switch (nMinorVersion)
+                    switch (nMinorVersion)  //判断此版本号
                     {
                         case 1:
                             return (int) OSFlags.Windows_XP; 
                         case 2:
-                            return Win32API.GetSystemMetrics(Win32API.SystemMetric.SM_SERVERR2) != 0 ? 3 : 2;
+                            if (Win32API.GetSystemMetrics(Win32API.SystemMetric.SM_SERVERR2) == 0)
+                                return (int)OSFlags.Windows_Server_2003;
+                            if (Win32API.GetSystemMetrics(Win32API.SystemMetric.SM_SERVERR2) != 0)
+                                return (int)OSFlags.Windows_Server_2003_R2;
+                            break;
                     }
                     break;
                 case 6:
-                    switch (osvi.dwMinorVersion)
+                    switch (nMinorVersion)
                     {
                         case 0:
-                            return osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION ? 4 : 5;
+                            if (osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION)
+                                return (int)OSFlags.Windows_Vista;
+                            else
+                                return (int)OSFlags.Windows_Server_2008;
                         case 1:
-                            return osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION ? 6 : 7;
+                            if (osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION)
+                                return (int)OSFlags.Windows_7;
+                            else
+                                return (int)OSFlags.Windows_Server_2008_R2;
+                        case 2:
+                            if (osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION)
+                                return (int)OSFlags.Windows_8;
+                            else
+                                return (int)OSFlags.Windows_Server_2012;
+                        case 3:
+                            if (osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION)
+                                return (int)OSFlags.Windows_8_1;
+                            else
+                                return (int)OSFlags.Windows_Server_2012_R2;
                     }
                     break;
+                case 10:
+                    if (osvi.wProductType == Win32API.ProductTypeFlags.VER_NT_WORKSTATION)
+                        return (int)OSFlags.Windows_10;
+                    break;
                 default:
-                    return 0;
+                    return (int)OSFlags.UnknownOs;
             }
             return -1;
-
         }
 
 
